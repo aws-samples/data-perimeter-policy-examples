@@ -5,7 +5,7 @@
             "Sid": "EnforceIdentityPerimeter",
             "Effect": "Deny",
             "Principal": {
-              "AWS": "*"
+                "AWS": "*"
             },
             "Action": [
                 "sns:GetTopicAttributes",
@@ -35,7 +35,7 @@
             "Sid": "EnforceNetworkPerimeter",
             "Effect": "Deny",
             "Principal": {
-              "AWS": "*"
+                "AWS": "*"
             },
             "Action": [
                 "sns:GetTopicAttributes",
@@ -65,8 +65,8 @@
                     "aws:ViaAWSService": "false"
                 },
                 "ArnNotLikeIfExists": {
-					"aws:PrincipalArn": "arn:aws:iam::<my-account-id>:role/aws-service-role/*"
-				},
+                    "aws:PrincipalArn": "arn:aws:iam::<my-account-id>:role/aws-service-role/*"
+                },
                 "StringEquals": {
                     "aws:PrincipalTag/data-perimeter-include": "true"
                 }

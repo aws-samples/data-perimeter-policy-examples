@@ -39,7 +39,7 @@
             "Action": "*",
             "Resource": "*",
             "Condition": {
-              "StringEquals": {
+                "StringEquals": {
                     "aws:PrincipalOrgID": "<my-org-id>",
                     "aws:PrincipalTag/resource-perimeter-exception": "true"
                 }

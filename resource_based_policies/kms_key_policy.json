@@ -35,11 +35,11 @@
                     "aws:ViaAWSService": "false"
                 },
                 "ArnNotLikeIfExists": {
-					"aws:PrincipalArn": [
+                    "aws:PrincipalArn": [
                         "arn:aws:iam::<my-account-id>:role/aws-service-role/*",
                         "arn:aws:iam::*:role/aws:ec2-infrastructure"
                     ]    
-				},
+                },
                 "StringEquals": {
                     "aws:PrincipalTag/data-perimeter-include": "true"
                 }

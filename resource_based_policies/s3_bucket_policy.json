@@ -50,8 +50,8 @@
                     "aws:ViaAWSService": "false"
                 },
                 "ArnNotLikeIfExists": {
-					"aws:PrincipalArn": "arn:aws:iam::<my-account-id>:role/aws-service-role/*"
-				},
+                    "aws:PrincipalArn": "arn:aws:iam::<my-account-id>:role/aws-service-role/*"
+                },
                 "StringEquals": {
                     "aws:PrincipalTag/data-perimeter-include": "true"
                 }
