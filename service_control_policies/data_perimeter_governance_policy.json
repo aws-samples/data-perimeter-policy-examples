@@ -1,0 +1,184 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "PreventRAMExternalResourceShare",
+         "Effect": "Deny",
+         "Action": [
+            "ram:CreateResourceShare",
+            "ram:UpdateResourceShare"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true"
+            },
+            "Bool": {
+               "ram:RequestedAllowsExternalPrincipals": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventExternalResourceShare",
+         "Effect": "Deny",
+         "Action": [
+            "ec2:ModifyImageAttribute",
+            "ec2:ModifyFPGAImageAttribute",
+            "ec2:ModifySnapshotAttribute",
+            "ec2:ModifyVpcEndpointServicePermissions",
+            "ec2:AcceptVpcEndpointConnections",
+            "ec2:AcceptVpcPeeringConnection",
+            "ssm:ModifyDocumentPermission",
+            "rds:ModifyDBSnapshotAttribute",
+            "rds:ModifyDBClusterSnapshotAttribute",
+            "redshift:AuthorizeDataShare",
+            "redshift:AuthorizeSnapshotAccess",
+            "ds:ShareDirectory",
+            "route53:AssociateVpcWithHostedZone",
+            "logs:PutSubscriptionFilter",
+            "lakeformation:GrantPermissions",
+            "lakeformation:BatchGrantPermissions",
+            "appstream:UpdateImagePermissions"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventPublicBucketACL",
+         "Effect": "Deny",
+         "Action": [
+            "s3:PutBucketAcl",
+            "s3:CreateBucket"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringEquals": {
+               "s3:x-amz-acl": [
+                  "public-read",
+                  "public-read-write"
+               ]
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true"
+            }
+         }    
+      },
+      {
+         "Sid": "PreventS3PublicAccessBlockConfigurations",
+         "Effect": "Deny",
+         "Action": "s3:PutAccountPublicAccessBlock" ,
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true"
+            }
+         }
+      },
+      {
+         "Sid":"PreventLambdaFunctionURLAuthNone",
+         "Effect":"Deny",
+         "Action":[
+            "lambda:AddPermission",
+            "lambda:UpdateFunctionU*",
+            "lambda:CreateFunctionU*"
+         ],
+         "Resource":"*",
+         "Condition":{
+            "StringNotEqualsIfExists":{
+               "aws:PrincipalTag/identity-perimeter-exception": "true",
+               "aws:PrincipalTag/network-perimeter-exception": "true"
+            },
+            "StringEquals": {
+               "lambda:FunctionUrlAuthType" : "NONE"
+            }
+         }
+      },
+      {
+         "Sid": "PreventDeploymentCodeStarConnectionsCloudShell",
+         "Effect": "Deny",
+         "Action": [
+            "cloudshell:*",
+            "codestar-connections:*"
+      ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true",
+               "aws:PrincipalTag/resource-perimeter-exception": "true",
+               "aws:PrincipalTag/network-perimeter-exception": "true"
+            }
+         }
+      },
+      {
+         "Sid":"PreventNonVPCDeploymentSageMaker",
+         "Effect":"Deny",
+         "Action":[
+            "sagemaker:CreateHyperParameterTuningJob",
+            "sagemaker:CreateModel",
+            "sagemaker:CreateNotebookInstance",
+            "sagemaker:CreateTrainingJob"
+         ],
+         "Resource":"*",
+         "Condition":{
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true",
+               "aws:PrincipalTag/resource-perimeter-exception": "true",
+               "aws:PrincipalTag/network-perimeter-exception": "true"
+            },
+            "Null":{
+               "sagemaker:VpcSubnets":"true"
+            }
+         }
+      },
+      {
+         "Sid":"PreventNonVPCDeploymentLambda",
+         "Effect":"Deny",
+         "Action":[
+            "lambda:CreateFunction",
+            "lambda:UpdateFunctionConfiguration"
+         ],
+         "Resource":"*",
+         "Condition":{
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true",
+               "aws:PrincipalTag/resource-perimeter-exception": "true",
+               "aws:PrincipalTag/network-perimeter-exception": "true"
+            },
+            "Null":{
+               "lambda:VpcIds":"true"
+            }
+         }
+      },
+      {
+         "Sid": "ProtectDataPerimeterTags",
+         "Effect": "Deny",
+         "Action": [
+            "iam:TagRole",
+            "iam:TagUser",
+            "iam:UntagRole",
+            "iam:UntagUser"
+         ],
+         "Resource": [
+            "*"
+         ],
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/team": "admin"
+            },
+            "ForAnyValue:StringEquals": {
+               "aws:TagKeys": [
+                  "network-perimeter-exception",
+                  "resource-perimeter-exception",
+                  "identity-perimeter-exception",
+                  "data-perimeter-include",
+                  "team"
+               ]
+            }
+         }
+      }
+   ]
+}

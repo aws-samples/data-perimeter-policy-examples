@@ -1,0 +1,135 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToOrgsResources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "*",
+           
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:ResourceOrgID": "<my-org-id>"
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByAWSServicePrincipals",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "aws:PrincipalIsAWSService": "true"
+                }
+            }
+        },
+        {
+            "Sid": "AllowUnauthenticatedRequestsToAWSResources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
+                "s3:GetObject"
+            ],
+            
+            "Resource": [
+                "arn:aws:s3:::packages.<region>.amazonaws.com/*",
+                "arn:aws:s3:::repo.<region>.amazonaws.com/*",
+                "arn:aws:s3:::amazonlinux.<region>.amazonaws.com/*",
+                "arn:aws:s3:::amazonlinux-2-repos-<region>/*",
+                "arn:aws:s3:::repo.<region>.emr.amazonaws.com/*",
+                "arn:aws:s3:::prod.<region>.appinfo.src/*",
+                "arn:aws:s3:::aws-ssm-<region>/*",
+                "arn:aws:s3:::aws-windows-downloads-<region>/*",
+                "arn:aws:s3:::amazon-ssm-<region>/*",
+                "arn:aws:s3:::amazon-ssm-packages-<region>/*",
+                "arn:aws:s3:::<region>-birdwatcher-prod/*",
+                "arn:aws:s3:::aws-ssm-distributor-file-<region>/*",
+                "arn:aws:s3:::aws-ssm-document-attachments-<region>/*",
+                "arn:aws:s3:::patch-baseline-snapshot-<region>/*",
+                "arn:aws:s3:::aws-patchmanager-macos-<region>/*",
+                "arn:aws:s3:::amazoncloudwatch-agent-<region>/*",
+                "arn:aws:s3:::amazoncloudwatch-agent/*",
+                "arn:aws:s3:::aws-codedeploy-<region>/*",
+                "arn:aws:s3:::ec2imagebuilder-toe-<region>-prod/*",
+                "arn:aws:s3:::ec2imagebuilder-managed-resources-<region>-prod/components/*"
+            ]
+        },
+        {
+            "Sid": "AllowRequestsToECRResources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
+                "s3:GetObject"
+            ],            
+            "Resource": [
+                "arn:aws:s3:::prod-<region>-starport-layer-bucket/*"
+            ]
+        },
+        {
+            "Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "<action>",        
+            "Resource": "<third-party-resource-arn>",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalAccount": [
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ],
+                    "aws:ResourceAccount": [
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToThirdPartyResources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "<action>",           
+            "Resource": "<third-party-resource-arn>",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:ResourceAccount": [
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:PrincipalTag/resource-perimeter-exception": "true"
+                }
+            }
+        }
+    ]
+}

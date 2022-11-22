@@ -1,0 +1,61 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "EnforceIdentityPerimeter",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": [
+              "arn:aws:s3:::<my-data-bucket>",
+              "arn:aws:s3:::<my-data-bucket>/*"
+            ],
+            "Condition": {
+                "StringNotEqualsIfExists": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:PrincipalAccount": [
+                        "<load-balancing-account-id>",
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ]
+                },
+                "BoolIfExists": {
+                  "aws:PrincipalIsAWSService": "false"
+                }
+            }
+        },
+        {
+            "Sid": "EnforceNetworkPerimeter",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": [
+              "arn:aws:s3:::<my-data-bucket>",
+              "arn:aws:s3:::<my-data-bucket>/*"
+            ],
+            "Condition": {
+                "NotIpAddressIfExists": {
+                  "aws:SourceIp": "<my-corporate-cidr>"
+                },
+                "StringNotEqualsIfExists": {
+                    "aws:SourceVpc": "<my-vpc>",
+                    "aws:PrincipalTag/network-perimeter-exception": "true",
+                    "aws:PrincipalAccount": [
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ]
+                },
+                "BoolIfExists": {
+                    "aws:PrincipalIsAWSService": "false",
+                    "aws:ViaAWSService": "false"
+                },
+                "ArnNotLikeIfExists": {
+					"aws:PrincipalArn": "arn:aws:iam::<my-account-id>:role/aws-service-role/*"
+				},
+                "StringEquals": {
+                    "aws:PrincipalTag/data-perimeter-include": "true"
+                }
+            }
+        }
+    ]
+}

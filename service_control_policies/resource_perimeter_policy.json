@@ -1,0 +1,69 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid":"EnforceResourcePerimeterAWSResources",
+         "Effect":"Deny",
+         "NotAction":[
+            "iam:GetPolicy",
+            "iam:GetPolicyVersion",
+            "iam:ListEntitiesForPolicy",
+            "iam:ListPolicyVersions",
+            "iam:GenerateServiceLastAccessedDetails",
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:PutObjectAcl",
+            "ssm:Describe*",
+            "ssm:List*",
+            "ssm:Get*",
+            "<action>"
+         ],
+         "Resource":"*",
+         "Condition":{
+            "StringNotEqualsIfExists":{
+               "aws:ResourceOrgID":"<my-org-id>",
+               "ec2:Owner":"amazon",
+               "aws:PrincipalTag/resource-perimeter-exception": "true"
+            }
+         }
+      },
+      {
+         "Sid":"EnforceResourcePerimeterAWSResourcesS3",
+         "Effect":"Deny",
+         "Action":[
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:PutObjectAcl"
+         ],
+         "Resource":"*",
+         "Condition":{
+            "StringNotEqualsIfExists":{
+               "aws:ResourceOrgID":"<my-org-id>",
+               "aws:PrincipalTag/resource-perimeter-exception": "true"
+            },
+            "ForAllValues:StringNotEquals":{
+               "aws:CalledVia":[
+                  "dataexchange.amazonaws.com",
+                  "servicecatalog.amazonaws.com"
+               ]
+            }
+         }
+      },
+      {
+         "Sid":"EnforceResourcePerimeterThirdPartyResources",
+         "Effect":"Deny",
+         "Action":"<action>",
+         "Resource":"*",
+         "Condition":{
+            "StringNotEqualsIfExists":{
+               "aws:ResourceOrgID":"<my-org-id>",
+               "aws:PrincipalTag/resource-perimeter-exception": "true",
+               "aws:ResourceAccount": [
+                  "<third-party-account-a>",
+                  "<third-party-account-b>"
+               ]
+            }
+         }
+      }
+   ]
+}

@@ -1,0 +1,70 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToOrgsResources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:ResourceOrgID": "<my-org-id>"
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByAWSServicePrincipals",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "aws:PrincipalIsAWSService": "true"
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
+                "ssm:Describe*",
+                "ssm:List*",
+                "ssm:Get*"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:ssm:<region>::parameter/aws/*",
+                "arn:aws:ssm:<region>::document/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>"
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:PrincipalTag/resource-perimeter-exception": "true"
+                }
+            }
+        }
+    ]
+}

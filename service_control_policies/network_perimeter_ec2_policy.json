@@ -1,0 +1,46 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "EnforceNetworkPerimeterOnEC2Roles",
+            "Effect": "Deny",
+            "NotAction": [
+                "es:ES*",
+                "dax:GetItem",
+                "dax:BatchGetItem",
+                "dax:Query",
+                "dax:Scan",
+                "dax:PutItem",
+                "dax:UpdateItem",
+                "dax:DeleteItem",
+                "dax:BatchWriteItem",
+                "dax:ConditionCheckItem"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "BoolIfExists": {
+                    "aws:ViaAWSService": "false"
+                },
+                "NotIpAddressIfExists": {
+                    "aws:SourceIp": [
+                      "<my-corporate-cidr>"
+                    ]
+                },
+                "StringNotEqualsIfExists": {
+                    "aws:PrincipalTag/network-perimeter-exception": "true",
+                    "aws:SourceVpc": [
+                       "<my-vpc>"
+                    ]
+                },
+                "ArnNotLikeIfExists": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/aws:ec2-infrastructure"
+                    ]
+                },
+                "Null": {
+                    "ec2:SourceInstanceARN": "false"
+                }
+            }
+        }
+    ]
+}
