@@ -37,9 +37,10 @@ This policy statement is included in the [resource_perimeter_policy](resource_pe
 
 * Resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
 * Resources owned by AWS services. To permit access to AWS owned resources through the resource perimeter, two methods are used:
-    * Relevant service actions are listed in the NotAction element of the policy. Actions on resources that allow cross-account access are further restricted in other statements of the policy (`"Sid":"EnforceResourcePerimeterAWSResourcesS3"`). 
+    * Relevant service actions are listed in the `NotAction` element of the policy. Actions on resources that allow cross-account access are further restricted in other statements of the policy (`"Sid":"EnforceResourcePerimeterAWSResourcesS3"`, `"EnforceResourcePerimeterAWSResourcesECR"`). 
         * `ssm:Describe*`, `ssm:List*`, `ssm:Get*` - Required for [AWS Systems Manager](https://aws.amazon.com/systems-manager/) global parameters.* *Some AWS services publish information about common artifacts as Systems Manager public parameters. For example, Amazon EC2 publishes information about Amazon Machine Images (AMIs) as public parameters. AWS automation or custom applications may need to access Systems Manager public parameters to support their operations. 
         * `iam:GetPolicy`, `iam:GetPolicyVersion`, `iam:ListEntitiesForPolicy`, `iam:ListPolicyVersions`, `iam:GenerateServiceLastAccessedDetails` - Required for AWS managed policies. AWS managed policies are owned by an AWS service account. 
+        * `ecr:GetDownloadUrlForLayer`, `ecr:BatchGetImage` - Required for [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) add-ons.
     * `ec2:Owner` condition key:
         * Key value set to `amazon` - Required for your users and applications to be able to perform operations against public images that are owned by Amazon or a [verified partner](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharing-amis.html#verified-ami-provider) (for example, copying or launching instances using these images).
 * Trusted resources that belong to an account outside of your Organizations organization. To permit access to a resource owned by an external account through the resource perimeter, relevant service actions have to be listed in the `NotAction` element of this statement (`<action>`). These actions are further restricted in the `"Sid":"EnforceResourcePerimeterThirdPartyResources"`. 
@@ -55,6 +56,13 @@ Example data access patterns:
 
 * *AWS Data Exchange publishing and subscribing. *When importing assets from Amazon S3 to [AWS Data Exchange](https://aws.amazon.com/data-exchange/) ([publishing](https://docs.aws.amazon.com/data-exchange/latest/userguide/providing-data-sets.html)), AWS Data Exchange writes to AWS Data Exchange Amazon S3 buckets. Similarly, when exporting assets from AWS Data Exchange to Amazon S3 ([subscribing](https://docs.aws.amazon.com/data-exchange/latest/userguide/subscribe-to-data-sets.html)), AWS Data Exchange reads from AWS Data Exchange Amazon S3 buckets. [AWS Data Exchange uses the credentials of the user performing import and export operations to sign calls to Amazon S3](https://docs.aws.amazon.com/data-exchange/latest/userguide/access-control.html#:~:text=Amazon%20S3%20permissions). 
 * *AWS Service Catalog operations. *When you create [AWS Service Catalog](https://aws.amazon.com/servicecatalog) products, Service Catalog stores the CloudFormation template in an Amazon S3 bucket owned by the service account. When you provision the product, Service Catalog downloads the template from the bucket. Calls to Amazon S3 are signed by your credentials. 
+
+### "Sid":"EnforceResourcePerimeterAWSResourcesECR"
+
+This policy statement is included in the [resource_perimeter_policy](resource_perimeter_policy.json) and limits access to trusted [Amazon Elastic Container Registry (Amazon ECR)](https://aws.amazon.com/ecr/) resources:
+
+* Amazon ECR repositories that belong to your Organizations organization as specified by the organization ID (`<my-org-id>`) in the policy statement.
+* Amazon ECR repositories owned by [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) that host the Docker container images for [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html). These repositories are accessed by using the IAM roles of your Amazon EKS nodes and managed node groups. To account for this access pattern, the `ecr:GetDownloadUrlForLayer`and`ecr:BatchGetImage` are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. `"Sid":"EnforceResourcePerimeterAWSResourcesECR"` then uses the `aws:ResourceAccount` condition key to restrict these actions to Amazon ECR repositories owned by the AWS service accounts. `<ecr-account-id>` can vary by AWS Region, and you might need to allow multiple account IDs if you are operating in multiple Regions. For a complete list of Amazon EKS managed AWS accounts that host Amazon ECR repositories, see the [Amazon EKS documentation about add-on images](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html). The account ID is the first 12 digits of the registry URL.
 
 ### "Sid":"EnforceResourcePerimeterThirdPartyResources"
 
@@ -164,3 +172,6 @@ This statement is included in the [data_perimeter_governance_policy](data_perime
 ### "Sid": "ProtectDataPerimeterTags"
 
 This statement is included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and prevents the attaching, detaching, and modifying of tags used for authorization controls within the data perimeter.
+
+
+
