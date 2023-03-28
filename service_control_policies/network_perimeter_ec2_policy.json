@@ -23,14 +23,14 @@
                 },
                 "NotIpAddressIfExists": {
                     "aws:SourceIp": [
-                      "<my-corporate-cidr>"
-                    ]
+                        "<my-corporate-cidr>"
+                     ]
                 },
                 "StringNotEqualsIfExists": {
                     "aws:PrincipalTag/network-perimeter-exception": "true",
                     "aws:SourceVpc": [
-                       "<my-vpc>"
-                    ]
+                        "<my-vpc>"
+                     ]
                 },
                 "ArnNotLikeIfExists": {
                     "aws:PrincipalArn": [

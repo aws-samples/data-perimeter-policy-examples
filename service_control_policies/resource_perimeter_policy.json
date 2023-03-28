@@ -16,7 +16,10 @@
             "ssm:Describe*",
             "ssm:List*",
             "ssm:Get*",
+            "ecr:GetDownloadUrlForLayer",
+            "ecr:BatchGetImage",
             "<action>"
+
          ],
          "Resource":"*",
          "Condition":{
@@ -47,6 +50,22 @@
                   "servicecatalog.amazonaws.com"
                ]
             }
+         }
+      },
+      {
+         "Sid": "EnforceResourcePerimeterAWSResourcesECR",
+         "Effect": "Deny",
+         "Action": [
+           "ecr:GetDownloadUrlForLayer",
+           "ecr:BatchGetImage"
+         ],
+         "Resource": "*",
+         "Condition": {
+             "StringNotEqualsIfExists": {
+                 "aws:ResourceAccount": "ecr-account-id",
+                 "aws:ResourceOrgId": "<my-org-id>",
+                 "aws:PrincipalTag/resource-perimeter-exception": "true"
+             }
          }
       },
       {

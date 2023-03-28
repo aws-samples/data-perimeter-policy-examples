@@ -135,6 +135,11 @@ Example data access patterns:
 
         * `arn:aws:imagebuilder:<region>:aws:component/*`
 
+* *Using Elastic Kubernetes Service add-ons.* [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) uses an Amazon EKS managed Amazon Elastic Container Registry (Amazon ECR) private repository to host Docker container images for [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html). Each Region has a dedicated private repository. If you use Amazon EKS managed node groups or want to have your Amazon EKS nodes pull the container images from the Amazon EKS private repository, your Amazon ECR VPC endpoint (com.amazonaws.region.ecr.api) policy must allow your principals to access the repository for the Region in which you are operating. 
+    * [AWS owned repositories ](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html):
+        * In the policy example, replace `<ecr-account-id>` with the 12-digit account ID of the AWS account that hosts the private registry. These are the first 12 digits of the respective registry from the table on the [add-ons images documentation page](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html).
+
+
 
 
 ### "Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"
@@ -148,3 +153,4 @@ This policy statement allows identities from your Organizations organization to 
 ### "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources"
 
 This policy statement allows identities from your Organizations organization that are tagged with the `resource-perimeter-exception` tag set to `true` to access any resource. Before adding this statement to your VPC endpoint policy, ensure that you have strong tagging governance in place and a valid data-access pattern that warrants its implementation that is not already covered by previously described statements. If you include this statement in your policy, ensure that you always have this access restricted to principals in your Organizations organization by using the `aws:PrincipalOrgID` condition key. This prevents access by identities outside your organization tagged with the same tag key and value. 
+

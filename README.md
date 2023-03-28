@@ -24,8 +24,9 @@ This repository contains example policies to help you implement a [data perimete
 
 A data perimeter is a set of preventive guardrails to help ensure that only your trusted identities are accessing trusted resources from expected networks. To get started with data perimeters on AWS, review the following resources:
 
-* [Establishing a data perimeter on AWS](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws/)
-* Establishing a data perimeter on AWS: Allow only trusted identities to access company data (identity perimeter)
+* [Establishing a data perimeter on AWS: Overview](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws/)
+* [Establishing a data perimeter on AWS: Allow only trusted identities to access company data](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-only-trusted-identities-to-access-company-data/) (identity perimeter)
+* [Establishing a data perimeter on AWS: Allow only trusted resources from my organization](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-only-trusted-resources-from-my-organization/) (resource perimeter)
 
 ## Policy types
 
@@ -71,6 +72,7 @@ To effectively use the example policies in this repository, follow these steps:
     * Replace `<my-vpc>` with a list of VPC IDs that constitute your network perimeter for a resource or an AWS Organizations entity to which you are applying a policy.
     * Replace `<my-data-bucket>` with the name of the bucket to which you are applying the resource-based policy.
     * Replace `<load-balancing-account-id>` with the ID of the AWS account that belongs to the Elastic Load Balancing services (based on the Region for your load balancer) if access logging is in use. See [Enable access logs for your Classic Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html#attach-bucket-policy) and [Access logs for your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions) for a complete list of account IDs. 
+    * Replace `<ecr-account-id>` with the ID of the AWS account that belongs to the [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) (based on the Region you operate in) if your Amazon EKS nodes need to pull the container images from the Amazon EKS private repository or you want to use managed node groups. See [Amazon container image registries](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html) for a complete list of account IDs (the first 12 digits of the respective registry in the table).
     * Replace the following values to support third party integrations where access to third party resources or by third party identities is required:
         * Replace `<third-party-account-a>` and `<third-party-account-b>` with account IDs of third parties.
         * Replace `<action>` with specific actions required for third party integrations.
