@@ -118,22 +118,22 @@
              "iam:UntagUser"
          ],
          "Resource": [
-         "*"
+            "*"
          ],
          "Condition": {
-             "StringNotEqualsIfExists": {
-                 "aws:PrincipalTag/team": "admin"
-             },
-             "ForAnyValue:StringEquals": {
-                 "aws:TagKeys": [
-                     "network-perimeter-exception",
-                     "resource-perimeter-exception",
-                     "identity-perimeter-exception",
-                     "data-perimeter-include",
-                     "team"
-                 ]
-             }
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/team": "admin"
+            },
+            "ForAnyValue:StringEquals": {
+               "aws:TagKeys": [
+                  "network-perimeter-exception",
+                  "resource-perimeter-exception",
+                  "identity-perimeter-exception",
+                  "data-perimeter-include",
+                  "team"
+               ]
+            }
          }
-     }
+      }
    ]
 }
