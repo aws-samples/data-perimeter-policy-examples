@@ -23,7 +23,7 @@ Use the following example SCPs individually or in combination:
 * [resource_perimeter_policy](resource_perimeter_policy.json) – Enforces resource perimeter controls on all principals within your Organizations organization.
 * [network_perimeter_policy](network_perimeter_policy.json) – Enforces network perimeter controls on IAM principals tagged with the `data-perimeter-include` tag set to `true`.
 * [network_perimeter_ec2_policy](network_perimeter_ec2_policy.json) – Enforces network perimeter controls on service roles used by Amazon EC2 instances.
-* [data_perimeter_governance_policy](data_perimeter_governance_policy.json) – Includes a statement to secure tags that are used for authorization controls. This SCP also includes statements that should be included in your data perimeter to account for specific data access patterns that are not covered by primary data perimeter controls. 
+* [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) – Include statements to secure tags that are used for authorization controls. These SCPs also include statements that should be included in your data perimeter to account for specific data access patterns that are not covered by primary data perimeter controls. 
 
 Note that the SCP examples in this repository use a [deny list strategy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_strategies.html), which means that you also need a FullAWSAccess policy or other policy attached to your AWS Organizations organization entities to allow actions. You still also need to grant appropriate permissions to your principals by using identity-based or resource-based policies.
 
@@ -111,28 +111,15 @@ Additionally, `es:ES*` is included in the `NotAction` element of the policy stat
 
 The `ec2:SourceInstanceARN` condition key is used to target role sessions that are created for applications running on your Amazon EC2 instances. 
 
-### "Sid":"PreventNonVPCDeploymentSageMaker" and "Sid":"PreventNonVPCDeploymentLambda"
-
-These statements are included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and explicitly deny relevant [Amazon SageMaker](https://aws.amazon.com/sagemaker/) and [AWS Lambda](https://aws.amazon.com/lambda/) operations unless they have VPC configurations specified in the requests. Use these statements to enforce deployment in a VPC for these services.
-
-Services such as Lambda and SageMaker support different deployment models. For example, [Amazon SageMaker Studio](https://aws.amazon.com/pm/sagemaker/) and [SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) allow direct internet access by default. However, they provide you with the capability to configure them to run within your VPC so that you can inspect requests by using VPC endpoint policies (against identity and resource perimeter controls) and enforce the network perimeter.
-
-
-###  "Sid": "PreventDeploymentCodeStarConnectionsCloudShell"
-
-This statement  is included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and limits the use of [AWS CloudShell](https://aws.amazon.com/cloudshell/) and [AWS CodeStar Connections](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/Welcome.html).
-
-AWS services such as CloudShell and AWS CodeStar Connections do not support deployment within a VPC and provide direct access to the internet that is not controlled by your VPC. You can block the use of such services by using SCPs or implementing your own proxy solution to inspect egress traffic.
-
 ### "Sid": "PreventRAMExternalResourceShare"
 
-This statement is included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and denies the creation of or updates to [AWS Resource Access Manager (AWS RAM)](https://aws.amazon.com/ram/) resource shares that allow sharing with external principals.
+This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and denies the creation of or updates to [AWS Resource Access Manager (AWS RAM)](https://aws.amazon.com/ram/) resource shares that allow sharing with external principals.
 
 [Some AWS resources](https://docs.aws.amazon.com/ram/latest/userguide/shareable.html#shareable-r53.) allow cross-account sharing via AWS RAM instead of resource-based policies. By default, AWS RAM shares allow sharing outside of an Organizations organization. You can explicitly [restrict sharing of resources outside of AWS Organizations](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-create.html) and then limit AWS RAM actions based on this configuration.
 
 ### "Sid": "PreventExternalResourceShare"
 
-This statement is included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and prevents resource sharing by capabilities that are embedded into services.
+This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and restricts resource sharing by capabilities that are embedded into services.
 
 Some AWS services use neither resource-based policies nor AWS RAM.
 
@@ -140,38 +127,65 @@ Example data access patterns:
 
 * [Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharing-amis.html): You can share AMIs with other accounts or make them public with the `ModifyImageAttribute` and `ModifyFPGAImageAttribute` APIs. 
 * [Amazon EBS snapshots](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html): You can share Amazon EBS snapshots with other accounts, or you can make them public with the `ModifySnapshotAttribute` API.
-* [VPC endpoint connections](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html): You can accept endpoint service connection requests from another account with `AcceptVpcEndpointConnections` API. You can also grant permissions to another account to connect to your VPC endpoint service using `ModifyVpcEndpointServicePermissions` API.
-* [VPC peering connections](https://docs.aws.amazon.com/vpc/latest/peering/create-vpc-peering-connection.html): You can accept a peering connection request from another account with `AcceptVpcPeeringConnection` API.
+* [VPC endpoint connections](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html): You can grant permissions to another account to connect to your VPC endpoint service with the `ModifyVpcEndpointServicePermissions` API.
 * [Systems Manager documents (SSM documents)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-ssm-docs.html): You can share SSM documents with other accounts or make them public with the `ModifyDocumentPermission` API.
 * [Amazon RDS Snapshots](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html): You can share RDS and RDS cluster snapshots with other accounts or make them public with the `ModifyDBSnapshotAttribute` and `ModifyDBClusterSnapshotAttribute` APIs.
 * [Amazon Redshift datashare](https://docs.aws.amazon.com/redshift/latest/dg/authorize-datashare-console.html): You can authorize the sharing of a datashare with other accounts with the `AuthorizeDataShare` API. You can also share a snapshot with other accounts with `AuthorizeSnapshotAccess` API.
 * [AWS Directory Service directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_directory_sharing.html): You can share a directory with other accounts with the `ShareDirectory` API.
-* [Amazon Route 53 private hosted zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zone-private-associate-vpcs-different-accounts.html): You can associate an Amazon VPC with a private hosted zone in a different account with the `AssociateVPCWithHostedZone` API.
 * [Amazon CloudWatch Logs subscription filters](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/SubscriptionFilters.html): You can send CloudWatch Logs to cross-account destinations with the `PutSubscriptionFilter` API.
 * [AWS Glue Data Catalog](https://docs.aws.amazon.com/lake-formation/latest/dg/granting-catalog-perms-TBAC.html) databases: You can grant data catalog permissions to another account by using the AWS Lake Formation tag-based access control method with the `GrantPermissions` and `BatchGrantPermissions` APIs.
 * [Amazon AppStream 2.0 image](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html#share-image-with-another-account): You can share an Amazon AppStream 2.0 image that you own with other accounts with the `UpdateImagePermissions` API.
 
+### "Sid": "ProtectActionsNotSupportedByPrimaryDPControls"
+
+This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and restricts actions that are not supported by primary data perimeter controls such as [ResourceOrgId](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourceorgid). 
+
+Example data access patterns:
+
+* [TGW peering connections](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-peering.html): You can create and manage a TGW peering connection with another account with the  `CreateTransitGatewayPeeringAttachment`,  `AcceptTransitGatewayPeeringAttachment`, `RejectTransitGatewayPeeringAttachment`, and `DeleteTransitGatewayPeeringAttachment` APIs. 
+* [VPC peering connections](https://docs.aws.amazon.com/vpc/latest/peering/create-vpc-peering-connection.html): You can create and manage a VPC peering connection with another account with the `CreateVpcPeeringConnection`,  `AcceptVpcPeeringConnection`, `RejectVpcPeeringConnection`, and `DeleteVpcPeeringConnection` APIs.
+* [VPC endpoint connections](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html): You can create and manage an endpoint service connection with another account with the `CreateVpcEndpoint`, `AcceptVpcEndpointConnections`, and   `RejectVpcEndpointConnections` APIs. 
+* [Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharing-amis.html): You can copy an image shared from a different account with the `CopyImage` and `CopyFpgaImage` APIs.
+* [Amazon EBS snapshots](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html): You can copy a snapshot shared from a different account with the `CopySnapshot` API.
+* [Amazon EBS volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html): You can create a volume from a snapshot shared from a different account with the `CreateVolume` API.
+* [Amazon Route 53 private hosted zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zone-private-associate-vpcs-different-accounts.html): You can associate and manage an Amazon VPC with a private hosted zone in a different account with the `CreateVPCAssociationAuthorization`,  `AssociateVPCWithHostedZone`, `DisassociateVPCFromHostedZone`, `ListHostedZonesByVPC`, and `DeleteVPCAssociationAuthorization`  APIs.
+
+You can also consider using service-specific condition keys such as `ec2:AccepterVpc` and `ec2:RequesterVpc` to restrict actions that are not supported by primary data perimeter controls (See [Work within a specific account](https://docs.aws.amazon.com/vpc/latest/peering/security-iam.html#vpc-peering-iam-account)).
+
+### "Sid": "ProtectDataPerimeterTags"
+
+This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and prevents the attaching, detaching, and modifying of tags used for authorization controls within the data perimeter.
+
 ### "Sid": "PreventS3PublicAccessBlockConfigurations"
 
-This statement is included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and prevents users from altering S3 Block Public Access configurations.
+This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and prevents users from altering S3 Block Public Access configurations.
 
 [S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html) provides settings for access points, buckets, and accounts to help you manage public access to Amazon S3 resources. With S3 Block Public Access, account administrators and bucket owners can set up centralized controls to limit public access to their Amazon S3 resources that are enforced, regardless of how the resources are created. 
 
 
 ### "Sid": "PreventPublicBucketACL"
 
-This statement is included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and prevents users from applying public read and public read-write canned access control lists to Amazon S3 buckets.
+This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and prevents users from applying public read and public read-write canned access control lists to Amazon S3 buckets.
 
 
 ### "Sid":"PreventLambdaFunctionURLAuthNone"
 
-This statement is included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and denies the creation of Lambda functions that have `lambda:FunctionUrlAuthType` set to `NONE`.
+This statement is included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and denies the creation of Lambda functions that have `lambda:FunctionUrlAuthType` set to `NONE`.
 
 [Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-urls.html) is a feature that lets you add HTTPS endpoints to your Lambda functions. When configuring a function URL for a new or existing function, you can set the `AuthType` parameter to `NONE`, which means Lambda won’t check for any IAM SigV4 signatures before invoking the function. If a function’s resource-based policy explicitly allows for public access, the function is open to unauthenticated requests.
 
-### "Sid": "ProtectDataPerimeterTags"
+###  "Sid": "PreventDeploymentCodeStarConnectionsCloudShell"
 
-This statement is included in the [data_perimeter_governance_policy](data_perimeter_governance_policy.json) and prevents the attaching, detaching, and modifying of tags used for authorization controls within the data perimeter.
+This statement  is included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and limits the use of [AWS CloudShell](https://aws.amazon.com/cloudshell/) and [AWS CodeStar Connections](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/Welcome.html).
+
+AWS services such as CloudShell and AWS CodeStar Connections do not support deployment within a VPC and provide direct access to the internet that is not controlled by your VPC. You can block the use of such services by using SCPs or implementing your own proxy solution to inspect egress traffic.
+
+### "Sid":"PreventNonVPCDeploymentSageMaker" and "Sid":"PreventNonVPCDeploymentLambda"
+
+These statements are included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and explicitly deny relevant [Amazon SageMaker](https://aws.amazon.com/sagemaker/) and [AWS Lambda](https://aws.amazon.com/lambda/) operations unless they have VPC configurations specified in the requests. Use these statements to enforce deployment in a VPC for these services.
+
+Services such as Lambda and SageMaker support different deployment models. For example, [Amazon SageMaker Studio](https://aws.amazon.com/pm/sagemaker/) and [SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) allow direct internet access by default. However, they provide you with the capability to configure them to run within your VPC so that you can inspect requests by using VPC endpoint policies (against identity and resource perimeter controls) and enforce the network perimeter.
+
 
 
 

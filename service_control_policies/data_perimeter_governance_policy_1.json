@@ -1,0 +1,139 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "PreventRAMExternalResourceShare",
+         "Effect": "Deny",
+         "Action": [
+            "ram:CreateResourceShare",
+            "ram:UpdateResourceShare"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true"
+            },
+            "Bool": {
+               "ram:RequestedAllowsExternalPrincipals": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventExternalResourceShare",
+         "Effect": "Deny",
+         "Action": [
+            "ec2:ModifyImageAttribute",
+            "ec2:ModifyFPGAImageAttribute",
+            "ec2:ModifySnapshotAttribute",
+            "ec2:ModifyVpcEndpointServicePermissions",
+            "ssm:ModifyDocumentPermission",
+            "rds:ModifyDBSnapshotAttribute",
+            "rds:ModifyDBClusterSnapshotAttribute",
+            "redshift:AuthorizeDataShare",
+            "redshift:AuthorizeSnapshotAccess",
+            "ds:ShareDirectory",
+            "logs:PutSubscriptionFilter",
+            "lakeformation:GrantPermissions",
+            "lakeformation:BatchGrantPermissions",
+            "appstream:UpdateImagePermissions"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true"
+            }
+         }
+      },
+      {
+         "Sid": "ProtectActionsNotSupportedByPrimaryDPControls",
+         "Effect": "Deny",
+         "Action": [
+            "ec2:CreateTransitGatewayPeeringAttachment",
+            "ec2:AcceptTransitGatewayPeeringAttachment",
+            "ec2:RejectTransitGatewayPeeringAttachment",
+            "ec2:DeleteTransitGatewayPeeringAttachment",
+            "ec2:CreateVpcPeeringConnection",
+            "ec2:AcceptVpcPeeringConnection",
+            "ec2:RejectVpcPeeringConnection",
+            "ec2:DeleteVpcPeeringConnection",
+            "ec2:CreateVpcEndpoint",
+            "ec2:AcceptVpcEndpointConnections",
+            "ec2:RejectVpcEndpointConnections",
+            "ec2:CopyImage",
+            "ec2:CopyFpgaImage",
+            "ec2:CopySnapshot",
+            "ec2:CreateVolume",
+            "route53:CreateVPCAssociationAuthorization",
+            "route53:AssociateVPCWithHostedZone",
+            "route53:DisassociateVPCFromHostedZone",
+            "route53:ListHostedZonesByVPC",
+            "route53:DeleteVPCAssociationAuthorization"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true",
+               "aws:PrincipalTag/resource-perimeter-exception": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventPublicBucketACL",
+         "Effect": "Deny",
+         "Action": [
+            "s3:PutBucketAcl",
+            "s3:CreateBucket"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringEquals": {
+               "s3:x-amz-acl": [
+                  "public-read",
+                  "public-read-write"
+               ]
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true"
+            }
+         }    
+      },
+      {
+         "Sid": "PreventS3PublicAccessBlockConfigurations",
+         "Effect": "Deny",
+         "Action": "s3:PutAccountPublicAccessBlock" ,
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/identity-perimeter-exception": "true"
+            }
+         }
+      },
+      {
+         "Sid": "ProtectDataPerimeterTags",
+         "Effect": "Deny",
+         "Action": [
+             "iam:TagRole",
+             "iam:TagUser",
+             "iam:UntagRole",
+             "iam:UntagUser"
+         ],
+         "Resource": [
+         "*"
+         ],
+         "Condition": {
+             "StringNotEqualsIfExists": {
+                 "aws:PrincipalTag/team": "admin"
+             },
+             "ForAnyValue:StringEquals": {
+                 "aws:TagKeys": [
+                     "network-perimeter-exception",
+                     "resource-perimeter-exception",
+                     "identity-perimeter-exception",
+                     "data-perimeter-include",
+                     "team"
+                 ]
+             }
+         }
+     }
+   ]
+}
