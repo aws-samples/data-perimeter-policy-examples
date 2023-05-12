@@ -41,6 +41,7 @@
                     "aws:SourceVpc": "<my-vpc>",
                     "aws:PrincipalTag/network-perimeter-exception": "true",
                     "aws:PrincipalAccount": [
+                        "<load-balancing-account-id>",
                         "<third-party-account-a>",
                         "<third-party-account-b>"
                     ]
