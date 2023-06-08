@@ -36,21 +36,23 @@ Example data access patterns:
 
 * *AWS CloudFormation wait condition and custom resource.* [AWS CloudFormation](https://aws.amazon.com/cloudformation/) maintains [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) buckets in each AWS Region to monitor responses to a custom resource request or a wait condition. If your CloudFormation template includes [custom resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) deployed in a VPC or [wait conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-waitcondition.html) for resources deployed in your VPC, the Amazon S3 VPC endpoint policy must allow users to send responses to those buckets owned by AWS. CloudFormation uses the `cloudformation.amazonaws.com` service principal to create a presigned Amazon S3 URL, which is used to send requests to Amazon S3. 
 
-### "Sid": "AllowUnauthenticatedRequestsToAWSResources"
+### "Sid": "AllowRequestsToAWSOwnedResources"
 
-This policy statement allows unauthenticated requests to specific AWS owned resources through a VPC endpoint. You can list ARNs of AWS owned resources in the `Resource` element of the statement. You can further restrict access by specifying allowed actions in the `Action` element of the statement. 
+This policy statement allows access to specific AWS owned resources through a VPC endpoint. You can list ARNs of AWS owned resources in the `Resource` element of the statement. You can further restrict access by specifying allowed actions in the `Action` element of the statement. 
 
 Example data access patterns:
 
-* *Amazon Elastic Compute Cloud (Amazon EC2) Linux patching.* [Kernel Live Patching on Amazon Linux 2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/al2-live-patching.html) allows you to apply security vulnerability and critical bug patches to a running Linux kernel. To download packages from Amazon Linux repositories hosted on AWS owned Amazon S3 buckets, [Amazon EC2](https://aws.amazon.com/ec2/) makes an unauthenticated call to Amazon S3. The call originates from your VPC and passes through the Amazon S3 VPC endpoint. 
+* *Amazon Elastic Compute Cloud (Amazon EC2) Linux patching.* [Kernel Live Patching on Amazon Linux 2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/al2-live-patching.html) and [Kernel Live Patching on Amazon Linux 2023](https://docs.aws.amazon.com/linux/al2023/ug/live-patching.html) allows you to apply security vulnerability and critical bug patches to a running Linux kernel. To download packages from Amazon Linux repositories hosted on AWS owned Amazon S3 buckets, [Amazon EC2](https://aws.amazon.com/ec2/) makes an unauthenticated call to Amazon S3. The call originates from your VPC and passes through the Amazon S3 VPC endpoint. 
 
-    * [AWS owned buckets](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/al2-live-patching.html):
+    * [AWS owned buckets for Kernel Live Patching on Amazon Linux 2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/al2-live-patching.html):
 
         * `arn:aws:s3:::packages.<region>.amazonaws.com/*`,
         * `arn:aws:s3:::repo.<region>.amazonaws.com/*`,
         * `arn:aws:s3:::amazonlinux.<region>.amazonaws.com/*`,
         * `arn:aws:s3:::amazonlinux-2-repos-<region>/*`
 
+    * [AWS owned bucket for Kernel Live Patching on Amazon Linux 2023](https://docs.aws.amazon.com/linux/al2023/ug/live-patching.html):
+        * `arn:aws:s3:::al2023-<region>/*`
 
 
 * *Amazon EMR patching and Spark logging.* Amazon EMR uses Amazon Linux repositories that are hosted in AWS owned Amazon S3 buckets to [launch and manage instances within Amazon EMR clusters](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-default-ami.html). Amazon EMR also collects [Spark event logs](https://docs.aws.amazon.com/emr/latest/ManagementGuide/app-history-spark-UI.html) in an AWS owned system bucket. To do so, Amazon EMR makes unauthenticated calls to Amazon S3. These calls originate from your VPC and pass through the Amazon S3 VPC endpoint. 
@@ -95,7 +97,7 @@ Example data access patterns:
 
 
 
-* *Using EC2 Image Builder componenets*. [EC2 Image Builder](https://aws.amazon.com/image-builder/) uses a publicly available Amazon S3 bucket to store and access managed resources, such as components. It also downloads the AWSTOE component management application from a separate Amazon S3 bucket. The call to Amazon S3 is unauthenticated and passes through the Amazon S3 VPC endpoint. 
+* *Using EC2 Image Builder components*. [EC2 Image Builder](https://aws.amazon.com/image-builder/) uses a publicly available Amazon S3 bucket to store and access managed resources, such as components. It also downloads the AWSTOE component management application from a separate Amazon S3 bucket. The call to Amazon S3 is unauthenticated and passes through the Amazon S3 VPC endpoint. 
 
     * [AWS owned buckets](https://docs.aws.amazon.com/imagebuilder/latest/userguide/vpc-interface-endpoints.html):
 
@@ -103,14 +105,37 @@ Example data access patterns:
         * `arn:aws:s3:::ec2imagebuilder-managed-resources-<region>-prod/components/*`
 
 
+* *Creation of containers with Amazon ECR images.* [Amazon Elastic Container Registry (Amazon ECR)](https://aws.amazon.com/ecr/) uses AWS owned Amazon S3 buckets to store Amazon ECR private image layers. When your containers download images from Amazon ECR, they must access Amazon ECR to get the image manifest and then Amazon S3 to download the actual image layers. A call to Amazon S3 is signed using a presigned URL, which is created by an Amazon ECR account and not the service principal. The call originates from your VPC and passes through the Amazon S3 VPC endpoint.  
 
-### "Sid": "AllowRequestsToECRResources"
+    * [AWS owned bucket](https://docs.aws.amazon.com/AmazonECR/latest/userguide/vpc-endpoints.html#ecr-minimum-s3-perms):
 
-This policy statement is required for supporting the creation of containers with Amazon ECR images. [Amazon Elastic Container Registry (Amazon ECR)](https://aws.amazon.com/ecr/) uses AWS owned Amazon S3 buckets to store Amazon ECR private image layers. When your containers download images from Amazon ECR, they must access Amazon ECR to get the image manifest and then Amazon S3 to download the actual image layers. A call to Amazon S3 is signed using a presigned URL, which is created by an Amazon ECR account and not the service principal. The call originates from your VPC and passes through the Amazon S3 VPC endpoint. 
+        * `arn:aws:s3:::prod-<region>-starport-layer-bucket/*`
 
-[AWS owned bucket](https://docs.aws.amazon.com/AmazonECR/latest/userguide/vpc-endpoints.html#ecr-minimum-s3-perms):
+* *AWS Application Migration Service source server replication.* [AWS Replication Agent](https://docs.aws.amazon.com/mgn/latest/ug/agent-installation.html) allows you to add source servers to the AWS Application Migration service to monitor their migration lifecycle and data replication state. To download the agent installer and components hosted on AWS owned Amazon S3 buckets, Application Migration Service uses presigned URLs create by an Application Migration Service account. These calls originate from your VPC and pass through the Amazon S3 VPC endpoint.
 
-   * `arn:aws:s3:::prod-<region>-starport-layer-bucket/*`
+    * [AWS owned buckets]( https://docs.aws.amazon.com/mgn/latest/ug/Network-Requirements.html):
+
+        * `arn:aws:s3:::aws-mgn-clients-<region>/*`,
+        * `arn:aws:s3:::aws-mgn-clients-hashes-<region>/*`,
+        * `arn:aws:s3:::aws-mgn-clients-<region>/*`,
+        * `arn:aws:s3:::aws-mgn-clients-<region>/*`,
+        * `arn:aws:s3:::aws-mgn-clients-hashes-<region>/*`,
+        * `arn:aws:s3:::aws-mgn-internal-<region>/*`,
+        * `arn:aws:s3:::aws-mgn-internal-hashes-<region>/*`,
+        * `arn:aws:s3:::aws-application-migration-service-<region>/*`,
+        * `arn:aws:s3:::aws-application-migration-service-hashes-<region>/*`,
+        * `arn:aws:s3:::amazon-ssm-<region>/*`
+
+* *AWS Elastic Disaster Recovery operations.* Elastic Disaster Recovery uses AWS owned Amazon S3 buckets to store and access managed resources used to perform operations. The [AWS Replication Agent installer](https://docs.aws.amazon.com/drs/latest/userguide/agent-installation.html) uses a presigned URL, which is signed by the service account, to make these requests to various service-owned Amazon S3 buckets. These calls originate from your VPC and pass through the Amazon S3 VPC endpoint.
+    * [AWS owned buckets](https://docs.aws.amazon.com/drs/latest/userguide/Network-Requirements.html):
+
+        * `arn:aws:s3:::aws-drs-clients-<region>/*`,
+        * `arn:aws:s3:::aws-drs-clients-hashes-<region>/*`,
+        * `arn:aws:s3:::aws-drs-internal-<region>/*`,
+        * `arn:aws:s3:::aws-drs-internal-hashes-<region>/*`,
+        * `arn:aws:s3:::aws-elastic-disaster-recovery-<region>/*`,
+        * `arn:aws:s3:::aws-elastic-disaster-recovery-hashes-<region>/*`
+
 
 
 ### "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources"
@@ -136,15 +161,20 @@ Example data access patterns:
         * `arn:aws:imagebuilder:<region>:aws:component/*`
 
 * *Using Elastic Kubernetes Service add-ons.* [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) uses an Amazon EKS managed Amazon Elastic Container Registry (Amazon ECR) private repository to host Docker container images for [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html). Each Region has a dedicated private repository. If you use Amazon EKS managed node groups or want to have your Amazon EKS nodes pull the container images from the Amazon EKS private repository, your Amazon ECR VPC endpoint (com.amazonaws.region.ecr.api) policy must allow your principals to access the repository for the Region in which you are operating. 
-    * [AWS owned repositories ](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html):
+    * [AWS owned repositories for EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html):
         * In the policy example, replace `<ecr-account-id>` with the 12-digit account ID of the AWS account that hosts the private registry. These are the first 12 digits of the respective registry from the table on the [add-ons images documentation page](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html).
+
+
+  * *Using GuardDuty EKS Runtime Monitoring* [Amazon GuardDuty](https://aws.amazon.com/guardduty/) uses an Amazon EKS managed Amazon Elastic Container Registry (Amazon ECR) private repository to host Docker container images for [GuardDuty EKS Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-eks-runtime-monitoring.html). Each Region has a dedicated private repository. If you use Amazon EKS managed node groups or want to have your Amazon EKS nodes pull the container images from the Amazon EKS private repository, your Amazon ECR VPC endpoint (com.amazonaws.region.ecr.api) policy must allow your principals to access the repository for the Region in which you are operating.      
+    * [AWS owned repositories for GuardDuty EKS Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/eks-runtime-agent-ecr-image-uri.html):
+        * In the policy example, replace `<ecr-account-id>` with the 12-digit account ID of the AWS account that hosts the private registry. These are the first 12 digits of the respective registry from the table on the [GuardDuty EKS Runtime Monitoring documentation page](https://docs.aws.amazon.com/guardduty/latest/ug/eks-runtime-agent-ecr-image-uri.html).
 
 
 
 
 ### "Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"
 
-This policy statement allows trusted identities outside of your Organizations organization to send requests to trusted resources owned by an account that does not belong to your organization. List ARNs of resources in the `Resource` element of the statement. Further restrict access by specifying allowed actions in the `Action` element of the statement. An example valid use case is a third party integration that requires you to allow your applications to upload or download objects from a third party S3 bucket by using third party generated pre-signed Amazon S3 URLs. In this case, the principal that generates the pre-signed URL will belong to the third party AWS account. 
+This policy statement allows trusted identities outside of your Organizations organization to send requests to trusted resources owned by an account that does not belong to your organization. List ARNs of resources in the `Resource` element of the statement. Further restrict access by specifying allowed actions in the `Action` element of the statement. An example valid use case is a third party integration that requires you to allow your applications to upload or download objects from a third party S3 bucket by using third party generated presigned Amazon S3 URLs. In this case, the principal that generates the presigned URL will belong to the third party AWS account. 
 
 ### "Sid": "AllowRequestsByOrgsIdentitiesToThirdPartyResources"
 
