@@ -32,7 +32,7 @@
             }
         },
         {
-            "Sid": "AllowUnauthenticatedRequestsToAWSResources",
+            "Sid": "AllowRequestsToAWSOwnedResources",
             "Effect": "Allow",
             "Principal": {
                 "AWS": "*"
@@ -46,6 +46,7 @@
                 "arn:aws:s3:::repo.<region>.amazonaws.com/*",
                 "arn:aws:s3:::amazonlinux.<region>.amazonaws.com/*",
                 "arn:aws:s3:::amazonlinux-2-repos-<region>/*",
+                "arn:aws:s3:::al2023-<region>/*",
                 "arn:aws:s3:::repo.<region>.emr.amazonaws.com/*",
                 "arn:aws:s3:::prod.<region>.appinfo.src/*",
                 "arn:aws:s3:::aws-ssm-<region>/*",
@@ -61,20 +62,24 @@
                 "arn:aws:s3:::amazoncloudwatch-agent/*",
                 "arn:aws:s3:::aws-codedeploy-<region>/*",
                 "arn:aws:s3:::ec2imagebuilder-toe-<region>-prod/*",
-                "arn:aws:s3:::ec2imagebuilder-managed-resources-<region>-prod/components/*"
-            ]
-        },
-        {
-            "Sid": "AllowRequestsToECRResources",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Action": [
-                "s3:GetObject"
-            ],            
-            "Resource": [
-                "arn:aws:s3:::prod-<region>-starport-layer-bucket/*"
+                "arn:aws:s3:::ec2imagebuilder-managed-resources-<region>-prod/components/*",
+                "arn:aws:s3:::prod-<region>-starport-layer-bucket/*",
+                "arn:aws:s3:::aws-mgn-clients-<region>/*",
+                "arn:aws:s3:::aws-mgn-clients-hashes-<region>/*",
+                "arn:aws:s3:::aws-mgn-clients-<region>/*",
+                "arn:aws:s3:::aws-mgn-clients-<region>/*",
+                "arn:aws:s3:::aws-mgn-clients-hashes-<region>/*",
+                "arn:aws:s3:::aws-mgn-internal-<region>/*",
+                "arn:aws:s3:::aws-mgn-internal-hashes-<region>/*",
+                "arn:aws:s3:::aws-application-migration-service-<region>/*",
+                "arn:aws:s3:::aws-application-migration-service-hashes-<region>/*",
+                "arn:aws:s3:::amazon-ssm-<region>/*",
+                "arn:aws:s3:::aws-drs-clients-<region>/*",
+                "arn:aws:s3:::aws-drs-clients-hashes-<region>/*",
+                "arn:aws:s3:::aws-drs-internal-<region>/*",
+                "arn:aws:s3:::aws-drs-internal-hashes-<region>/*",
+                "arn:aws:s3:::aws-elastic-disaster-recovery-<region>/*",
+                "arn:aws:s3:::aws-elastic-disaster-recovery-hashes-<region>/*"
             ]
         },
         {
