@@ -33,14 +33,14 @@
         {
             "Sid": "AllowAPIsForAWSResources",
             "Effect": "Allow",
-			"Principal": {
-				"AWS": "*"
-			},
-			"Action": [
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
                 "ec2:GetManagedPrefixList*"
             ],
-			"Resource": "*"
-		},
+            "Resource": "*"
+        },
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
             "Effect": "Allow",
