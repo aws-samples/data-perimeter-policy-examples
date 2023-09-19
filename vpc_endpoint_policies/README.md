@@ -117,9 +117,6 @@ Example data access patterns:
 
         * `arn:aws:s3:::aws-mgn-clients-<region>/*`,
         * `arn:aws:s3:::aws-mgn-clients-hashes-<region>/*`,
-        * `arn:aws:s3:::aws-mgn-clients-<region>/*`,
-        * `arn:aws:s3:::aws-mgn-clients-<region>/*`,
-        * `arn:aws:s3:::aws-mgn-clients-hashes-<region>/*`,
         * `arn:aws:s3:::aws-mgn-internal-<region>/*`,
         * `arn:aws:s3:::aws-mgn-internal-hashes-<region>/*`,
         * `arn:aws:s3:::aws-application-migration-service-<region>/*`,
