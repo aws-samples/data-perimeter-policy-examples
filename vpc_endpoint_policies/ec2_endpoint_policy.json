@@ -39,7 +39,12 @@
             "Action": [
                 "ec2:GetManagedPrefixList*"
             ],
-            "Resource": "*"
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>"
+                }
+            }
         },
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
