@@ -47,6 +47,26 @@
             }
         },
         {
+            "Sid": "AllowExternalAMIForMarketplace",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
+                "ec2:RunInstances"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:ResourceAccount": "<external-account-id>"
+                },
+                "Null": {
+                    "ec2:ImageId": "false"
+                }
+            }
+        },
+        {
             "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
             "Effect": "Allow",
             "Principal": {
