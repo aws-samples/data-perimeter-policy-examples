@@ -167,6 +167,10 @@ Example data access patterns:
         * In the policy example, replace `<ecr-account-id>` with the 12-digit account ID of the AWS account that hosts the private registry. These are the first 12 digits of the respective registry from the table on the [GuardDuty EKS Runtime Monitoring documentation page](https://docs.aws.amazon.com/guardduty/latest/ug/eks-runtime-agent-ecr-image-uri.html).
 
 
+  * *Using Amazon Sagemaker Pre-built Docker images* [Amazon Sagemaker](https://aws.amazon.com/sagemaker/) uses an Amazon Sagemaker managed Amazon Elastic Container Registry (Amazon ECR) private repository to host some pre-built Docker container images for use with Amazon Sagemaker. Each Region has a dedicated private repository. If you wish use these pre-built Docker container images directly from Sagemaker's managed repository, your Amazon ECR VPC endpoint (com.amazonaws.region.ecr.api) policy must allow your principals to access the repository for the Region in which you are operating.      
+    * [AWS owned repositories for Amazon Sagemaker pre-built Docker container images](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html):
+        * In the policy example, replace `<ecr-account-id>` with the 12-digit account ID of the AWS account that hosts the private registry. These are the first 12 digits of the respective registry from the table on the [Amazon Sagemaker Documentation](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html). Note the 12-digit account ID may be different for each AWS region, and there is a seperate page for each AWS region.
+
 
 
 ### "Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"
