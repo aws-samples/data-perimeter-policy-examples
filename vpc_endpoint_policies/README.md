@@ -30,7 +30,7 @@ This policy statement allows identities from your AWS Organizations organization
 
 ### "Sid": "AllowRequestsByAWSServicePrincipals"
 
-This policy statement allows [AWS service principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) to send requests to AWS owned resources on your behalf through a VPC endpoint. The `aws:PrincipalIsAWSService` IAM condition key is used to denote this in the policy. Use the `aws:SourceAccount` condition key to further restrict AWS service actions so that they can only interact with your resources when performing operations on behalf of accounts that you own.
+This policy statement allows [AWS service principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) to send requests to AWS owned resources on your behalf through a VPC endpoint. The `aws:PrincipalIsAWSService` IAM condition key is used to denote this in the policy. Use the `aws:SourceAccount` condition key to further restrict AWS service actions so that they can only interact with your resources when performing operations on behalf of accounts that you own. Whilst it is rare for AWS Services to make calls through customers VPCs, some services that operate within a customers VPC may access resources using their service principal. This conditions allows those cases.
 
 Example data access patterns:
 
