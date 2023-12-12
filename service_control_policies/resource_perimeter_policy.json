@@ -18,6 +18,7 @@
             "ssm:Get*",
             "ecr:GetDownloadUrlForLayer",
             "ecr:BatchGetImage",
+            "lambda:GetLayerVersion",
             "<action>"
 
          ],
@@ -62,7 +63,22 @@
          "Resource": "*",
          "Condition": {
              "StringNotEqualsIfExists": {
-                 "aws:ResourceAccount": "ecr-account-id",
+                 "aws:ResourceAccount": "<ecr-account-id>",
+                 "aws:ResourceOrgId": "<my-org-id>",
+                 "aws:PrincipalTag/resource-perimeter-exception": "true"
+             }
+         }
+      },
+      {
+         "Sid": "EnforceResourcePerimeterAWSResourcesLambdaLayer",
+         "Effect": "Deny",
+         "Action": [
+            "lambda:GetLayerVersion"
+         ],
+         "Resource": "*",
+         "Condition": {
+             "StringNotEqualsIfExists": {
+                 "aws:ResourceAccount": "<lambdalayer-account-id>",
                  "aws:ResourceOrgId": "<my-org-id>",
                  "aws:PrincipalTag/resource-perimeter-exception": "true"
              }
