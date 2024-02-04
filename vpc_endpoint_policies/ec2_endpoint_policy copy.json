@@ -7,7 +7,7 @@
             "Principal": {
                 "AWS": "*"
             },
-            "Action": "*",
+            "Action": "*",          
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
@@ -31,24 +31,21 @@
             }
         },
         {
-            "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources",
+            "Sid": "AllowEC2Creation",
+            "Effect": "Allow",
             "Principal": {
                 "AWS": "*"
             },
-            "Action": [
-                "ssm:Describe*",
-                "ssm:List*",
-                "ssm:Get*",
-                "ssm:Start*"
-            ],
-            "Effect": "Allow",
-            "Resource": [
-                "arn:aws:ssm:<region>::parameter/aws/*",
-                "arn:aws:ssm:<region>::document/*"
-            ],
+            "Action": "ec2:RunInstances",
+            "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "aws:PrincipalOrgID": "<my-org-id>"
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "ec2:Owner": [
+                        "amazon",
+                        "aws-marketplace",
+                        "<AMI-building-account-id>"
+                    ]
                 }
             }
         },

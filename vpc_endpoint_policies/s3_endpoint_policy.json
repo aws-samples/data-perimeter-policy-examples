@@ -46,6 +46,7 @@
                 "arn:aws:s3:::repo.<region>.amazonaws.com/*",
                 "arn:aws:s3:::amazonlinux.<region>.amazonaws.com/*",
                 "arn:aws:s3:::amazonlinux-2-repos-<region>/*",
+                "arn:aws:s3:::al2023-repos-<region>-de612dc2/*",
                 "arn:aws:s3:::al2023-<region>/*",
                 "arn:aws:s3:::repo.<region>.emr.amazonaws.com/*",
                 "arn:aws:s3:::prod.<region>.appinfo.src/*",
