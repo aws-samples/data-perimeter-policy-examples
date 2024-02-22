@@ -43,7 +43,6 @@
                     "aws:PrincipalOrgID": "<my-org-id>",
                     "ec2:Owner": [
                         "amazon",
-                        "aws-marketplace",
                         "<AMI-building-account-id>"
                     ]
                 }

@@ -53,6 +53,7 @@ Example data access patterns:
 
     * [AWS owned bucket for Kernel Live Patching on Amazon Linux 2023](https://docs.aws.amazon.com/linux/al2023/ug/live-patching.html):
         * `arn:aws:s3:::al2023-<region>/*`
+        * `arn:aws:s3:::al2023-repos-<region>-de612dc2/*`
 
 
 * *Amazon EMR patching and Spark logging.* Amazon EMR uses Amazon Linux repositories that are hosted in AWS owned Amazon S3 buckets to [launch and manage instances within Amazon EMR clusters](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-default-ami.html). Amazon EMR also collects [Spark event logs](https://docs.aws.amazon.com/emr/latest/ManagementGuide/app-history-spark-UI.html) in an AWS owned system bucket. To do so, Amazon EMR makes unauthenticated calls to Amazon S3. These calls originate from your VPC and pass through the Amazon S3 VPC endpoint. 
