@@ -42,8 +42,7 @@
                 "StringEquals": {
                     "aws:PrincipalOrgID": "<my-org-id>",
                     "ec2:Owner": [
-                        "amazon",
-                        "<AMI-building-account-id>"
+                        "amazon"
                     ]
                 }
             }
