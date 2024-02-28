@@ -38,8 +38,7 @@
             "Action": [
                 "ssm:Describe*",
                 "ssm:List*",
-                "ssm:Get*",
-                "ssm:Start*"
+                "ssm:Get*"
             ],
             "Effect": "Allow",
             "Resource": [
