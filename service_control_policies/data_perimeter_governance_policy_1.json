@@ -35,7 +35,13 @@
             "logs:PutSubscriptionFilter",
             "lakeformation:GrantPermissions",
             "lakeformation:BatchGrantPermissions",
-            "appstream:UpdateImagePermissions"
+            "appstream:UpdateImagePermissions",
+            "macie2:CreateInvitations",
+            "securityhub:CreateMembers",
+            "securityhub:InviteMembers",
+            "guardduty:CreateMembers",
+            "guardduty:InviteMembers",
+            "auditmanager:StartAssessmentFrameworkShare"
          ],
          "Resource": "*",
          "Condition": {
@@ -67,7 +73,11 @@
             "route53:AssociateVPCWithHostedZone",
             "route53:DisassociateVPCFromHostedZone",
             "route53:ListHostedZonesByVPC",
-            "route53:DeleteVPCAssociationAuthorization"
+            "route53:DeleteVPCAssociationAuthorization",
+            "macie2:AcceptInvitation",
+            "securityhub:AcceptAdministratorInvitation",
+            "guardduty:AcceptAdministratorInvitation",
+            "auditmanager:UpdateAssessmentFrameworkShare"
          ],
          "Resource": "*",
          "Condition": {
@@ -95,12 +105,12 @@
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/identity-perimeter-exception": "true"
             }
-         }    
+         }
       },
       {
          "Sid": "PreventS3PublicAccessBlockConfigurations",
          "Effect": "Deny",
-         "Action": "s3:PutAccountPublicAccessBlock" ,
+         "Action": "s3:PutAccountPublicAccessBlock",
          "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
@@ -112,10 +122,10 @@
          "Sid": "ProtectDataPerimeterTags",
          "Effect": "Deny",
          "Action": [
-             "iam:TagRole",
-             "iam:TagUser",
-             "iam:UntagRole",
-             "iam:UntagUser"
+            "iam:TagRole",
+            "iam:TagUser",
+            "iam:UntagRole",
+            "iam:UntagUser"
          ],
          "Resource": [
             "*"
