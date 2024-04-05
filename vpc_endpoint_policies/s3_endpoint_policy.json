@@ -77,7 +77,9 @@
                 "arn:aws:s3:::aws-drs-internal-hashes-<region>/*",
                 "arn:aws:s3:::aws-elastic-disaster-recovery-<region>/*",
                 "arn:aws:s3:::aws-elastic-disaster-recovery-hashes-<region>/*",
-                "arn:aws:s3:::cloudformation-waitcondition-<region>/*"
+                "arn:aws:s3:::cloudformation-waitcondition-<region>/*",
+                "arn:aws:s3:::cloudformation-custom-resource-response-<region>/*",
+                "arn:aws:s3:::aws-ec2-enclave-certificate-<region>-prod/*"
             ]
         },
         {
