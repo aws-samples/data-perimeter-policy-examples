@@ -134,7 +134,18 @@ Example data access patterns:
         * `arn:aws:s3:::aws-elastic-disaster-recovery-<region>/*`,
         * `arn:aws:s3:::aws-elastic-disaster-recovery-hashes-<region>/*`
 
+* *AWS CloudFormation wait conditions.* CloudFormation uses AWS owned Amazon S3 buckets to to monitor responses to a [custom resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) request or a [wait condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-waitcondition.html). If a template includes custom resources or wait conditions in a VPC, the VPC endpoint policy must allow users to send responses to the following buckets:
 
+    * [AWS owned buckets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-vpce-bucketnames.html#cfn-setting-up-vpc-considerations)
+
+        * `arn:aws:s3:::cloudformation-custom-resource-response-<region>/*`, (_Note_: `<region>` does not contain dashes, for example, `uswest2`)
+        * `arn:aws:s3:::cloudformation-waitcondition-<region>/*`,
+
+* *ACM for AWS Nitro Enclaves.* ACM for AWS Nitro Enclaves uses an AWS owned Amazon S3 bucket to distribute a certificate to an EC2-hosted web server.
+
+    * [AWS owned buckets](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html#role-cert)
+
+        * `arn:aws:s3:::aws-ec2-enclave-certificate-<region>/*`
 
 ### "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources"
 
