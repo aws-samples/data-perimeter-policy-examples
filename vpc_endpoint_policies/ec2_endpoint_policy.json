@@ -31,7 +31,7 @@
             }
         },
         {
-            "Sid": "AllowEC2Creation",
+            "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources",
             "Effect": "Allow",
             "Principal": {
                 "AWS": "*"
@@ -41,9 +41,7 @@
             "Condition": {
                 "StringEquals": {
                     "aws:PrincipalOrgID": "<my-org-id>",
-                    "ec2:Owner": [
-                        "amazon"
-                    ]
+                    "ec2:Owner": "amazon"
                 }
             }
         },

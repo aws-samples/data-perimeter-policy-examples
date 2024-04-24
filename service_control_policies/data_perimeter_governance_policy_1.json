@@ -139,6 +139,7 @@
                   "network-perimeter-exception",
                   "resource-perimeter-exception",
                   "identity-perimeter-exception",
+                  "<service>-resource-perimeter-exception",
                   "data-perimeter-include",
                   "team"
                ]

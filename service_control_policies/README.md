@@ -37,9 +37,11 @@ This policy statement is included in the [resource_perimeter_policy](resource_pe
 
 * Resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
 * Resources owned by AWS services. To permit access to AWS owned resources through the resource perimeter, two methods are used:
-    * Relevant service actions are listed in the `NotAction` element of the policy. Actions on resources that allow cross-account access are further restricted in other statements of the policy (`"Sid":"EnforceResourcePerimeterAWSResourcesS3"`, `"EnforceResourcePerimeterAWSResourcesECR"`,, `"EnforceResourcePerimeterAWSResourcesLambdaLayer"`). 
-        * `ssm:Describe*`, `ssm:List*`, `ssm:Get*` - Required for [AWS Systems Manager](https://aws.amazon.com/systems-manager/) global parameters.* *Some AWS services publish information about common artifacts as Systems Manager public parameters. For example, Amazon EC2 publishes information about Amazon Machine Images (AMIs) as public parameters. AWS automation or custom applications may need to access Systems Manager public parameters to support their operations. 
+    * Relevant service actions are listed in the `NotAction` element of the policy. Actions on resources that allow cross-account access are further restricted in other statements of the policy (`"Sid":"EnforceResourcePerimeterAWSResourcesS3"`, `"Sid":"EnforceResourcePerimeterAWSResourcesSSM"`, `"Sid":"EnforceResourcePerimeterAWSResourcesEC2ImageBuilder"`, `"EnforceResourcePerimeterAWSResourcesECR"`,, `"EnforceResourcePerimeterAWSResourcesLambdaLayer"`).  
         * `iam:GetPolicy`, `iam:GetPolicyVersion`, `iam:ListEntitiesForPolicy`, `iam:ListPolicyVersions`, `iam:GenerateServiceLastAccessedDetails` - Required for AWS managed policies. AWS managed policies are owned by an AWS service account. 
+        * `s3:GetObject`, `s3:PutObject`, `s3:PutObjectAcl` - Required for importing and storing assets in Amazon S3 buckets, like Service Catalog CloudFormation templates, [AWS Data Exchange](https://aws.amazon.com/data-exchange/).
+        * `ssm:Describe*`, `ssm:List*`, `ssm:Get*`, `ssm:SendCommand`, `ssm:CreateAssociation`, `ssm:StartSession` - Required for [AWS Systems Manager](https://aws.amazon.com/systems-manager/) global parameters and documents.Some AWS services publish information about common artifacts as Systems Manager public parameters. For example, Amazon EC2 publishes information about Amazon Machine Images (AMIs) as public parameters. AWS automation or custom applications may need to access Systems Manager public documents also to support their operations.
+        * `imagebuilder:GetComponent` - Required for [EC2 Image Builder](https://aws.amazon.com/image-builder/) Amazon managed [AWSTOE components](https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html).
         * `ecr:GetDownloadUrlForLayer`, `ecr:BatchGetImage` - Required for [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) add-ons, [GuardDuty EKS Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-eks-runtime-monitoring.html), and [Amazon SageMaker pre-built Docker images](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html).
         * `lambda:GetLayerVersion` - Required for CloudWatch Lambda Insights extension and [AWS AppConfig](https://aws.amazon.com/systems-manager/features/appconfig/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc&blog-posts-cards.sort-by=item.additionalFields.createdDate&blog-posts-cards.sort-order=desc) Agent Lambda extension.
     * `ec2:Owner` condition key:
@@ -57,6 +59,22 @@ Example data access patterns:
 
 * *AWS Data Exchange publishing and subscribing.* When importing assets from Amazon S3 to [AWS Data Exchange](https://aws.amazon.com/data-exchange/) ([publishing](https://docs.aws.amazon.com/data-exchange/latest/userguide/providing-data-sets.html)), AWS Data Exchange writes to AWS Data Exchange Amazon S3 buckets. Similarly, when exporting assets from AWS Data Exchange to Amazon S3 ([subscribing](https://docs.aws.amazon.com/data-exchange/latest/userguide/subscribe-to-data-sets.html)), AWS Data Exchange reads from AWS Data Exchange Amazon S3 buckets. [AWS Data Exchange uses the credentials of the user performing import and export operations to sign calls to Amazon S3](https://docs.aws.amazon.com/data-exchange/latest/userguide/access-control.html#:~:text=Amazon%20S3%20permissions). 
 * *AWS Service Catalog operations.* When you create [AWS Service Catalog](https://aws.amazon.com/servicecatalog) products, Service Catalog stores the CloudFormation template in an Amazon S3 bucket owned by the service account. When you provision the product, Service Catalog downloads the template from the bucket. Calls to Amazon S3 are signed by your credentials. 
+
+### "Sid": "EnforceResourcePerimeterAWSResourcesSSM"
+
+This policy statement is included in the [resource_perimeter_policy](resource_perimeter_policy.json) and limits access to trusted [AWS Systems Manager](https://aws.amazon.com/systems-manager/) resources:
+ 
+* AWS Systems Manager resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
+* AWS Systems Manager public parameters and pre-configured documents owned and published by AWS services that might be accessed by your identities and applications using your IAM credentials. To account for this access pattern, `ssm:Get*`, `ssm:SendCommand`, `ssm:CreateAssociation`, `ssm:StartSession` are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement.`"Sid":"EnforceResourcePerimeterAWSResourcesSSM"` then uses the `aws:PrincipalTag` condition key with the`ssm-resource-perimeter-exception` tag set to `true` to restrict access to these actions to IAM principals tagged for access to AWS Systems Manager parameters and documents that do not belong to your organization.
+
+
+### "Sid": "EnforceResourcePerimeterAWSResourcesEC2ImageBuilder"
+
+This policy statement is included in the [resource_perimeter_policy](resource_perimeter_policy.json) and limits access to trusted [EC2 Image Builder](https://aws.amazon.com/image-builder/) resources:
+ 
+* EC2 Image Builder resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
+* Amazon managed [AWSTOE components](https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html) that might be accessed by your identities and applications using your IAM credentials. To account for this access pattern, the `imagebuilder:GetComponent` is first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. `"Sid":"EnforceResourcePerimeterAWSResourcesImageBuilder"` then uses the `aws:PrincipalTag` condition key with `imagebuilder-resource-perimeter-exception` tag set to `true` to restrict access to these actions to IAM principals tagged for access to EC2 Image Builder resources that do not belong to your organization.
+
 
 ### "Sid":"EnforceResourcePerimeterAWSResourcesECR"
 

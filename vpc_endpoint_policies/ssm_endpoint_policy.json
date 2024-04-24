@@ -38,7 +38,10 @@
             "Action": [
                 "ssm:Describe*",
                 "ssm:List*",
-                "ssm:Get*"
+                "ssm:Get*",
+                "ssm:SendCommand",
+                "ssm:CreateAssociation",
+                "ssm:StartSession"
             ],
             "Effect": "Allow",
             "Resource": [

@@ -16,6 +16,10 @@
             "ssm:Describe*",
             "ssm:List*",
             "ssm:Get*",
+            "ssm:SendCommand",
+            "ssm:CreateAssociation",
+            "ssm:StartSession",
+            "imagebuilder:GetComponent",
             "ecr:GetDownloadUrlForLayer",
             "ecr:BatchGetImage",
             "lambda:GetLayerVersion",
@@ -54,6 +58,40 @@
          }
       },
       {
+         "Sid": "EnforceResourcePerimeterAWSResourcesSSM",
+         "Effect": "Deny",
+         "Action": [
+            "ssm:SendCommand",
+            "ssm:CreateAssociation",
+            "ssm:StartSession",
+            "ssm:Get*"
+         ],
+         "Resource": [
+            "arn:aws:ssm:*:*:document/*",
+            "arn:aws:ssm:*:*:parameter/*"
+        ],
+         "Condition": {
+             "StringNotEqualsIfExists": {
+                 "aws:ResourceOrgID": "<my-org-id>",
+                 "aws:PrincipalTag/ssm-resource-perimeter-exception": "true",
+                 "aws:PrincipalTag/resource-perimeter-exception": "true"
+             }
+         }
+      },
+      {
+         "Sid": "EnforceResourcePerimeterAWSResourcesEC2ImageBuilder",
+         "Effect": "Deny",
+         "Action": "imagebuilder:GetComponent",
+         "Resource": "*",
+         "Condition": {
+             "StringNotEqualsIfExists": {
+                 "aws:ResourceOrgID": "<my-org-id>",
+                 "aws:PrincipalTag/imagebuilder-resource-perimeter-exception": "true",
+                 "aws:PrincipalTag/resource-perimeter-exception": "true"
+             }
+         }
+      },
+      {
          "Sid": "EnforceResourcePerimeterAWSResourcesECR",
          "Effect": "Deny",
          "Action": [
@@ -64,7 +102,7 @@
          "Condition": {
              "StringNotEqualsIfExists": {
                  "aws:ResourceAccount": "<ecr-account-id>",
-                 "aws:ResourceOrgId": "<my-org-id>",
+                 "aws:ResourceOrgID": "<my-org-id>",
                  "aws:PrincipalTag/resource-perimeter-exception": "true"
              }
          }
@@ -79,7 +117,7 @@
          "Condition": {
              "StringNotEqualsIfExists": {
                  "aws:ResourceAccount": "<lambdalayer-account-id>",
-                 "aws:ResourceOrgId": "<my-org-id>",
+                 "aws:ResourceOrgID": "<my-org-id>",
                  "aws:PrincipalTag/resource-perimeter-exception": "true"
              }
          }
