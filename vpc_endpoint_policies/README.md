@@ -34,7 +34,11 @@ This policy statement allows [AWS service principals](https://docs.aws.amazon.co
 
 Example data access patterns:
 
-* *AWS CloudFormation wait condition and custom resource.* [AWS CloudFormation](https://aws.amazon.com/cloudformation/) maintains [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) buckets in each AWS Region to monitor responses to a custom resource request or a wait condition. If your CloudFormation template includes [custom resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) deployed in a VPC or [wait conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-waitcondition.html) for resources deployed in your VPC, the Amazon S3 VPC endpoint policy must allow users to send responses to those buckets owned by AWS. CloudFormation uses the `cloudformation.amazonaws.com` service principal to create a presigned Amazon S3 URL, which is used to send requests to Amazon S3. 
+* *AWS CloudFormation wait condition and custom resource.* [AWS CloudFormation](https://aws.amazon.com/cloudformation/) maintains [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) buckets in each AWS Region to monitor responses to a custom resource request or a wait condition. If your CloudFormation template includes [custom resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) deployed in a VPC or [wait conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-waitcondition.html) for resources deployed in your VPC, the Amazon S3 VPC endpoint policy must allow users to send responses to those buckets owned by AWS. CloudFormation uses the `cloudformation.amazonaws.com` service principal to create a presigned Amazon S3 URL, which is used to send requests to Amazon S3.
+
+#### Access to Amazon Q Developer Pro Buckets
+
+Amazon Q developer uploads artifacts to [AWS owned S3 buckets](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/security_iam_manage-access-with-policies.html#data-perimeters) to deliver it's functionality. This access is done using a pre-signed URL from an AWS service principal, and access to these S3 buckets will be allowed by the "AllowRequestsByAWSServicePrincipals" policy statement in a VPC endpoint.
 
 ### "Sid": "AllowRequestsToAWSOwnedResources"
 
