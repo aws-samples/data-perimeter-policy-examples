@@ -31,14 +31,14 @@ A data perimeter is a set of preventive guardrails to help ensure that only your
 
 You implement data perimeters primarily by using three different policy types: [service control policies (SCPs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html), [resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html), and [VPC endpoint policies](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-access.html#vpc-endpoint-policies). This repo provides examples of these policy types. The following table illustrates the relationship between data perimeter objectives and policy types used to achieve them.
 
-|Data perimeter	|Control objective	| Policy type | Primary IAM capability |
-|--- |---	|---	|---	|
-|Identity perimeter  |Only trusted identities can access my resources |Resource-based policy |aws:PrincipalOrgID, aws:PrincipalIsAWSService|
-|           | Only trusted identities are allowed from my network |VPC endpoint policy |aws:PrincipalOrgID, aws:PrincipalIsAWSService|
-|Resource perimeter |My identities can access only trusted resources |SCP |aws:ResourceOrgID|
-|         |Only trusted resources can be accessed from my network |VPC endpoint policy |aws:ResourceOrgID|
-|Network perimeter |My identities can access resources only from expected networks |SCP |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService|
-|        |My resources can only be accessed from expected networks |Resource-based policy |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService, aws:PrincipalIsAWSService|
+|Data perimeter	| Control objective| Policy type | Primary IAM capability | Policy examples |
+|--- |---	|---	|---	|---	|
+|Identity perimeter  |Only trusted identities can access my resources |Resource-based policy |aws:PrincipalOrgID, aws:PrincipalIsAWSService|[resource_based_policies](resource_based_policies)|
+|           | Only trusted identities are allowed from my network |VPC endpoint policy |aws:PrincipalOrgID, aws:PrincipalIsAWSService|[vpc_endpoint_policies](vpc_endpoint_policies)|
+|Resource perimeter |My identities can access only trusted resources |SCP |aws:ResourceOrgID|[service_control_policies](service_control_policies)|
+|         |Only trusted resources can be accessed from my network |VPC endpoint policy |aws:ResourceOrgID|[vpc_endpoint_policies](vpc_endpoint_policies)|
+|Network perimeter |My identities can access resources only from expected networks |SCP |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService|[service_control_policies](service_control_policies)|
+|        |My resources can only be accessed from expected networks |Resource-based policy |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService, aws:PrincipalIsAWSService|[resource_based_policies](resource_based_policies)|
 
 
 Policy examples in this repository include various data access patterns you might need to account for when implementing a data perimeter on AWS. The README.md in the folder for each policy type contains information about the included access patterns.
@@ -53,7 +53,7 @@ Policy examples in this repository use the `aws:PrincipalTag/tag-key` global con
 4. Tag IAM principals in your accounts that should be excluded from the resource perimeter with the `resource-perimeter-exception` tag key and the value set to `true`. This tag key is designed for human users and applications that should be able to access resources that do not belong to your organization.
 5. Tag IAM principals in your accounts that should be excluded from the resource perimeter with the `<service>-resource-perimeter-exception` tag key and the value set to `true`. This tag key is designed for human users and applications that should be able to access service specific resources that do not belong to your organization.
 
-Because the preceding tags are used for authorization, the [data_perimeter_governance_policy](service_control_policies/data_perimeter_governance_policy.json) SCP example includes a statement to protect these tags from unauthorized changes. In the `data_perimeter_governance_policy` example, only principals with the `team` tag and the value set to `admin` will be able to apply and modify these tags. You can modify the example policies based on the tagging strategy and governance adopted in your organization.
+Because the preceding tags are used for authorization, the [data_perimeter_governance_policy_1](service_control_policies/data_perimeter_governance_policy_1.json) SCP example includes a statement to protect these tags from unauthorized changes. In the `data_perimeter_governance_policy_1` example, only principals with the `team` tag and the value set to `admin` will be able to apply and modify these tags. You can modify the example policies based on the tagging strategy and governance adopted in your organization.
 
 
 Note that if you are using [AWS Control Tower](https://aws.amazon.com/controltower/) to centrally manage and govern your accounts, you might also need to exclude [AWSControlTowerExecution and other roles](https://docs.aws.amazon.com/controltower/latest/userguide/roles-how.html) that the service uses to manage accounts on your behalf.
