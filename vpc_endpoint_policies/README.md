@@ -142,7 +142,7 @@ Example data access patterns:
 
     * [AWS owned buckets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-vpce-bucketnames.html#cfn-setting-up-vpc-considerations)
 
-        * `arn:aws:s3:::cloudformation-custom-resource-response-<region>/*`, (_Note_: `<region>` does not contain dashes, for example, `uswest2`)
+        * `arn:aws:s3:::cloudformation-custom-resource-response-<RegionWithoutDashes>/*`, (_Note_: `<RegionWithoutDashes>` does not contain dashes, for example, `uswest2` instead of `us-west-2`.)
         * `arn:aws:s3:::cloudformation-waitcondition-<region>/*`,
 
 * *ACM for AWS Nitro Enclaves.* ACM for AWS Nitro Enclaves uses an AWS owned Amazon S3 bucket to distribute a certificate to an EC2-hosted web server.
