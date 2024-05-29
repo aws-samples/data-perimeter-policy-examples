@@ -82,7 +82,6 @@
          "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/identity-perimeter-exception": "true",
                "aws:PrincipalTag/resource-perimeter-exception": "true"
             }
          }

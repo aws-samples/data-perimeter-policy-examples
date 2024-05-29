@@ -38,6 +38,8 @@ Example data access patterns:
 * *VPC Flow Logs log delivery.* [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) uses its service principal, delivery.logs.amazonaws.com, to [deliver network logs to an Amazon S3 bucket](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-s3.html) that you specify. 
 * *Elastic Load Balancing (ELB) access logging*. [Classic Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html#attach-bucket-policy) and [Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions) use AWS account credentials that belong to an AWS service to publish logs to your Amazon S3 buckets. The `aws:PrincipalAccount` condition key in the Amazon S3 bucket policy should contain the ELB account ID if access logging is enabled.
 
+You can use `"Sid":"PreventIdPTrustModifications"` in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) to prevent your developers from establishing trusts with external identity providers.
+
 Note that [iam_role_trust_policy.json](iam_role_trust_policy.json) policy example prevents users from assuming a role using Web Identity or OpenID Connect (OIDC) federated identity providers . If you need to support Web Identity or OpenID Connect (OIDC) federation while restricting access to your approved application (or site)  IDs, you can use additional [condition keys specific to each identity provider type](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#condition-keys-wif) in your policy.
 
 ### "Sid": "EnforceNetworkPerimeter"
