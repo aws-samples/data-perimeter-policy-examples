@@ -56,10 +56,9 @@
          }
       },
       {
-         "Sid": "PreventDeploymentCodeStarConnectionsCloudShell",
+         "Sid": "PreventDeploymentCodeStarConnections",
          "Effect": "Deny",
          "Action": [
-            "cloudshell:*",
             "codestar-connections:*"
          ],
          "Resource": "*",
@@ -121,6 +120,22 @@
                "glue:VpcIds": "true"
             }
          }
+      },
+          {
+      "Sid": "PreventNonVPCDeploymentCloudShell",
+      "Action": [
+        "cloudshell:CreateEnvironment"
+      ],
+      "Effect": "Deny",
+      "Resource": "*",
+      "Condition": {   
+         "StringNotEqualsIfExists": {
+        "aws:PrincipalTag/data-perimeter-exception": "true"
+            },
+        "Null": {
+          "cloudshell:VpcIds": "true"
+        }
       }
+    }
    ]
 }
