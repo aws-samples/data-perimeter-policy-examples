@@ -4,9 +4,7 @@
         {
             "Sid": "EnforceIdentityPerimeter",
             "Effect": "Deny",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "sqs:*",
             "Resource": "*",
             "Condition": {
@@ -25,9 +23,7 @@
         {
             "Sid": "EnforceNetworkPerimeter",
             "Effect": "Deny",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "sqs:*",
             "Resource": "*",
             "Condition": {

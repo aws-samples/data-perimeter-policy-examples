@@ -156,15 +156,19 @@ This policy statement allows identities from your Organizations organization to 
 
 Example data access patterns:
 
-* *Using Systems Manager public parameters and documents owned by Amazon.* AWS automation or custom applications may need to access Systems Manager [public parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-public-parameters.html) or [documents owned by Amazon](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-ssm-docs.html) to support their operations. For example, Amazon EC2 publishes information about Amazon Machine Images (AMIs) as public parameters. Depending on the application and service in use, they can originate calls to access these parameters from your VPC and pass them through the Systems Manager VPC endpoint. 
+* *Using Systems Manager public parameters, documents and automation runbooks owned by Amazon.* AWS automation or custom applications may need to access Systems Manager [public parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-public-parameters.html), [documents owned by Amazon](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-ssm-docs.html) or [automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/running-automations.html) to support their operations. For example, Amazon EC2 publishes information about Amazon Machine Images (AMIs) as public parameters. Depending on the application and service in use, they can originate calls to access these parameters from your VPC and pass them through the Systems Manager VPC endpoint. 
 
     * [AWS owned parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-finding-public-parameters.html):
 
         * `arn:aws:ssm:<region>::parameter/aws/*`
         
-    * AWS owned documents:
+    * [AWS owned documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-actions):
 
         * `arn:aws:ssm:<region>::document/*`
+
+    * [AWS owned automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-actions):
+
+        * `arn:aws:ssm:<region>::automation-definition/*`
 
 * *Using EC2 Image builder components.* Image Builder uses the [AWS Task Orchestrator and Executor (AWSTOE)](https://docs.aws.amazon.com/imagebuilder/latest/userguide/toe-component-manager.html) component management application running on its Amazon EC2 build and test instances. If you are using Amazon managed components in your recipe, AWSTOE uses an instance profile to make a call to Image Builder to get those components, which passes through the Image Builder VPC endpoint. 
 

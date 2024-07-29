@@ -4,9 +4,7 @@
         {
             "Sid": "EnforceIdentityPerimeter",
             "Effect": "Deny",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": [
                 "sns:GetTopicAttributes",
                 "sns:SetTopicAttributes",
@@ -34,9 +32,7 @@
         {
             "Sid": "EnforceNetworkPerimeter",
             "Effect": "Deny",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": [
                 "sns:GetTopicAttributes",
                 "sns:SetTopicAttributes",

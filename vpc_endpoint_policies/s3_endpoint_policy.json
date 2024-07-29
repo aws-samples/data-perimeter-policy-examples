@@ -4,11 +4,8 @@
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToOrgsResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
-           
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
@@ -20,9 +17,7 @@
         {
             "Sid": "AllowRequestsByAWSServicePrincipals",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
             "Resource": "*",
             "Condition": {
@@ -34,9 +29,7 @@
         {
             "Sid": "AllowRequestsToAWSOwnedResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": [
                 "s3:GetObject"
             ],
@@ -85,9 +78,7 @@
         {
             "Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "<action>",        
             "Resource": "<third-party-resource-arn>",
             "Condition": {
@@ -106,9 +97,7 @@
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToThirdPartyResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "<action>",           
             "Resource": "<third-party-resource-arn>",
             "Condition": {
@@ -124,9 +113,7 @@
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
             "Resource": "*",
             "Condition": {

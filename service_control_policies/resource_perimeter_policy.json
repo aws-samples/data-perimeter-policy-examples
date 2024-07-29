@@ -19,6 +19,8 @@
             "ssm:SendCommand",
             "ssm:CreateAssociation",
             "ssm:StartSession",
+            "ssm:StartChangeRequestExecution",
+            "ssm:StartAutomationExecution",
             "imagebuilder:GetComponent",
             "ecr:GetDownloadUrlForLayer",
             "ecr:BatchGetImage",
@@ -64,11 +66,14 @@
             "ssm:SendCommand",
             "ssm:CreateAssociation",
             "ssm:StartSession",
-            "ssm:Get*"
+            "ssm:Get*",
+            "ssm:StartChangeRequestExecution",
+            "ssm:StartAutomationExecution"
          ],
          "Resource": [
             "arn:aws:ssm:*:*:document/*",
-            "arn:aws:ssm:*:*:parameter/*"
+            "arn:aws:ssm:*:*:parameter/*",
+            "arn:aws:ssm:*:*:automation-definition/*"
         ],
          "Condition": {
              "StringNotEqualsIfExists": {

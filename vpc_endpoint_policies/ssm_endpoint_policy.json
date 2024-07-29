@@ -4,9 +4,7 @@
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToOrgsResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
             "Resource": "*",
             "Condition": {
@@ -19,9 +17,7 @@
         {
             "Sid": "AllowRequestsByAWSServicePrincipals",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
             "Resource": "*",
             "Condition": {
@@ -32,21 +28,22 @@
         },
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": [
                 "ssm:Describe*",
                 "ssm:List*",
                 "ssm:Get*",
                 "ssm:SendCommand",
                 "ssm:CreateAssociation",
-                "ssm:StartSession"
+                "ssm:StartSession",
+                "ssm:StartChangeRequestExecution",
+                "ssm:StartAutomationExecution"
             ],
             "Effect": "Allow",
             "Resource": [
                 "arn:aws:ssm:<region>::parameter/aws/*",
-                "arn:aws:ssm:<region>::document/*"
+                "arn:aws:ssm:<region>::document/*",
+                "arn:aws:ssm:*::automation-definition/*"
             ],
             "Condition": {
                 "StringEquals": {
@@ -57,9 +54,7 @@
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
             "Resource": "*",
             "Condition": {

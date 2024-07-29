@@ -4,9 +4,7 @@
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToOrgsResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
             "Resource": "*",
             "Condition": {
@@ -19,9 +17,7 @@
         {
             "Sid": "AllowRequestsByAWSServicePrincipals",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
             "Resource": "*",
             "Condition": {
@@ -33,9 +29,7 @@
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": [
                 "imagebuilder:GetComponent"
             ],
@@ -51,9 +45,7 @@
         {
             "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": "*",
             "Resource": "*",
             "Condition": {
