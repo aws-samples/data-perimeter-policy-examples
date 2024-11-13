@@ -5,22 +5,40 @@
             "Sid": "EnforceIdentityPerimeter",
             "Effect": "Deny",
             "Principal": "*",
-            "Action": "s3:*",
-            "Resource": [
-              "arn:aws:s3:::<my-data-bucket>",
-              "arn:aws:s3:::<my-data-bucket>/*"
-            ],
+            "Action": "*",
+            "Resource": "*",
             "Condition": {
                 "StringNotEqualsIfExists": {
                     "aws:PrincipalOrgID": "<my-org-id>",
                     "aws:PrincipalAccount": [
-                        "<load-balancing-account-id>",
+                      "<third-party-account-a>",
+                      "<third-party-account-b>"
+                  ]
+                },
+                "BoolIfExists": {
+                    "aws:PrincipalIsAWSService": "false"
+                }
+            }
+        },
+        {
+            "Sid": "EnforceConfusedDeputyProtection",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "StringNotEqualsIfExists": {
+                    "aws:SourceOrgID": "<my-org-id>",
+                    "aws:SourceAccount": [
                         "<third-party-account-a>",
                         "<third-party-account-b>"
                     ]
+                },  
+                "Null": {
+                    "aws:SourceAccount": "false"
                 },
-                "BoolIfExists": {
-                  "aws:PrincipalIsAWSService": "false"
+                "Bool": {
+                    "aws:PrincipalIsAWSService": "true"
                 }
             }
         },
@@ -28,23 +46,19 @@
             "Sid": "EnforceNetworkPerimeter",
             "Effect": "Deny",
             "Principal": "*",
-            "Action": "s3:*",
-            "Resource": [
-              "arn:aws:s3:::<my-data-bucket>",
-              "arn:aws:s3:::<my-data-bucket>/*"
-            ],
+            "Action": "*",
+            "Resource": "*",
             "Condition": {
                 "NotIpAddressIfExists": {
-                  "aws:SourceIp": "<my-corporate-cidr>"
+                    "aws:SourceIp": "<my-corporate-cidr>"
                 },
                 "StringNotEqualsIfExists": {
                     "aws:SourceVpc": "<my-vpc>",
-                    "aws:PrincipalTag/network-perimeter-exception": "true",
+                    "aws:PrincipalTag/dp:exclude:network": "true",
                     "aws:PrincipalAccount": [
-                        "<load-balancing-account-id>",
-                        "<third-party-account-a>",
-                        "<third-party-account-b>"
-                    ]
+                      "<third-party-account-a>",
+                      "<third-party-account-b>"
+                  ]
                 },
                 "BoolIfExists": {
                     "aws:PrincipalIsAWSService": "false",
@@ -54,7 +68,7 @@
                     "aws:PrincipalArn": "arn:aws:iam::<my-account-id>:role/aws-service-role/*"
                 },
                 "StringEquals": {
-                    "aws:PrincipalTag/data-perimeter-include": "true"
+                    "aws:PrincipalTag/dp:include:network": "true"
                 }
             }
         }

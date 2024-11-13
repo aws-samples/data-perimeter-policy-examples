@@ -16,12 +16,12 @@ SCPs are a type of [AWS Organizations](https://aws.amazon.com/organizations/) or
 
 This folder contains examples of SCPs that enforce resource and network perimeter controls. These examples do not represent a complete list of valid data access patterns, and they are intended for you to tailor and extend them to suit the needs of your environment. 
 
-For your network perimeter, this folder has examples of policies for enforcing controls on specific service roles and IAM principals tagged with the `data-perimeter-include` tag set to `true`. Some AWS services use [service roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-role) to perform tasks on your behalf. Some service roles are designed to be used by a service to directly call other services on your behalf as well as to make API calls from your code (for example, an [AWS Lambda](https://aws.amazon.com/lambda/) function role is used to publish logs to [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) and to make calls to AWS APIs from the Lambda function code). Because these services allow code execution, it is possible for a user to obtain the credentials associated with a service role. Therefore, you may want to enforce the use of such credentials from expected networks only. This folder provides examples for how to achieve this with [Amazon Elastic Compute Cloud (Amazon EC2)](https://aws.amazon.com/ec2/). Policy examples in this folder do not enforce network perimeter controls on any other IAM principals.
+For your network perimeter, this folder has examples of policies for enforcing controls on specific service roles and IAM principals tagged with the `dp:include:network` tag set to `true`. Some AWS services use [service roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-role) to perform tasks on your behalf. Some service roles are designed to be used by a service to directly call other services on your behalf as well as to make API calls from your code (for example, an [AWS Lambda](https://aws.amazon.com/lambda/) function role is used to publish logs to [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) and to make calls to AWS APIs from the Lambda function code). Because these services allow code execution, it is possible for a user to obtain the credentials associated with a service role. Therefore, you may want to enforce the use of such credentials from expected networks only. This folder provides examples for how to achieve this with [Amazon Elastic Compute Cloud (Amazon EC2)](https://aws.amazon.com/ec2/). Policy examples in this folder do not enforce network perimeter controls on any other IAM principals.
 
 Use the following example SCPs individually or in combination:
 
 * [resource_perimeter_policy](resource_perimeter_policy.json) – Enforces resource perimeter controls on all principals within your Organizations organization.
-* [network_perimeter_policy](network_perimeter_policy.json) – Enforces network perimeter controls on IAM principals tagged with the `data-perimeter-include` tag set to `true`.
+* [network_perimeter_policy](network_perimeter_policy.json) – Enforces network perimeter controls on IAM principals tagged with the `dp:include:network` tag set to `true`.
 * [network_perimeter_ec2_policy](network_perimeter_ec2_policy.json) – Enforces network perimeter controls on service roles used by Amazon EC2 instances.
 * [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) – Include statements to secure tags that are used for authorization controls. These SCPs also include statements that should be included in your data perimeter to account for specific data access patterns that are not covered by primary data perimeter controls. 
 
@@ -60,20 +60,20 @@ Example data access patterns:
 * *AWS Data Exchange publishing and subscribing.* When importing assets from Amazon S3 to [AWS Data Exchange](https://aws.amazon.com/data-exchange/) ([publishing](https://docs.aws.amazon.com/data-exchange/latest/userguide/providing-data-sets.html)), AWS Data Exchange writes to AWS Data Exchange Amazon S3 buckets. Similarly, when exporting assets from AWS Data Exchange to Amazon S3 ([subscribing](https://docs.aws.amazon.com/data-exchange/latest/userguide/subscribe-to-data-sets.html)), AWS Data Exchange reads from AWS Data Exchange Amazon S3 buckets. [AWS Data Exchange uses the credentials of the user performing import and export operations to sign calls to Amazon S3](https://docs.aws.amazon.com/data-exchange/latest/userguide/access-control.html#:~:text=Amazon%20S3%20permissions). 
 * *AWS Service Catalog operations.* When you create [AWS Service Catalog](https://aws.amazon.com/servicecatalog) products, Service Catalog stores the CloudFormation template in an Amazon S3 bucket owned by the service account. When you provision the product, Service Catalog downloads the template from the bucket. Calls to Amazon S3 are signed by your credentials. 
 
-### "Sid": "EnforceResourcePerimeterAWSResourcesSSM"
+### "Sid":"EnforceResourcePerimeterAWSResourcesSSM"
 
 This policy statement is included in the [resource_perimeter_policy](resource_perimeter_policy.json) and limits access to trusted [AWS Systems Manager](https://aws.amazon.com/systems-manager/) resources:
  
 * AWS Systems Manager resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
-* AWS Systems Manager public parameters, pre-configured documents and automation definitions owned and published by AWS services that might be accessed by your identities and applications using your IAM credentials. To account for this access pattern, `ssm:Get*`, `ssm:SendCommand`, `ssm:CreateAssociation`, `ssm:StartSession`, `ssm:StartChangeRequestExecution`, `ssm:StartAutomationExecution` are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement.`"Sid":"EnforceResourcePerimeterAWSResourcesSSM"` then uses the `aws:PrincipalTag` condition key with the`ssm-resource-perimeter-exception` tag set to `true` to restrict access to these actions to IAM principals tagged for access to AWS Systems Manager parameters, documents and automation defination runbooks that do not belong to your organization.
+* AWS Systems Manager public parameters, pre-configured documents and automation definitions owned and published by AWS services that might be accessed by your identities and applications using your IAM credentials. To account for this access pattern, `ssm:Get*`, `ssm:SendCommand`, `ssm:CreateAssociation`, `ssm:StartSession`, `ssm:StartChangeRequestExecution`, `ssm:StartAutomationExecution` are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement.`"Sid":"EnforceResourcePerimeterAWSResourcesSSM"` then uses the `aws:PrincipalTag` condition key with the`dp:exclude:resource:ssm` tag set to `true` to restrict access to these actions to IAM principals tagged for access to AWS Systems Manager parameters, documents and automation defination runbooks that do not belong to your organization.
 
 
-### "Sid": "EnforceResourcePerimeterAWSResourcesEC2ImageBuilder"
+### "Sid":"EnforceResourcePerimeterAWSResourcesEC2ImageBuilder"
 
 This policy statement is included in the [resource_perimeter_policy](resource_perimeter_policy.json) and limits access to trusted [EC2 Image Builder](https://aws.amazon.com/image-builder/) resources:
  
 * EC2 Image Builder resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
-* Amazon managed [AWSTOE components](https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html) that might be accessed by your identities and applications using your IAM credentials. To account for this access pattern, the `imagebuilder:GetComponent` is first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. `"Sid":"EnforceResourcePerimeterAWSResourcesImageBuilder"` then uses the `aws:PrincipalTag` condition key with `imagebuilder-resource-perimeter-exception` tag set to `true` to restrict access to these actions to IAM principals tagged for access to EC2 Image Builder resources that do not belong to your organization.
+* Amazon managed [AWSTOE components](https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html) that might be accessed by your identities and applications using your IAM credentials. To account for this access pattern, the `imagebuilder:GetComponent` is first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. `"Sid":"EnforceResourcePerimeterAWSResourcesImageBuilder"` then uses the `aws:PrincipalTag` condition key with `dp:exclude:resource:imagebuilder` tag set to `true` to restrict access to these actions to IAM principals tagged for access to EC2 Image Builder resources that do not belong to your organization.
 
 
 ### "Sid":"EnforceResourcePerimeterAWSResourcesECR"
@@ -100,9 +100,9 @@ This policy statement is included in the [resource_perimeter_policy](resource_pe
 * Resources that belong to your Organizations organization and are specified by the organization ID (`<my-org-id>`) in the policy statement.
 * Trusted resources that belong to an account outside of your Organizations organization are specified by account IDs of third parties (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement. Further restrict access by specifying allowed actions in the Action element of the policy statement. These actions also have to be listed in the `NotAction` element of `"Sid":"EnforceResourcePerimeterAWSResources"`.
 
-### "Sid": "EnforceNetworkPerimeter"
+### "Sid":"EnforceNetworkPerimeter"
 
-This policy statement is included in the [network_perimeter_policy](network_perimeter_policy.json) and limits access to expected networks for IAM principals tagged with the `data-perimeter-include` tag set to `true. Expected networks are defined as follows:
+This policy statement is included in the [network_perimeter_policy](network_perimeter_policy.json) and limits access to expected networks for IAM principals tagged with the `dp:include:network` tag set to `true. Expected networks are defined as follows:
 
 * Your organization’s on-premises data centers and static egress points in AWS such as NAT gateways that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement. 
 * Your organization’s VPCs specified by VPC IDs (`<my-vpc>`) in the policy statement.  
@@ -124,7 +124,7 @@ Example data access patterns:
 
 Additionally, `es:ES*` is included in the `NotAction` element of the policy statement, which is required to use HTTP methods on [Amazon OpenSearch Service](https://aws.amazon.com/opensearch-service/the-elk-stack/what-is-opensearch/) domains that reside within a VPC for which security groups are the mechanism to enforce IP-based access policies.
 
-### "Sid": "EnforceNetworkPerimeterOnEC2Roles"
+### "Sid":"EnforceNetworkPerimeterOnEC2Roles"
 
 This policy statement is included in the [network_perimeter_ec2_policy](network_perimeter_ec2_policy.json) and limits access to expected networks for service roles used by Amazon EC2 instance profiles. Expected networks are defined as follows:
 * Your on-premises data centers and static egress points in AWS such as a NAT gateway that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement. 
@@ -140,13 +140,13 @@ Additionally, `es:ES*` is included in the `NotAction` element of the policy stat
 
 The `ec2:SourceInstanceARN` condition key is used to target role sessions that are created for applications running on your Amazon EC2 instances. 
 
-### "Sid": "PreventRAMExternalResourceShare"
+### "Sid":"PreventRAMExternalResourceShare"
 
 This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and denies the creation of or updates to [AWS Resource Access Manager (AWS RAM)](https://aws.amazon.com/ram/) resource shares that allow sharing with external principals.
 
 [Some AWS resources](https://docs.aws.amazon.com/ram/latest/userguide/shareable.html#shareable-r53.) allow cross-account sharing via AWS RAM instead of resource-based policies. By default, AWS RAM shares allow sharing outside of an Organizations organization. You can explicitly [restrict sharing of resources outside of AWS Organizations](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-create.html) and then limit AWS RAM actions based on this configuration.
 
-### "Sid": "PreventExternalResourceShare"
+### "Sid":"PreventExternalResourceShare"
 
 This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and restricts resource sharing by capabilities that are embedded into services.
 
@@ -168,8 +168,9 @@ Example data access patterns:
 * [AWS Security Hub member accounts](https://docs.aws.amazon.com/securityhub/latest/userguide/account-management-manual.html): You can create and invite a member to your Security Hub administrator account with the `CreateMembers` and `InviteMembers` APIs.
 * [Amazon GuardDuty member accounts](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html): You can create and invite a member to your GuardDuty administrator account with the `CreateMembers` and `InviteMembers` APIs.
 * [AWS Audit Manager assessment framework shares](https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework.html): You can create a share request for a custom framework in Audit Manager with the `StartAssessmentFrameworkShare` API.
+* [Amazon DocumentDB cluster snapshots](https://docs.aws.amazon.com/documentdb/latest/developerguide/backup_restore-share_cluster_snapshots.html ): You can share an Amazon Document DB manual cluster snapshot with other accounts or make them public with the `ModifyDBClusterSnapshots` API. 
 
-### "Sid": "ProtectActionsNotSupportedByPrimaryDPControls"
+### "Sid":"ProtectActionsNotSupportedByPrimaryDPControls"
 
 This statement is included in [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and restricts actions that are not supported by primary data perimeter controls, such as those listed in the[ResourceOrgID condition key page](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourceorgid). 
 
@@ -190,18 +191,18 @@ Example data access patterns:
 
 You can also consider using service-specific condition keys such as `ec2:AccepterVpc` and `ec2:RequesterVpc` to restrict actions that are not supported by primary data perimeter controls (See [Work within a specific account](https://docs.aws.amazon.com/vpc/latest/peering/security-iam.html#vpc-peering-iam-account)).
 
-### "Sid": "ProtectDataPerimeterTags"
+### "Sid":"ProtectDataPerimeterTags"
 
 This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and prevents the attaching, detaching, and modifying of tags used for authorization controls within the data perimeter.
 
-### "Sid": "PreventS3PublicAccessBlockConfigurations"
+### "Sid":"PreventS3PublicAccessBlockConfigurations"
 
 This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and prevents users from altering S3 Block Public Access configurations.
 
 [S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html) provides settings for access points, buckets, and accounts to help you manage public access to Amazon S3 resources. With S3 Block Public Access, account administrators and bucket owners can set up centralized controls to limit public access to their Amazon S3 resources that are enforced, regardless of how the resources are created. 
 
 
-### "Sid": "PreventPublicBucketACL"
+### "Sid":"PreventPublicBucketACL"
 
 This statement is included in the [data_perimeter_governance_policy_1](data_perimeter_governance_policy_1.json) and prevents users from applying public read and public read-write canned access control lists to Amazon S3 buckets.
 
@@ -214,15 +215,15 @@ This statement is included in the [data_perimeter_governance_policy_2](data_peri
 
 ### "Sid":"PreventIdPTrustModifications"
 
-This statement is included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and prevents users from making configuration changes to the IAM SAML [identity providers](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_saml.html), IAM OIDC [identity providers](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html), and [AWS IAM Roles Anywhere](https://aws.amazon.com/iam/roles-anywhere/) [trust anchors](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/getting-started.html).
+This statement is included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and prevents users from making configuration changes to the IAM SAML [identity providers](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_saml.html), IAM OIDC [identity providers](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html), and [AWS IAM Roles Anywhere](https://aws.amazon.com/iam/roles-anywhere/) [trust anchors](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/getting-started.html). It also prevents creation of an [account instance of IAM Identity Center]( https://docs.aws.amazon.com/singlesignon/latest/userguide/account-instances-identity-center.html).  
 
-###  "Sid": "PreventDeploymentCodeStarConnections"
+###  "Sid":"PreventDeploymentCodeStarConnections"
 
 This statement is included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and limits the use of [AWS CodeStar Connections](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/Welcome.html).
 
 AWS services such as AWS CodeStar Connections do not support deployment within a VPC and provide direct access to the internet that is not controlled by your VPC. You can block the use of such services by using SCPs or implementing your own proxy solution to inspect egress traffic.
 
-### "Sid":"PreventNonVPCDeploymentSageMaker", "Sid":"PreventNonVPCDeploymentGlueJob", "Sid": "PreventNonVPCDeploymentCloudShell", and "Sid":"PreventNonVPCDeploymentLambda"
+### "Sid":"PreventNonVPCDeploymentSageMaker", "Sid":"PreventNonVPCDeploymentGlueJob", "Sid":"PreventNonVPCDeploymentCloudShell", and "Sid":"PreventNonVPCDeploymentLambda"
 
 These statements are included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and explicitly deny relevant [Amazon SageMaker](https://aws.amazon.com/sagemaker/), [AWS Glue](https://aws.amazon.com/glue/), [AWS CloudShell](https://aws.amazon.com/cloudshell/) and [AWS Lambda](https://aws.amazon.com/lambda/) operations unless they have VPC configurations specified in the requests. Use these statements to enforce deployment in a VPC for these services.
 

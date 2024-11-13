@@ -2,18 +2,18 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "EnforceIdentityPerimeter",
+            "Sid": "EnforceOrgIdentities",
             "Effect": "Deny",
             "Principal": "*",
-            "Action": "sqs:*",
+            "Action": "*",
             "Resource": "*",
             "Condition": {
                 "StringNotEqualsIfExists": {
                     "aws:PrincipalOrgID": "<my-org-id>",
                     "aws:PrincipalAccount": [
-                        "<third-party-account-a>",
-                        "<third-party-account-b>"
-                    ]
+                      "<third-party-account-a>",
+                      "<third-party-account-b>"
+                  ]
                 },
                 "BoolIfExists": {
                     "aws:PrincipalIsAWSService": "false"
@@ -21,10 +21,32 @@
             }
         },
         {
+            "Sid": "EnforceConfusedDeputyProtection",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "StringNotEqualsIfExists": {
+                    "aws:SourceOrgID": "<my-org-id>",
+                    "aws:SourceAccount": [
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ]
+                },  
+                "Null": {
+                    "aws:SourceAccount": "false"
+                },
+                "Bool": {
+                    "aws:PrincipalIsAWSService": "true"
+                }
+            }
+        },
+        {
             "Sid": "EnforceNetworkPerimeter",
             "Effect": "Deny",
             "Principal": "*",
-            "Action": "sqs:*",
+            "Action": "*",
             "Resource": "*",
             "Condition": {
                 "NotIpAddressIfExists": {
@@ -32,11 +54,11 @@
                 },
                 "StringNotEqualsIfExists": {
                     "aws:SourceVpc": "<my-vpc>",
-                    "aws:PrincipalTag/network-perimeter-exception": "true",
+                    "aws:PrincipalTag/dp:exclude:network": "true",
                     "aws:PrincipalAccount": [
-                        "<third-party-account-a>",
-                        "<third-party-account-b>"
-                    ]
+                      "<third-party-account-a>",
+                      "<third-party-account-b>"
+                  ]
                 },
                 "BoolIfExists": {
                     "aws:PrincipalIsAWSService": "false",
@@ -46,7 +68,7 @@
                     "aws:PrincipalArn": "arn:aws:iam::<my-account-id>:role/aws-service-role/*"
                 },
                 "StringEquals": {
-                    "aws:PrincipalTag/data-perimeter-include": "true"
+                    "aws:PrincipalTag/dp:include:network": "true"
                 }
             }
         }

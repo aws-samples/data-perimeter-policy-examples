@@ -27,7 +27,7 @@
                      ]
                 },
                 "StringNotEqualsIfExists": {
-                    "aws:PrincipalTag/network-perimeter-exception": "true",
+                    "aws:PrincipalTag/dp:exclude:network": "true",
                     "aws:SourceVpc": [
                         "<my-vpc>"
                      ]

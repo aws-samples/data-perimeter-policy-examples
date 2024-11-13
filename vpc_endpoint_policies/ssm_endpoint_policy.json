@@ -60,7 +60,7 @@
             "Condition": {
                 "StringEquals": {
                     "aws:PrincipalOrgID": "<my-org-id>",
-                    "aws:PrincipalTag/resource-perimeter-exception": "true"
+                    "aws:PrincipalTag/dp:exclude:resource": "true"
                 }
             }
         }

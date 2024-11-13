@@ -26,11 +26,11 @@ The methodology you use to deploy these policies will depend on the deployment m
 
 The following policy statements are included in the VPC endpoint policy examples, each statement representing a specific data access pattern.
 
-### "Sid": "AllowRequestsByOrgsIdentitiesToOrgsResources"
+### "Sid":"AllowRequestsByOrgsIdentitiesToOrgsResources"
 
 This policy statement allows identities from your AWS Organizations organization to send requests through a VPC endpoint to resources that belong to your organization. 
 
-### "Sid": "AllowRequestsByAWSServicePrincipals"
+### "Sid":"AllowRequestsByAWSServicePrincipals"
 
 This policy statement allows [AWS service principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) to send requests to AWS owned resources on your behalf through a VPC endpoint. The `aws:PrincipalIsAWSService` IAM condition key is used to denote this in the policy. Though AWS services rarely use their service principals to make calls from your VPCs, some services that operate within your network might need this statement to be present in the VPC endpoint policies to ensure normal operations. 
 
@@ -39,7 +39,7 @@ Example data access patterns:
 * *AWS CloudFormation wait condition and custom resource.* [AWS CloudFormation](https://aws.amazon.com/cloudformation/) maintains [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) [service-owned buckets in each AWS Region](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-vpce-bucketnames.html#cfn-setting-up-vpc-considerations) to monitor responses to a custom resource request or a wait condition. If your CloudFormation template includes [custom resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) deployed in a VPC or [wait conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-waitcondition.html) for resources deployed in your VPC, the Amazon S3 VPC endpoint policy must allow users to send responses to those buckets owned by AWS. CloudFormation uses the `cloudformation.amazonaws.com` service principal to create a presigned Amazon S3 URL, which is used to send requests to Amazon S3.
 * *Access to Amazon Q Developer Pro buckets.* [Amazon Q Developer](https://aws.amazon.com/q/developer/) uploads artifacts to [AWS owned S3 buckets](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/security_iam_manage-access-with-policies.html#data-perimeters) to deliver its functionality. Access to these buckets is via a presigned URL created by an AWS service principal.
 
-### "Sid": "AllowRequestsToAWSOwnedResources"
+### "Sid":"AllowRequestsToAWSOwnedResources"
 
 This policy statement allows access to specific AWS owned resources through a VPC endpoint. You can list ARNs of AWS owned resources in the `Resource` element of the statement. You can further restrict access by specifying allowed actions in the `Action` element of the statement. 
 
@@ -150,7 +150,7 @@ Example data access patterns:
 
         * `arn:aws:s3:::aws-ec2-enclave-certificate-<region>/*`
 
-### "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources"
+### "Sid":"AllowRequestsByOrgsIdentitiesToAWSResources"
 
 This policy statement allows identities from your Organizations organization to send requests through a VPC endpoint to AWS owned resources. You can list ARNs of AWS owned resources in the `Resource` element of the statement. You can further restrict access by specifying allowed actions in the `Action` element of the statement. 
 
@@ -193,15 +193,15 @@ Example data access patterns:
 * *Amazon Elastic Compute Cloud (Amazon EC2).* You can use Amazon owned AMIs to launch instances. `ec2:Owner` condition key value set to `amazon` is required for your users and applications to launch instances from all AMIs owned by Amazon, or certain trusted and verified partners.
 
 
-### "Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"
+### "Sid":"AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"
 
 This policy statement allows trusted identities outside of your Organizations organization to send requests to trusted resources owned by an account that does not belong to your organization. List ARNs of resources in the `Resource` element of the statement. Further restrict access by specifying allowed actions in the `Action` element of the statement. An example valid use case is a third party integration that requires you to allow your applications to upload or download objects from a third party S3 bucket by using third party generated presigned Amazon S3 URLs. In this case, the principal that generates the presigned URL will belong to the third party AWS account. 
 
-### "Sid": "AllowRequestsByOrgsIdentitiesToThirdPartyResources"
+### "Sid":"AllowRequestsByOrgsIdentitiesToThirdPartyResources"
 
 This policy statement allows identities from your Organizations organization to send requests to trusted resources owned by an account that does not belong to your organization. List ARNs of resources in the `Resource` element of the statement. Further restrict access by specifying allowed actions in the `Action` element of the statement. 
 
-### "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources"
+### "Sid":"AllowRequestsByOrgsIdentitiesToAnyResources"
 
-This policy statement allows identities from your Organizations organization that are tagged with the `resource-perimeter-exception` tag set to `true` to access any resource. Before adding this statement to your VPC endpoint policy, ensure that you have strong tagging governance in place and a valid data-access pattern that warrants its implementation that is not already covered by previously described statements. If you include this statement in your policy, ensure that you always have this access restricted to principals in your Organizations organization by using the `aws:PrincipalOrgID` condition key. This prevents access by identities outside your organization tagged with the same tag key and value. 
+This policy statement allows identities from your Organizations organization that are tagged with the `dp:exclude:resource` tag set to `true` to access any resource. Before adding this statement to your VPC endpoint policy, ensure that you have strong tagging governance in place and a valid data-access pattern that warrants its implementation that is not already covered by previously described statements. If you include this statement in your policy, ensure that you always have this access restricted to principals in your Organizations organization by using the `aws:PrincipalOrgID` condition key. This prevents access by identities outside your organization tagged with the same tag key and value. 
 

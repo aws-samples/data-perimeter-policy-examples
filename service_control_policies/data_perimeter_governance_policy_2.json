@@ -12,7 +12,7 @@
          "Resource":"*",
          "Condition":{
             "StringNotEqualsIfExists":{
-               "aws:PrincipalTag/identity-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude:identity": "true"
             },
             "StringEquals": {
                "lambda:FunctionUrlAuthType" : "NONE"
@@ -46,12 +46,13 @@
            "rolesanywhere:ImportCrl",
            "rolesanywhere:UpdateCrl",
            "rolesanywhere:TagResource",
-           "rolesanywhere:UntagResource"
+           "rolesanywhere:UntagResource",
+           "sso:CreateInstance"
          ],
          "Resource": "*",
          "Condition": {
            "StringNotEqualsIfExists": {
-             "aws:PrincipalTag/identity-perimeter-exception": "true"
+             "aws:PrincipalTag/dp:exclude:identity": "true"
            }
          }
       },
@@ -64,7 +65,7 @@
          "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/data-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude": "true"
             }
          }
       },
@@ -80,7 +81,7 @@
          "Resource":"*",
          "Condition":{
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/data-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude": "true"
             },
             "Null":{
                "sagemaker:VpcSubnets":"true"
@@ -97,7 +98,7 @@
          "Resource":"*",
          "Condition":{
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/data-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude": "true"
             },
             "Null":{
                "lambda:VpcIds":"true"
@@ -114,28 +115,28 @@
          "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/data-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude": "true"
             },
             "Null": {
                "glue:VpcIds": "true"
             }
          }
       },
-          {
-      "Sid": "PreventNonVPCDeploymentCloudShell",
-      "Action": [
-        "cloudshell:CreateEnvironment"
-      ],
-      "Effect": "Deny",
-      "Resource": "*",
-      "Condition": {   
-         "StringNotEqualsIfExists": {
-        "aws:PrincipalTag/data-perimeter-exception": "true"
+      {
+         "Sid": "PreventNonVPCDeploymentCloudShell",
+         "Action": [
+            "cloudshell:CreateEnvironment"
+         ],
+         "Effect": "Deny",
+         "Resource": "*",
+         "Condition": {   
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true"
             },
-        "Null": {
-          "cloudshell:VpcIds": "true"
-        }
+            "Null": {
+               "cloudshell:VpcIds": "true"
+            }
+         }
       }
-    }
    ]
 }

@@ -1,0 +1,97 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "EnforceOrgIdentities",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": [
+                "s3:*",
+                "sqs:*",
+                "kms:*",
+                "secretsmanager:*",
+                "sts:AssumeRole",
+                "sts:DecodeAuthorizationMessage",
+                "sts:GetAccessKeyInfo",
+                "sts:GetFederationToken",
+                "sts:GetServiceBearerToken",
+                "sts:GetSessionToken",
+                "sts:SetContext"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEqualsIfExists": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:PrincipalAccount": [
+                        "<load-balancing-account-id>",
+                        "<fin-space-account-id>",
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ],
+                    "aws:ResourceTag/dp:exclude:identity": "true"
+                },
+                "BoolIfExists": {
+                    "aws:PrincipalIsAWSService": "false"
+                }
+            }
+        },
+        {
+          "Sid": "EnforceTrustedOIDCTenants",
+          "Effect": "Deny",
+          "Principal": "*",
+          "Action": "sts:AssumeRoleWithWebIdentity",
+          "Resource": "*",
+          "Condition": {
+                "StringNotEqualsIfExists": {
+                    "<OIDC_provider_name_1>:sub": "<my-tenant-value>",
+                    "aws:ResourceTag/dp:exclude:identity": "true"
+                },
+                "Null": {
+                    "<OIDC_provider_name_1>:sub": "false"
+                }
+          }
+        },
+        {
+            "Sid": "EnforceTrustedOIDCProviders",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Resource": "*",
+            "Condition": {
+                "Null": {
+                    "<OIDC_provider_name_1>:sub": "true",
+                    "<OIDC_provider_name_2>:sub": "true"
+                }
+            }
+        },
+        {
+            "Sid": "EnforceConfusedDeputyProtection",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": [
+                "s3:*",
+                "sqs:*",
+                "kms:*",
+                "secretsmanager:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEqualsIfExists": {
+                    "aws:SourceOrgID": "<my-org-id>",
+                    "aws:SourceAccount": [
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ],
+                    "aws:ResourceTag/dp:exclude:identity": "true"
+                },  
+                "Null": {
+                    "aws:SourceAccount": "false"
+                },
+                "Bool": {
+                    "aws:PrincipalIsAWSService": "true"
+                }
+            }
+        }
+    ]
+}

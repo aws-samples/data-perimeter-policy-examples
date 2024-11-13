@@ -11,7 +11,7 @@
          "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/identity-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude:identity": "true"
             },
             "Bool": {
                "ram:RequestedAllowsExternalPrincipals": "true"
@@ -41,12 +41,13 @@
             "securityhub:InviteMembers",
             "guardduty:CreateMembers",
             "guardduty:InviteMembers",
-            "auditmanager:StartAssessmentFrameworkShare"
+            "auditmanager:StartAssessmentFrameworkShare",
+            "docdb:ModifyDBClusterSnapshots"
          ],
          "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/identity-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude:identity": "true"
             }
          }
       },
@@ -84,7 +85,7 @@
          "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/resource-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude:resource": "true"
             }
          }
       },
@@ -104,7 +105,7 @@
                ]
             },
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/identity-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude:identity": "true"
             }
          }
       },
@@ -115,33 +116,22 @@
          "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/identity-perimeter-exception": "true"
+               "aws:PrincipalTag/dp:exclude:identity": "true"
             }
          }
       },
       {
          "Sid": "ProtectDataPerimeterTags",
          "Effect": "Deny",
-         "Action": [
-            "iam:TagRole",
-            "iam:TagUser",
-            "iam:UntagRole",
-            "iam:UntagUser"
-         ],
-         "Resource": [
-            "*"
-         ],
+         "Action": "*",
+         "Resource": "*",
          "Condition": {
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/team": "admin"
             },
             "ForAnyValue:StringEquals": {
                "aws:TagKeys": [
-                  "network-perimeter-exception",
-                  "resource-perimeter-exception",
-                  "identity-perimeter-exception",
-                  "<service>-resource-perimeter-exception",
-                  "data-perimeter-include",
+                  "dp:*",
                   "team"
                ]
             }

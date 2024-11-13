@@ -1,0 +1,29 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "ProtectDataPerimeterSessionTags",
+         "Effect": "Deny",
+         "Principal": "*",
+         "Action": [
+            "sts:TagSession"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "Null": {
+               "SAML:aud": "true"
+           },
+           "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/team": "admin",
+               "aws:PrincipalOrgID" : "<my-org-id>"
+           },
+           "ForAnyValue:StringLike": {
+               "aws:TagKeys": [
+                  "dp:*",
+                  "team"
+               ]
+           }
+         }
+      }
+   ]
+}

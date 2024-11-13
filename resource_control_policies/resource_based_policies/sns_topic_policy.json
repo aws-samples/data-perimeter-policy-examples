@@ -4,44 +4,53 @@
         {
             "Sid": "EnforceIdentityPerimeter",
             "Effect": "Deny",
-            "Principal": {
-                "AWS": "*"
-            },
+            "Principal": "*",
             "Action": [
-                "sts:AssumeRole",
-                "sts:AssumeRoleWithWebIdentity"
+                "sns:GetTopicAttributes",
+                "sns:SetTopicAttributes",
+                "sns:AddPermission",
+                "sns:RemovePermission",
+                "sns:DeleteTopic",
+                "sns:Subscribe",
+                "sns:ListSubscriptionsByTopic",
+                "sns:Publish"
             ],
+            "Resource": "*",
             "Condition": {
                 "StringNotEqualsIfExists": {
-                    "aws:PrincipalOrgID": "<my-org-id>",
-                    "aws:PrincipalAccount": [
-                        "<third-party-account-a>",
-                        "<third-party-account-b>"
-                    ]
+                  "aws:PrincipalOrgID": "<my-org-id>",
+                  "aws:PrincipalAccount": [
+                      "<third-party-account-a>",
+                      "<third-party-account-b>"
+                  ]
                 },
                 "BoolIfExists": {
-                    "aws:PrincipalIsAWSService": "false"
+                   "aws:PrincipalIsAWSService": "false"
                 }
             }
         },
         {
             "Sid": "EnforceNetworkPerimeter",
             "Effect": "Deny",
-            "Principal": {
-                "AWS": "*"
-              },
+            "Principal": "*",
             "Action": [
-                "sts:AssumeRole",
-                "sts:AssumeRoleWithSAML",
-                "sts:AssumeRoleWithWebIdentity"
+                "sns:GetTopicAttributes",
+                "sns:SetTopicAttributes",
+                "sns:AddPermission",
+                "sns:RemovePermission",
+                "sns:DeleteTopic",
+                "sns:Subscribe",
+                "sns:ListSubscriptionsByTopic",
+                "sns:Publish"
             ],
+            "Resource": "*",
             "Condition": {
                 "NotIpAddressIfExists": {
                     "aws:SourceIp": "<my-corporate-cidr>"
                 },
                 "StringNotEqualsIfExists": {
                     "aws:SourceVpc": "<my-vpc>",
-                    "aws:PrincipalTag/network-perimeter-exception": "true",
+                    "aws:PrincipalTag/dp:exclude:network": "true",
                     "aws:PrincipalAccount": [
                         "<third-party-account-a>",
                         "<third-party-account-b>"
@@ -53,6 +62,9 @@
                 },
                 "ArnNotLikeIfExists": {
                     "aws:PrincipalArn": "arn:aws:iam::<my-account-id>:role/aws-service-role/*"
+                },
+                "StringEquals": {
+                    "aws:PrincipalTag/dp:include:network": "true"
                 }
             }
         }
