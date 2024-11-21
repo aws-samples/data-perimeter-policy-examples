@@ -150,6 +150,12 @@ Example data access patterns:
 
         * `arn:aws:s3:::aws-ec2-enclave-certificate-<region>/*`
 
+* *AWS CodeArtifact operations.* CodeArtifact uses AWS owned Amazon S3 buckets to host the artifacts and redirects HTTP requests for an artifact repository URL to a presigned URL backed by one of their buckets.
+
+    * [AWS owned buckets](https://docs.aws.amazon.com/codeartifact/latest/ug/create-s3-gateway-endpoint.html)
+
+        * `arn:aws:s3:::assets-<CodeArtifaction-Region-Account>-<region>/*`
+
 ### "Sid":"AllowRequestsByOrgsIdentitiesToAWSResources"
 
 This policy statement allows identities from your Organizations organization to send requests through a VPC endpoint to AWS owned resources. You can list ARNs of AWS owned resources in the `Resource` element of the statement. You can further restrict access by specifying allowed actions in the `Action` element of the statement. 
