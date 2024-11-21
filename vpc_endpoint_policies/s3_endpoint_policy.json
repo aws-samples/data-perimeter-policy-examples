@@ -72,7 +72,20 @@
                 "arn:aws:s3:::aws-elastic-disaster-recovery-hashes-<region>/*",
                 "arn:aws:s3:::cloudformation-waitcondition-<region>/*",
                 "arn:aws:s3:::cloudformation-custom-resource-response-<RegionWithoutDashes>/*",
-                "arn:aws:s3:::aws-ec2-enclave-certificate-<region>-prod/*"
+                "arn:aws:s3:::aws-ec2-enclave-certificate-<region>-prod/*",
+                "arn:aws:s3:::assets-193858265520-us-east-1/*",
+                "arn:aws:s3:::assets-250872398865-us-east-2/*",
+                "arn:aws:s3:::assets-787052242323-us-west-2/*",
+                "arn:aws:s3:::assets-438097961670-eu-west-1/*",
+                "arn:aws:s3:::assets-247805302724-eu-west-2/*",
+                "arn:aws:s3:::assets-762466490029-eu-west-3/*",
+                "arn:aws:s3:::assets-611884512288-eu-north-1/*",
+                "arn:aws:s3:::assets-484130244270-eu-south-1/*",
+                "arn:aws:s3:::assets-769407342218-eu-central-1/*",
+                "arn:aws:s3:::assets-660291247815-ap-northeast-1/*",
+                "arn:aws:s3:::assets-421485864821-ap-southeast-1/*",
+                "arn:aws:s3:::assets-860415559748-ap-southeast-2/*",
+                "arn:aws:s3:::assets-681137435769-ap-south-1/*"
             ]
         },
         {
