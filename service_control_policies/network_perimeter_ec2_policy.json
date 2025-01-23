@@ -14,7 +14,11 @@
                 "dax:UpdateItem",
                 "dax:DeleteItem",
                 "dax:BatchWriteItem",
-                "dax:ConditionCheckItem"
+                "dax:ConditionCheckItem",
+                "neptune-db:*",
+                "kafka-cluster:*",
+                "elasticfilesystem:client*",
+                "rds-db:connect"             
             ],
             "Resource": "*",
             "Condition": {

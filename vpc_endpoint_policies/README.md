@@ -152,9 +152,9 @@ Example data access patterns:
 
 * *AWS CodeArtifact operations.* CodeArtifact uses AWS owned Amazon S3 buckets to host the artifacts and redirects HTTP requests for an artifact repository URL to a presigned URL backed by one of their buckets.
 
-    * [AWS owned buckets](https://docs.aws.amazon.com/codeartifact/latest/ug/create-s3-gateway-endpoint.html)
+    * [AWS owned buckets](https://docs.aws.amazon.com/codeartifact/latest/ug/create-s3-gateway-endpoint.html):
 
-        * `arn:aws:s3:::assets-<CodeArtifaction-Region-Account>-<region>/*`
+        * `arn:aws:s3:::assets-<CodeArtifact-Region-Account>-<region>/*`
 
 ### "Sid":"AllowRequestsByOrgsIdentitiesToAWSResources"
 
@@ -196,7 +196,33 @@ Example data access patterns:
     * [AWS owned repositories for Amazon SageMaker pre-built Docker container images](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html):
         * In the policy example, replace `<ecr-account-id>` with the 12-digit account ID of the AWS account that hosts the private registry. These are the first 12 digits of the respective registry from the table on the [Amazon SageMaker Documentation](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html). Note the 12-digit account ID may be different for each AWS region, and there is a seperate page for each AWS region.
 
-* *Amazon Elastic Compute Cloud (Amazon EC2).* You can use Amazon owned AMIs to launch instances. `ec2:Owner` condition key value set to `amazon` is required for your users and applications to launch instances from all AMIs owned by Amazon, or certain trusted and verified partners.
+* *Amazon Elastic Compute Cloud (Amazon EC2).* You can use [Amazon owned AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-runinstances-ami) to launch instances. `ec2:Owner` condition key value set to `amazon` is required for your users and applications to launch instances from all AMIs owned by Amazon, or certain trusted and verified partners.
+
+* *AWS CloudFormation transforms.* You can use [AWS CloudFormation transforms](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html) to process templates through a special macro that can modify or extend the functionality of a CloudFormation template before it is deployed. If you are using [CloudFormation transforms](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-reference.html) in CloudFormation templates that are deployed through your AWS networks, the CloudFormation VPC endpoint policy must allow your principals to access the transforms.
+
+    * [AWS CloudFormation hosted transforms](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#resource-level-permissions):
+
+        * `arn:aws:cloudformation:<region>:aws:transform/*`
+
+* *AWS Glue Studio transformations.* AWS Glue Studio uses AWS owned Amazon S3 buckets to host the source code for transformations accessible via the AWS Glue Studio visual editor.
+
+    * [AWS owned buckets](https://docs.aws.amazon.com/glue/latest/dg/getting-started-min-privs-job.html#getting-started-min-privs-data):
+ 
+        * `arn:aws:s3:::aws-glue-studio-transforms-<glue-account-id>-prod-<region>/*`
+        * `arn:aws:s3:::aws-glue-studio-transforms-<glue-account-id>-prod-us-gov-west-1-2604`
+
+    * In the policy example, replace `<glue-account-id>` with the 12-digit account ID of the [AWS service account](https://docs.aws.amazon.com/glue/latest/dg/getting-started-min-privs-job.html#getting-started-min-privs-data) hosting the source code repository. `<glue-account-id>` can vary by AWS Region, and you might need to allow multiple account IDs if you are operating in multiple Regions. For a complete list of AWS Glue Studio managed AWS accounts that host transformation scripts, see the [AWS Glue Studio documentation about IAM permissions](https://docs.aws.amazon.com/glue/latest/dg/getting-started-min-privs-job.html). The account ID is the 12 digits that appears after the 'transform' keyword in the S3 bucket name.
+
+* *AWS Elastic Beanstalk.* AWS Elastic Beanstalk service uses AWS owned Amazon S3 buckets to host the configuration files, the sample application, and available instance types used while creating and configuring your environment. Elastic Beanstalk uses its service role to make requests to these service-owned S3 buckets. 
+
+    * [AWS owned buckets](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/vpc-vpce.policy.html#AWSHowTo.S3.VPCendpoints.required-permissions.assets):
+
+        * `arn:aws:s3:::elasticbeanstalk-samples-<region>/*`
+        * `arn:aws:s3:::elasticbeanstalk-platform-assets-<region>/*`
+        * `arn:aws:s3:::elasticbeanstalk-env-resources-<region>/*`
+        * `arn:aws:s3:::elasticbeanstalk-<region>/*`
+
+    * Note that the bucket name follows a different convention for the BJS region. The string public-beta-cn-north-1 is used in place of `<region>`. For example, `arn:aws:s3:::elasticbeanstalk-platform-assets-public-beta-cn-north-1`.
 
 
 ### "Sid":"AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"

@@ -10,7 +10,9 @@
             "iam:ListEntitiesForPolicy",
             "iam:ListPolicyVersions",
             "iam:GenerateServiceLastAccessedDetails",
+            "cloudformation:CreateChangeSet",
             "s3:GetObject",
+            "s3:GetObjectVersion",
             "s3:PutObject",
             "s3:PutObjectAcl",
             "ssm:Describe*",
@@ -42,6 +44,7 @@
          "Effect":"Deny",
          "Action":[
             "s3:GetObject",
+            "s3:GetObjectVersion",
             "s3:PutObject",
             "s3:PutObjectAcl"
          ],
@@ -49,7 +52,9 @@
          "Condition":{
             "StringNotEqualsIfExists":{
                "aws:ResourceOrgID":"<my-org-id>",
-               "aws:PrincipalTag/dp:exclude:resource": "true"
+               "aws:ResourceAccount": "<glue-account-id>",
+               "aws:PrincipalTag/dp:exclude:resource": "true",
+               "aws:PrincipalTag/dp:exclude:resource:s3": "true"
             },
             "ForAllValues:StringNotEquals":{
                "aws:CalledVia":[
