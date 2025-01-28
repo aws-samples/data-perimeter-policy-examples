@@ -82,7 +82,7 @@
                 "arn:aws:s3:::aws-elastic-disaster-recovery-hashes-<region>/*",
                 "arn:aws:s3:::cloudformation-waitcondition-<region>/*",
                 "arn:aws:s3:::cloudformation-custom-resource-response-<RegionWithoutDashes>/*",
-                "arn:aws:s3:::aws-ec2-enclave-certificate-<region>-prod/*",
+                "arn:aws:s3:::aws-ec2-enclave-certificate-<region>/*",
                 "arn:aws:s3:::assets-<CodeArtifact-Region-Account>-<region>/*",
                 "arn:aws:s3:::elasticbeanstalk-samples-<region>/*",
                 "arn:aws:s3:::elasticbeanstalk-platform-assets-<region>/*",
