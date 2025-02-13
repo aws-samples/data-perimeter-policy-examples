@@ -43,7 +43,10 @@
             "Sid": "AllowRequestsToAWSOwnedResources",
             "Effect": "Allow",
             "Principal": "*",
-            "Action": "s3:GetObject",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
             "Resource": [
                 "arn:aws:s3:::packages.<region>.amazonaws.com/*",
                 "arn:aws:s3:::repo.<region>.amazonaws.com/*",
@@ -87,7 +90,9 @@
                 "arn:aws:s3:::elasticbeanstalk-samples-<region>/*",
                 "arn:aws:s3:::elasticbeanstalk-platform-assets-<region>/*",
                 "arn:aws:s3:::elasticbeanstalk-env-resources-<region>/*",
-                "arn:aws:s3:::elasticbeanstalk-<region>/*"
+                "arn:aws:s3:::elasticbeanstalk-<region>/*",
+                "arn:aws:s3:::jumpstart-cache-prod-<region>/*",
+                "arn:aws:s3:::jumpstart-cache-prod-<region>"
             ]
         },
         {

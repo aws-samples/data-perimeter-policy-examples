@@ -30,7 +30,10 @@
             "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources",
             "Effect": "Allow",
             "Principal": "*",
-            "Action": "ec2:RunInstances",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:CreateReplaceRootVolumeTask"
+            ],
             "Resource": "*",
             "Condition": {
                 "StringEquals": {

@@ -196,7 +196,7 @@ Example data access patterns:
     * [AWS owned repositories for Amazon SageMaker pre-built Docker container images](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html):
         * In the policy example, replace `<ecr-account-id>` with the 12-digit account ID of the AWS account that hosts the private registry. These are the first 12 digits of the respective registry from the table on the [Amazon SageMaker Documentation](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html). Note the 12-digit account ID may be different for each AWS region, and there is a seperate page for each AWS region.
 
-* *Amazon Elastic Compute Cloud (Amazon EC2).* You can use [Amazon owned AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-runinstances-ami) to launch instances. `ec2:Owner` condition key value set to `amazon` is required for your users and applications to launch instances from all AMIs owned by Amazon, or certain trusted and verified partners.
+* *Amazon Elastic Compute Cloud (Amazon EC2).* You can use [Amazon owned AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-runinstances-ami) to launch instances. `ec2:Owner` condition key value set to `amazon` is required for your users and applications to launch instances from all AMIs owned by Amazon, or certain trusted and verified partners. Additionally, access to Amazon owned AMIs is necessary to replace the EBS-backed root volume of the instance with a new one. 
 
 * *AWS CloudFormation transforms.* You can use [AWS CloudFormation transforms](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html) to process templates through a special macro that can modify or extend the functionality of a CloudFormation template before it is deployed. If you are using [CloudFormation transforms](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-reference.html) in CloudFormation templates that are deployed through your AWS networks, the CloudFormation VPC endpoint policy must allow your principals to access the transforms.
 
@@ -224,6 +224,11 @@ Example data access patterns:
 
     * Note that the bucket name follows a different convention for the BJS region. The string public-beta-cn-north-1 is used in place of `<region>`. For example, `arn:aws:s3:::elasticbeanstalk-platform-assets-public-beta-cn-north-1`.
 
+* *Amazon SageMaker Jumpstart models.* Amazon SageMaker JumpStart service uses AWS owned Amazon S3 bucket to host pretrained, open-source models for a wide range of problem types to help you get started with machine learning. SageMaker Jumpstart uses its service role to make requests to these service-owned S3 bucket.
+
+    * [AWS owned bucket](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-deploy.html#jumpstart-config-security):
+
+        * `arn:aws:s3:::jumpstart-cache-prod-<region>/*`
 
 ### "Sid":"AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"
 

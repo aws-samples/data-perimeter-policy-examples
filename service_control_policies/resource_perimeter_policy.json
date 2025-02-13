@@ -15,6 +15,7 @@
             "s3:GetObjectVersion",
             "s3:PutObject",
             "s3:PutObjectAcl",
+            "s3:ListBucket",
             "ssm:Describe*",
             "ssm:List*",
             "ssm:Get*",
@@ -46,7 +47,8 @@
             "s3:GetObject",
             "s3:GetObjectVersion",
             "s3:PutObject",
-            "s3:PutObjectAcl"
+            "s3:PutObjectAcl",
+            "s3:ListBucket"
          ],
          "Resource":"*",
          "Condition":{
