@@ -148,7 +148,7 @@ Example data access patterns:
 
     * [AWS owned buckets](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html#role-cert)
 
-        * `arn:aws:s3:::aws-ec2-enclave-certificate-<region>/*`
+        * `arn:aws:s3:::aws-ec2-enclave-certificate-<region>-prod/*`
 
 * *AWS CodeArtifact operations.* CodeArtifact uses AWS owned Amazon S3 buckets to host the artifacts and redirects HTTP requests for an artifact repository URL to a presigned URL backed by one of their buckets.
 
