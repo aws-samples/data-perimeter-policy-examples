@@ -256,5 +256,5 @@ Services such as Lambda, AWS Glue, CloudShell, and SageMaker support different d
 
 ### "Sid": "PreventNonVpcOnlySageMakerDomain"
 
-This statement is included in the [data_perimeter_governance_policy_2.json](data_perimeter_governance_policy_2.json) and prevents users from creating and updating [Amazon SageMaker domains](https://docs.aws.amazon.com/sagemaker/latest/dg/sm-domain.html) that have non-EFS traffic going through a VPC managed by SageMaker instead of your VPC. By configuring your domains to route traffic through your VPC, you can inspect requests by using VPC endpoint policies (against identity and resource perimeter controls) and enforce the network perimeter.    
+This statement is included in the [data_perimeter_governance_policy_2.json](data_perimeter_governance_policy_2.json) and prevents users from creating [Amazon SageMaker domains](https://docs.aws.amazon.com/sagemaker/latest/dg/sm-domain.html) that can access the internet through a VPC managed by SageMaker, or updating SageMaker domains to allow access to the internet through a VPC managed by SageMaker.    
 For more details, see the definition of the parameter [`AppNetworkAccessType`](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateDomain.html#sagemaker-UpdateDomain-request-AppNetworkAccessType) in the Amazon SageMaker API Reference.
