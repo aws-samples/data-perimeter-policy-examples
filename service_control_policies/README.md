@@ -254,5 +254,7 @@ These statements are included in the [data_perimeter_governance_policy_2](data_p
 Services such as Lambda, AWS Glue, CloudShell, and SageMaker support different deployment models. For example, [Amazon SageMaker Studio](https://aws.amazon.com/pm/sagemaker/) and [SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) allow direct internet access by default. However, they provide you with the capability to configure them to run within your VPC so that you can inspect requests by using VPC endpoint policies (against identity and resource perimeter controls) and enforce the network perimeter.
 
 
+### "Sid": "PreventNonVpcOnlySageMakerDomain"
 
-
+This statement is included in the [data_perimeter_governance_policy_2.json](data_perimeter_governance_policy_2.json) and prevents users from creating [Amazon SageMaker domains](https://docs.aws.amazon.com/sagemaker/latest/dg/sm-domain.html) that can access the internet through a VPC managed by SageMaker, or updating SageMaker domains to allow access to the internet through a VPC managed by SageMaker.    
+For more details, see the definition of the parameter [`AppNetworkAccessType`](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateDomain.html#sagemaker-UpdateDomain-request-AppNetworkAccessType) in the Amazon SageMaker API Reference.
