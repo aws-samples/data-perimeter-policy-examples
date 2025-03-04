@@ -114,6 +114,19 @@
          }
       },
       {
+         "Sid": "PreventDirectInternetAccessSageMakerNotebook",
+         "Effect": "Deny",
+         "Action": [
+            "sagemaker:CreateNotebookInstance"
+         ],
+        "Resource": "*",
+        "Condition": {
+            "StringEquals": {
+               "sagemaker:DirectInternetAccess": "Enabled"
+            }
+         }
+      },
+      {
          "Sid":"PreventNonVPCDeploymentLambda",
          "Effect":"Deny",
          "Action":[
