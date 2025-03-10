@@ -124,6 +124,9 @@
         "Condition": {
             "StringEquals": {
                "sagemaker:DirectInternetAccess": "Enabled"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true"
             }
          }
       },
