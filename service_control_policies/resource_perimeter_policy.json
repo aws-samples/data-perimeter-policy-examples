@@ -25,6 +25,7 @@
             "ssm:StartChangeRequestExecution",
             "ssm:StartAutomationExecution",
             "imagebuilder:GetComponent",
+            "imagebuilder:GetImage",
             "ecr:GetDownloadUrlForLayer",
             "ecr:BatchGetImage",
             "lambda:GetLayerVersion",
@@ -93,7 +94,10 @@
       {
          "Sid": "EnforceResourcePerimeterAWSResourcesEC2ImageBuilder",
          "Effect": "Deny",
-         "Action": "imagebuilder:GetComponent",
+         "Action": [
+            "imagebuilder:GetComponent",
+            "imagebuilder:GetImage"
+         ],
          "Resource": "*",
          "Condition": {
              "StringNotEqualsIfExists": {

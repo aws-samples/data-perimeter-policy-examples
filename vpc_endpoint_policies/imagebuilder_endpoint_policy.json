@@ -31,10 +31,12 @@
             "Effect": "Allow",
             "Principal": "*",
             "Action": [
-                "imagebuilder:GetComponent"
+                "imagebuilder:GetComponent",
+                "imagebuilder:GetImage"
             ],
             "Resource": [
-                "arn:aws:imagebuilder:<region>:aws:component/*"
+                "arn:aws:imagebuilder:<region>:aws:component/*",
+                "arn:aws:imagebuilder:<region>:aws:image/*"
             ],
             "Condition": {
                 "StringEquals": {

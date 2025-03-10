@@ -103,11 +103,16 @@ Example data access patterns:
 
 * *Using EC2 Image Builder components*. [EC2 Image Builder](https://aws.amazon.com/image-builder/) uses a publicly available Amazon S3 bucket to store and access managed resources, such as components. It also downloads the AWSTOE component management application from a separate Amazon S3 bucket. The call to Amazon S3 is unauthenticated and passes through the Amazon S3 VPC endpoint. 
 
-    * [AWS owned buckets](https://docs.aws.amazon.com/imagebuilder/latest/userguide/vpc-interface-endpoints.html):
+    * [AWS owned buckets](https://docs.aws.amazon.com/imagebuilder/latest/userguide/security-iam-data-perimeter.html):
 
         * `arn:aws:s3:::ec2imagebuilder-toe-<region>-prod/*`,
         * `arn:aws:s3:::ec2imagebuilder-managed-resources-<region>-prod/components/*`
 
+* *AWS Cloud9 software packages.* [AWS Cloud9](https://aws.amazon.com/cloud9/) environments contain software packages required for AWS Cloud9 to function and support IDE features. To [download patches for these software packages](https://docs.aws.amazon.com/cloud9/latest/user-guide/vulnerability-analysis-and-management.html) from AWS Cloud9 repositories hosted on AWS owned Amazon S3 buckets, AWS Cloud9 makes an unauthenticated call to Amazon S3. The call originates from your VPC and passes through the Amazon S3 VPC endpoint. 
+ 
+    * [AWS owned buckets](https://docs.aws.amazon.com/cloud9/latest/user-guide/ec2-ssm.html#create-s3-endpoint)
+
+        * `arn:aws:s3:::static-<region>-prod-static-<string>/content/dependencies/*`
 
 * *Creation of containers with Amazon ECR images.* [Amazon Elastic Container Registry (Amazon ECR)](https://aws.amazon.com/ecr/) uses AWS owned Amazon S3 buckets to store Amazon ECR private image layers. When your containers download images from Amazon ECR, they must access Amazon ECR to get the image manifest and then Amazon S3 to download the actual image layers. A call to Amazon S3 is signed using a presigned URL, which is created by an Amazon ECR account and not the service principal. The call originates from your VPC and passes through the Amazon S3 VPC endpoint.  
 
@@ -176,11 +181,15 @@ Example data access patterns:
 
         * `arn:aws:ssm:<region>::automation-definition/*`
 
-* *Using EC2 Image builder components.* Image Builder uses the [AWS Task Orchestrator and Executor (AWSTOE)](https://docs.aws.amazon.com/imagebuilder/latest/userguide/toe-component-manager.html) component management application running on its Amazon EC2 build and test instances. If you are using Amazon managed components in your recipe, AWSTOE uses an instance profile to make a call to Image Builder to get those components, which passes through the Image Builder VPC endpoint. 
+* *Using EC2 Image builder components and images.* Image Builder uses the [AWS Task Orchestrator and Executor (AWSTOE)](https://docs.aws.amazon.com/imagebuilder/latest/userguide/toe-component-manager.html) component management application running on the Amazon EC2 build and test instances. If you are using Amazon managed components in your recipe, AWSTOE uses an instance profile to make a call to Image Builder to get those components, which passes through the Image Builder VPC endpoint. Similarly, if you are using Amazon managed images, Image Builder uses the instance profile to retrieve those images to set up and boot an EC2 instance. 
 
-    * [AWS owned component](https://docs.aws.amazon.com/imagebuilder/latest/userguide/vpc-interface-endpoints.html):
+    * [AWS owned components](https://docs.aws.amazon.com/imagebuilder/latest/userguide/vpc-interface-endpoints.html):
 
         * `arn:aws:imagebuilder:<region>:aws:component/*`
+    
+    * [Amazon managed images](https://docs.aws.amazon.com/imagebuilder/latest/userguide/security_iam_service-with-iam.html#sec-iam-ib-id-based-policies-resources):
+        
+        * `arn:aws:imagebuilder:<region>:aws:image/*`
 
 * *Using Elastic Kubernetes Service add-ons.* [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) uses an Amazon EKS managed Amazon Elastic Container Registry (Amazon ECR) private repository to host Docker container images for [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html). Each Region has a dedicated private repository. If you use Amazon EKS managed node groups or want to have your Amazon EKS nodes pull the container images from the Amazon EKS private repository, your Amazon ECR VPC endpoint (com.amazonaws.region.ecr.api) policy must allow your principals to access the repository for the Region in which you are operating. 
     * [AWS owned repositories for EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html):
