@@ -165,11 +165,11 @@
       },
       {
          "Sid": "PreventNonVPCAppRunnerService",
+         "Effect": "Deny",
          "Action": [
             "apprunner:CreateService",
             "apprunner:UpdateService"
          ],
-         "Effect": "Deny",
          "Resource": "*",
          "Condition": {   
             "StringNotEqualsIfExists": {
