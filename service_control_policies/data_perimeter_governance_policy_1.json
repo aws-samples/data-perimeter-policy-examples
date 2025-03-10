@@ -129,7 +129,7 @@
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/team": "admin"
             },
-            "ForAnyValue:StringEquals": {
+            "ForAnyValue:StringLike": {
                "aws:TagKeys": [
                   "dp:*",
                   "team"
