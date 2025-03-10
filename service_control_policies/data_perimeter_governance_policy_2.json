@@ -162,6 +162,23 @@
                "cloudshell:VpcIds": "true"
             }
          }
+      },
+      {
+         "Sid": "PreventNonVPCAppRunnerService",
+         "Action": [
+            "apprunner:CreateService",
+            "apprunner:UpdateService"
+         ],
+         "Effect": "Deny",
+         "Resource": "*",
+         "Condition": {   
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true"
+            },
+            "Null": {
+               "apprunner:VpcConnectorArn": "true"
+            }
+         }
       }
    ]
 }
