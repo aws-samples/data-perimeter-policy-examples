@@ -108,7 +108,8 @@
          ],
         "Resource": "*",
         "Condition": {
-            "StringNotEquals": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true",
                "sagemaker:AppNetworkAccessType": "VpcOnly"
             }
          }
