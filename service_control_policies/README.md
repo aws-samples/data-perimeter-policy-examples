@@ -157,13 +157,18 @@ Some AWS services use neither resource-based policies nor AWS RAM.
 
 Example data access patterns:
 
-* [Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharing-amis.html): You can share AMIs with other accounts or make them public with the `ModifyImageAttribute` and `ModifyFPGAImageAttribute` APIs. 
+* [Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharing-amis.html): You can share AMIs with other accounts or make them public with the `ModifyImageAttribute` and `ModifyFPGAImageAttribute` APIs.
+* [Amazon EC2 network interface](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterfacePermission.html): You can share EC2 network interfaces with other accounts with the `CreateNetworkInterfacePermission` API. 
+* [Amazon EC2 elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/transfer-EIPs-intro-ec2.html): You can transfer an Elastic IP address from one AWS account to another with the `EnableAddressTransfer` API.
 * [Amazon EBS snapshots](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html): You can share Amazon EBS snapshots with other accounts, or you can make them public with the `ModifySnapshotAttribute` API.
 * [VPC endpoint connections](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html): You can grant permissions to another account to connect to your VPC endpoint service with the `ModifyVpcEndpointServicePermissions` API.
 * [Systems Manager documents (SSM documents)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-ssm-docs.html): You can share SSM documents with other accounts or make them public with the `ModifyDocumentPermission` API.
 * [Amazon RDS Snapshots](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html): You can share RDS and RDS cluster snapshots with other accounts or make them public with the `ModifyDBSnapshotAttribute` and `ModifyDBClusterSnapshotAttribute` APIs.
 * [Amazon Redshift datashare](https://docs.aws.amazon.com/redshift/latest/dg/authorize-datashare-console.html): You can authorize the sharing of a datashare with other accounts with the `AuthorizeDataShare` API. You can also share a snapshot with other accounts with `AuthorizeSnapshotAccess` API.
+* [Amazon Redshift cluster](https://docs.aws.amazon.com/redshift/latest/APIReference/API_AuthorizeEndpointAccess.html): You can grant access to an Amazon Redshift cluster to other accounts with the `AuthorizeEndpointAccess` API. 
 * [AWS Directory Service directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_directory_sharing.html): You can share a directory with other accounts with the `ShareDirectory` API.
+* [AWS Direct Connect gateway](https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html): You can associate a Direct Connect gateway with a virtual private gateway that is owned by another AWS account with the `CreateDirectConnectGatewayAssociationProposal` API.
+* [Amazon Detective graph](https://docs.aws.amazon.com/detective/latest/userguide/accounts.html): A Detective administrator account can invite other accounts to join a behavior graph with the `CreateMembers` API.
 * [Amazon CloudWatch Logs subscription filters](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/SubscriptionFilters.html): You can send CloudWatch Logs to cross-account destinations with the `PutSubscriptionFilter` API.
 * [AWS Glue Data Catalog](https://docs.aws.amazon.com/lake-formation/latest/dg/granting-catalog-perms-TBAC.html) databases: You can grant data catalog permissions to another account by using the AWS Lake Formation tag-based access control method with the `GrantPermissions` and `BatchGrantPermissions` APIs.
 * [Amazon AppStream 2.0 image](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html#share-image-with-another-account): You can share an Amazon AppStream 2.0 image that you own with other accounts with the `UpdateImagePermissions` API.
@@ -172,6 +177,13 @@ Example data access patterns:
 * [Amazon GuardDuty member accounts](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html): You can create and invite a member to your GuardDuty administrator account with the `CreateMembers` and `InviteMembers` APIs.
 * [AWS Audit Manager assessment framework shares](https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework.html): You can create a share request for a custom framework in Audit Manager with the `StartAssessmentFrameworkShare` API.
 * [Amazon DocumentDB cluster snapshots](https://docs.aws.amazon.com/documentdb/latest/developerguide/backup_restore-share_cluster_snapshots.html ): You can share an Amazon Document DB manual cluster snapshot with other accounts or make them public with the `ModifyDBClusterSnapshots` API. 
+* [Amazon WorkSpaces image](https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html): You can share custom WorkSpaces images with other accounts with the `UpdateWorkspaceImagePermission` API.
+* [Amazon CloudWatch sink](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html): You can share observability data with other accounts with the `CreateLink` API.
+* [AWS Service Catalog portfolio](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_sharing.html): AWS Service Catalog portfolios can be shared with other AWS accounts with the `CreatePortfolioShare` API.
+* [AWS Config aggregator](https://docs.aws.amazon.com/config/latest/developerguide/aggregate-data.html): The `PutConfigurationAggregator` API allows you to select another account to add to your AWS Config aggregator.
+* [AWS Fault Injection experiment template](https://docs.aws.amazon.com/fis/latest/userguide/multi-account.html): You create a multi-account experiment template by specifying other accounts with the `CreateTargetAccountConfiguration` API. 
+* [AWS Global Accelerator attachment](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.create-attachment.html): You can add a resource from another account as an endpoint for an accelerator with the `CreateCrossAccountAttachment` API.
+* [AWS Cloud9 shared environment](https://docs.aws.amazon.com/cloud9/latest/user-guide/share-environment.html): You can share AWS Cloud9 development environment with users from other accounts with the `CreateEnvironmentMembership` API.
 
 ### "Sid":"ProtectActionsNotSupportedByPrimaryDPControls"
 
