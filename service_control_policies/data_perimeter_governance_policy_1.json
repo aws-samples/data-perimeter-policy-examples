@@ -24,6 +24,8 @@
          "Action": [
             "ec2:ModifyImageAttribute",
             "ec2:ModifyFPGAImageAttribute",
+            "ec2:CreateNetworkInterfacePermission",
+            "ec2:EnableAddressTransfer",
             "ec2:ModifySnapshotAttribute",
             "ec2:ModifyVpcEndpointServicePermissions",
             "ssm:ModifyDocumentPermission",
@@ -31,7 +33,10 @@
             "rds:ModifyDBClusterSnapshotAttribute",
             "redshift:AuthorizeDataShare",
             "redshift:AuthorizeSnapshotAccess",
+            "redshift:AuthorizeEndpointAccess",
             "ds:ShareDirectory",
+            "directconnect:CreateDirectConnectGatewayAssociationProposal",
+            "detective:CreateMembers",
             "logs:PutSubscriptionFilter",
             "lakeformation:GrantPermissions",
             "lakeformation:BatchGrantPermissions",
@@ -42,7 +47,14 @@
             "guardduty:CreateMembers",
             "guardduty:InviteMembers",
             "auditmanager:StartAssessmentFrameworkShare",
-            "docdb:ModifyDBClusterSnapshots"
+            "docdb:ModifyDBClusterSnapshots",
+            "workspaces:UpdateWorkspaceImagePermission",
+            "oam:CreateLink",
+            "servicecatalog:CreatePortfolioShare",
+            "config:PutConfigurationAggregator",
+            "fis:CreateTargetAccountConfiguration",
+            "globalaccelerator:CreateCrossAccountAttachment",
+            "cloud9:CreateEnvironmentMembership"
          ],
          "Resource": "*",
          "Condition": {
