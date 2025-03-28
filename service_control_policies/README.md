@@ -238,11 +238,11 @@ This statement is included in the [data_perimeter_governance_policy_2](data_peri
 
 AWS services such as AWS CodeStar Connections do not support deployment within a VPC and provide direct access to the internet that is not controlled by your VPC. You can block the use of such services by using SCPs or implementing your own proxy solution to inspect egress traffic.
 
-### "Sid":"PreventNonVPCDeploymentSageMaker", "Sid":"PreventNonVPCDeploymentGlueJob", "Sid":"PreventNonVPCDeploymentCloudShell", and "Sid":"PreventNonVPCDeploymentLambda"
+### "Sid":"PreventNonVPCDeploymentSageMaker", "Sid":"PreventNonVPCDeploymentGlueJob", "Sid":"PreventNonVPCDeploymentCloudShell", and "Sid":"PreventNonVPCDeploymentLambda", "Sid":"PreventNonVPCDeploymentAppRunner"
 
-These statements are included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and explicitly deny relevant [Amazon SageMaker](https://aws.amazon.com/sagemaker/), [AWS Glue](https://aws.amazon.com/glue/), [AWS CloudShell](https://aws.amazon.com/cloudshell/) and [AWS Lambda](https://aws.amazon.com/lambda/) operations unless they have VPC configurations specified in the requests. Use these statements to enforce deployment in a VPC for these services.
+These statements are included in the [data_perimeter_governance_policy_2](data_perimeter_governance_policy_2.json) and explicitly deny relevant [Amazon SageMaker](https://aws.amazon.com/sagemaker/), [AWS Glue](https://aws.amazon.com/glue/), [AWS CloudShell](https://aws.amazon.com/cloudshell/), [AWS Lambda](https://aws.amazon.com/lambda/), and [AWS AppRunner](https://aws.amazon.com/apprunner/) operations unless they have VPC configurations specified in the requests. Use these statements to enforce deployment in a VPC for these services.
 
-Services such as Lambda, AWS Glue, CloudShell, and SageMaker support different deployment models. For example, [Amazon SageMaker Studio](https://aws.amazon.com/pm/sagemaker/) and [SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) allow direct internet access by default. However, they provide you with the capability to configure them to run within your VPC so that you can inspect requests by using VPC endpoint policies (against identity and resource perimeter controls) and enforce the network perimeter.
+Services such as Lambda, AWS Glue, CloudShell, App Runner, and SageMaker support different deployment models. For example, [Amazon SageMaker Studio](https://aws.amazon.com/pm/sagemaker/) and [SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) allow direct internet access by default. However, they provide you with the capability to configure them to run within your VPC so that you can inspect requests by using VPC endpoint policies (against identity and resource perimeter controls) and enforce the network perimeter.
 
 
 ### "Sid": "PreventNonVpcOnlySageMakerDomain"
