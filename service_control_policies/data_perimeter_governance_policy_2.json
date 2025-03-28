@@ -108,8 +108,25 @@
          ],
         "Resource": "*",
         "Condition": {
-            "StringNotEquals": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true",
                "sagemaker:AppNetworkAccessType": "VpcOnly"
+            }
+         }
+      },
+      {
+         "Sid": "PreventDirectInternetAccessSageMakerNotebook",
+         "Effect": "Deny",
+         "Action": [
+            "sagemaker:CreateNotebookInstance"
+         ],
+        "Resource": "*",
+        "Condition": {
+            "StringEquals": {
+               "sagemaker:DirectInternetAccess": "Enabled"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true"
             }
          }
       },

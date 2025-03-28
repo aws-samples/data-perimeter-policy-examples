@@ -249,3 +249,9 @@ Services such as Lambda, AWS Glue, CloudShell, App Runner, and SageMaker support
 
 This statement is included in the [data_perimeter_governance_policy_2.json](data_perimeter_governance_policy_2.json) and prevents users from creating [Amazon SageMaker domains](https://docs.aws.amazon.com/sagemaker/latest/dg/sm-domain.html) that can access the internet through a VPC managed by SageMaker, or updating SageMaker domains to allow access to the internet through a VPC managed by SageMaker.    
 For more details, see the definition of the parameter [`AppNetworkAccessType`](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateDomain.html#sagemaker-UpdateDomain-request-AppNetworkAccessType) in the Amazon SageMaker API Reference.
+
+
+### "Sid": "PreventDirectInternetAccessSageMakerNotebook"
+
+This statement is included in the [data_perimeter_governance_policy_2.json](data_perimeter_governance_policy_2.json) and prevents users from creating [Amazon SageMaker Notebooks Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) that can access the internet through a VPC managed by SageMaker.        
+For more details, see [Connect a Notebook Instance in a VPC to External Resources](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-notebook-and-internet-access.html) in the Amazon SageMaker documentation.
