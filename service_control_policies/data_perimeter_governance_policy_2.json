@@ -164,7 +164,7 @@
          }
       },
       {
-         "Sid": "PreventNonVPCAppRunnerService",
+         "Sid": "PreventNonVPCDeploymentAppRunner",
          "Effect": "Deny",
          "Action": [
             "apprunner:CreateService",
