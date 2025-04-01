@@ -239,6 +239,15 @@ Example data access patterns:
 
         * `arn:aws:s3:::jumpstart-cache-prod-<region>/*`
 
+* *Amazon Neptune configuration scripts.* Amazon Neptune service uses AWS owned Amazon S3 buckets to host installation and configuration scripts as convenience utilities to help streamline Neptune setup process. Amazon Neptune uses service role to make requests to these service-owned S3 buckets. 
+  		  
+    * [AWS owned buckets](https://docs.aws.amazon.com/neptune/latest/userguide/graph-notebooks.html#graph-notebooks-workbench)
+
+        * `arn:aws:s3:::aws-neptune-notebook`
+        * `arn:aws:s3:::aws-neptune-notebook/*`
+        * `arn:aws:s3:::aws-neptune-notebook-<region>`
+        * `arn:aws:s3:::aws-neptune-notebook-<region>/*`
+
 ### "Sid":"AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"
 
 This policy statement allows trusted identities outside of your Organizations organization to send requests to trusted resources owned by an account that does not belong to your organization. List ARNs of resources in the `Resource` element of the statement. Further restrict access by specifying allowed actions in the `Action` element of the statement. An example valid use case is a third party integration that requires you to allow your applications to upload or download objects from a third party S3 bucket by using third party generated presigned Amazon S3 URLs. In this case, the principal that generates the presigned URL will belong to the third party AWS account. 

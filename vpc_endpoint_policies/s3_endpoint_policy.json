@@ -93,7 +93,11 @@
                 "arn:aws:s3:::elasticbeanstalk-<region>/*",
                 "arn:aws:s3:::jumpstart-cache-prod-<region>/*",
                 "arn:aws:s3:::jumpstart-cache-prod-<region>",
-                "arn:aws:s3:::static-<region>-prod-static-<string>/content/dependencies/*"
+                "arn:aws:s3:::static-<region>-prod-static-<string>/content/dependencies/*",
+                "arn:aws:s3:::aws-neptune-notebook",
+                "arn:aws:s3:::aws-neptune-notebook/*",
+                "arn:aws:s3:::aws-neptune-notebook-<region>",
+                "arn:aws:s3:::aws-neptune-notebook-<region>/*"
             ]
         },
         {
