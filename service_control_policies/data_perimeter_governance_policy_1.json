@@ -47,7 +47,6 @@
             "guardduty:CreateMembers",
             "guardduty:InviteMembers",
             "auditmanager:StartAssessmentFrameworkShare",
-            "docdb:ModifyDBClusterSnapshots",
             "workspaces:UpdateWorkspaceImagePermission",
             "oam:CreateLink",
             "servicecatalog:CreatePortfolioShare",
@@ -78,10 +77,7 @@
             "ec2:CreateVpcEndpoint",
             "ec2:AcceptVpcEndpointConnections",
             "ec2:RejectVpcEndpointConnections",
-            "ec2:CopyImage",
-            "ec2:CopyFpgaImage",
             "ec2:CopySnapshot",
-            "ec2:CreateVolume",
             "route53:CreateVPCAssociationAuthorization",
             "route53:AssociateVPCWithHostedZone",
             "route53:DisassociateVPCFromHostedZone",
@@ -92,7 +88,7 @@
             "guardduty:AcceptAdministratorInvitation",
             "auditmanager:UpdateAssessmentFrameworkShare",
             "es:AcceptInboundConnection",
-            "es:CreateOutboundConnection"
+            "ds:AcceptSharedDirectory"
          ],
          "Resource": "*",
          "Condition": {
