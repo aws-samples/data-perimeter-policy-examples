@@ -32,13 +32,18 @@
             "Principal": "*",
             "Action": [
                 "ec2:RunInstances",
-                "ec2:CreateReplaceRootVolumeTask"
+                "ec2:CreateReplaceRootVolumeTask",
+                "ec2:CreateTags",
+                "ec2:DeleteTags",
+                "ec2:GetManagedPrefixListEntries"
             ],
-            "Resource": "*",
+            "Resource": [
+                "arn:aws:ec2:*::image/*",
+                "arn:aws:ec2:*:aws:prefix-list/*"
+            ],
             "Condition": {
                 "StringEquals": {
-                    "aws:PrincipalOrgID": "<my-org-id>",
-                    "ec2:Owner": "amazon"
+                    "aws:PrincipalOrgID": "<my-org-id>"
                 }
             }
         },

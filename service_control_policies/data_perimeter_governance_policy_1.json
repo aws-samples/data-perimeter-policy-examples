@@ -53,7 +53,9 @@
             "config:PutConfigurationAggregator",
             "fis:CreateTargetAccountConfiguration",
             "globalaccelerator:CreateCrossAccountAttachment",
-            "cloud9:CreateEnvironmentMembership"
+            "cloud9:CreateEnvironmentMembership",
+            "connect:BatchAssociateAnalyticsDataSet",
+            "redshift-serverless:PutResourcePolicy"
          ],
          "Resource": "*",
          "Condition": {
