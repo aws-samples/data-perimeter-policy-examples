@@ -205,7 +205,7 @@ Example data access patterns:
     * [AWS owned repositories for Amazon SageMaker pre-built Docker container images](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html):
         * In the policy example, replace `<ecr-account-id>` with the 12-digit account ID of the AWS account that hosts the private registry. These are the first 12 digits of the respective registry from the table on the [Amazon SageMaker Documentation](https://docs.aws.amazon.com/sagemaker/latest/dg-ecr-paths/sagemaker-algo-docker-registry-paths.html). Note the 12-digit account ID may be different for each AWS region, and there is a seperate page for each AWS region.
 
-* *Amazon Elastic Compute Cloud (Amazon EC2).* You can use [Amazon owned AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) to launch instances and is necessary to replace the EBS-backed root volume of the instance with a new one. Note that `ec2:Owner` condition key value is set to `amazon` is for all AMIs owned by Amazon, or certain trusted and verified partners.
+* *Amazon Elastic Compute Cloud (Amazon EC2).* [Amazon owned AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) are images that provide the software that is required to set up and boot an Amazon EC2 instance.Your EC2 VPC endpoint policy must allow your principals to access the EC2 images to be able to launch instances and replace the EBS-backed root volume of the instance with a new one.
 
     * [Amazon EC2 Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-runinstances-ami):
 
@@ -252,7 +252,7 @@ Example data access patterns:
         * `arn:aws:s3:::aws-neptune-notebook-<region>`
         * `arn:aws:s3:::aws-neptune-notebook-<region>/*`
 
-* *AWS-managed prefix lists.* AWS-managed EC2 prefix lists are sets of IP ranges for AWS services, maintained by AWS. They simplify referencing service IPs when configuring security groups and other VPC network controls. The API call is made using your principal and passes through the EC2 VPC endpoint. 
+* *AWS-managed prefix lists.* AWS-managed EC2 prefix lists are sets of IP ranges for AWS services, maintained by AWS. They simplify referencing service IPs when configuring security groups and other VPC network controls. The API call is made by your principals to access AWS-managed prefixes might pass through the EC2 VPC endpoint. 
   		  
     * [AWS managed prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-aws-managed-prefix-lists.html)
 
