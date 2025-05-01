@@ -29,6 +29,9 @@
             "ecr:GetDownloadUrlForLayer",
             "ecr:BatchGetImage",
             "lambda:GetLayerVersion",
+            "ec2:CreateTags",
+            "ec2:DeleteTags",
+            "ec2:GetManagedPrefixListEntries",
             "<action>"
 
          ],
@@ -135,6 +138,23 @@
                  "aws:ResourceAccount": "<lambdalayer-account-id>",
                  "aws:ResourceOrgID": "<my-org-id>",
                  "aws:PrincipalTag/dp:exclude:resource": "true"
+             }
+         }
+      },
+      {
+         "Sid": "EnforceResourcePerimeterAWSResourcesEC2PrefixList",
+         "Effect": "Deny",
+         "Action": [
+            "ec2:CreateTags",
+            "ec2:DeleteTags",
+            "ec2:GetManagedPrefixListEntries"
+         ],
+         "Resource": "*",
+         "Condition": {
+             "StringNotEqualsIfExists": {
+               "aws:ResourceOrgID": "<my-org-id>",
+               "aws:PrincipalTag/dp:exclude:resource:ec2": "true",
+               "aws:PrincipalTag/dp:exclude:resource": "true"
              }
          }
       },
