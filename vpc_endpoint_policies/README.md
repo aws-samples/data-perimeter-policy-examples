@@ -252,7 +252,7 @@ Example data access patterns:
         * `arn:aws:s3:::aws-neptune-notebook-<region>`
         * `arn:aws:s3:::aws-neptune-notebook-<region>/*`
 
-* *AWS-managed prefix lists.* AWS-managed EC2 prefix lists are sets of IP ranges for AWS services, maintained by AWS. They simplify referencing service IPs when configuring security groups and other VPC network controls. The API call is made by your principals to access AWS-managed prefixes might pass through the EC2 VPC endpoint. 
+* *AWS-managed prefix lists.* AWS-managed EC2 prefix lists are sets of IP ranges for AWS services, maintained by AWS. They simplify referencing service IPs when configuring security groups and other VPC network controls. The API call to AWS-managed prefixes might pass through the EC2 VPC endpoint and is made by your principals. 
   		  
     * [AWS managed prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-aws-managed-prefix-lists.html)
 
