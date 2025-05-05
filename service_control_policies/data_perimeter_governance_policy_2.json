@@ -75,6 +75,7 @@
          "Action":[
             "sagemaker:CreateAutoMLJob",
             "sagemaker:CreateAutoMLJobV2",
+            "sagemaker:CreateCluster",
             "sagemaker:CreateDataQualityJobDefinition",
             "sagemaker:CreateDomain",
             "sagemaker:CreateHyperParameterTuningJob",
