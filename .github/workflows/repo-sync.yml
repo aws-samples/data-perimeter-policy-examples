@@ -24,4 +24,5 @@ jobs:
       with:
         source_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
         destination_branch: main
+        destination_repo: ${{ secrets.DESTINATION_REPOSITORY }}
         github_token: ${{ secrets.GITHUB_TOKEN }}
