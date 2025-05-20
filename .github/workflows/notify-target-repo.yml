@@ -1,0 +1,16 @@
+name: Notify Target Repo on Push
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Target Repository
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_SYNC }}
+          repository: lauradreith/data-perimeter-policy-examples
+          event-type: source-repo-push
