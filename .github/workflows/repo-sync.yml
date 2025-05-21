@@ -18,10 +18,10 @@ jobs:
         github_token: ${{ secrets.REPO_SYNC }}
     - uses: repo-sync/pull-request@v2
       name: Debug Destination Repository
-      run: echo "Destination Repository: ${{ secrets.DESTINATION_REPOSITORY }}"
+      run: echo "Destination Repository debugging: ${{ secrets.destination_repository }}"
       name: Create pull request
       with:
         source_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
-        destination_repository: ${{ secrets.DESTINATION_REPOSITORY }}
+        destination_repository: https://${{ secrets.REPO_SYNC }}@github.com/aws-samples/sample-data-perimeter-policy-examples-staging.git
         destination_branch: main
         github_token: ${{ secrets.REPO_SYNC }}
