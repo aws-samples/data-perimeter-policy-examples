@@ -17,6 +17,8 @@ jobs:
         destination_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
         github_token: ${{ secrets.REPO_SYNC }}
     - uses: repo-sync/pull-request@v2
+      name: Debug Destination Repository
+      run: echo "Destination Repository: ${{ secrets.DESTINATION_REPOSITORY }}"
       name: Create pull request
       with:
         source_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
