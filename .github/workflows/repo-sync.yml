@@ -16,7 +16,6 @@ jobs:
         source_branch: main
         destination_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
         github_token: ${{ secrets.REPO_SYNC }}
-        skip_if_no_changes: true
     - name: Print workflow inputs
       run: |
         echo "source_repo: ${{ inputs.source_repo }}"
