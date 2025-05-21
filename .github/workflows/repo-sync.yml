@@ -20,6 +20,5 @@ jobs:
       name: Create pull request
       with:
         source_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
-        destination_repository: https://${{ secrets.REPO_SYNC }}@github.com/aws-samples/sample-data-perimeter-policy-examples-staging.git
         destination_branch: main
         github_token: ${{ secrets.REPO_SYNC }}
