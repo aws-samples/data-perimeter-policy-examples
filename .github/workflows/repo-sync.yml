@@ -12,7 +12,7 @@ jobs:
     - uses: repo-sync/github-sync@v2
       name: Sync repo to branch
       with:
-        source_repo: ${{ secrets.SOURCE_REPO }}
+        source_repo: aws-samples/data-perimeter-policy-examples
         source_branch: main
         destination_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
         github_token: ${{ secrets.REPO_SYNC }}
