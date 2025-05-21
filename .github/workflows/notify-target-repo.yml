@@ -7,10 +7,11 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
+    if: github.event.commits[0].message != 'Merge pull request' # optional filter
     steps:
-      - name: Notify Target Repository
+      - name: Notify target repo
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.REPO_SYNC }}
           repository: lauradreith/data-perimeter-policy-examples
-          event-type: source-repo-push
+          event-type: source-merged
