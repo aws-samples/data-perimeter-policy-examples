@@ -20,6 +20,5 @@ jobs:
       name: Create pull request
       with:
         source_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
-        destination_repository: ${{ secrets.DESTINATION_REPOSITORY }}
         destination_branch: main
         github_token: ${{ secrets.REPO_SYNC }}
