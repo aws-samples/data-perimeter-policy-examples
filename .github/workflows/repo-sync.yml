@@ -1,9 +1,7 @@
 name: Repo Sync
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   repo-sync:
