@@ -16,6 +16,7 @@ jobs:
         source_branch: main
         destination_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
         github_token: ${{ secrets.REPO_SYNC }}
+        exclude: '.github/workflows/repo-sync.yml'
     - uses: repo-sync/pull-request@v2
       name: Create pull request
       with:
