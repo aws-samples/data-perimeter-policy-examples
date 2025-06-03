@@ -1,0 +1,57 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToOrgsResources",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "*",          
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:ResourceOrgID": "<my-org-id>"
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByAWSServicePrincipals",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "aws:PrincipalIsAWSService": "true"
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "*",
+            "Resource": [
+              "arn:aws:iam::aws:policy/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>"
+                }
+            }
+        },
+        {
+            "Sid": "AllowRequestsByOrgsIdentitiesToAnyResources",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "*",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "<my-org-id>",
+                    "aws:PrincipalTag/dp:exclude:resource": "true"
+                }
+            }
+        }
+    ]
+}

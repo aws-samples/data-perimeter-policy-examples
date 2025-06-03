@@ -81,11 +81,7 @@
             "ssm:StartChangeRequestExecution",
             "ssm:StartAutomationExecution"
          ],
-         "Resource": [
-            "arn:aws:ssm:*:*:document/*",
-            "arn:aws:ssm:*:*:parameter/*",
-            "arn:aws:ssm:*:*:automation-definition/*"
-        ],
+         "Resource": "*",
          "Condition": {
              "StringNotEqualsIfExists": {
                  "aws:ResourceOrgID": "<my-org-id>",

@@ -34,11 +34,11 @@ You implement data perimeters primarily by using three different policy types: [
 |Data perimeter	| Control objective| Policy type | Primary IAM capability | Policy examples |
 |--- |---	|---	|---	|---	|
 |Identity perimeter  |Only trusted identities can access my resources |RCP |aws:PrincipalOrgID, aws:PrincipalIsAWSService, aws:SourceOrgID|[resource_control_policies](resource_control_policies)|
-|           | Only trusted identities are allowed from my network |VPC endpoint policy |aws:PrincipalOrgID, aws:PrincipalIsAWSService|[vpc_endpoint_policies](vpc_endpoint_policies)|
+|Identity perimeter  | Only trusted identities are allowed from my network |VPC endpoint policy |aws:PrincipalOrgID, aws:PrincipalIsAWSService|[vpc_endpoint_policies](vpc_endpoint_policies)|
 |Resource perimeter |My identities can access only trusted resources |SCP |aws:ResourceOrgID|[service_control_policies](service_control_policies)|
-|         |Only trusted resources can be accessed from my network |VPC endpoint policy |aws:ResourceOrgID|[vpc_endpoint_policies](vpc_endpoint_policies)|
+|Resource perimeter |Only trusted resources can be accessed from my network |VPC endpoint policy |aws:ResourceOrgID|[vpc_endpoint_policies](vpc_endpoint_policies)|
 |Network perimeter |My identities can access resources only from expected networks |SCP |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService|[service_control_policies](service_control_policies)|
-|        |My resources can only be accessed from expected networks |RCP |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService, aws:PrincipalIsAWSService|[resource_control_policies](resource_control_policies)|
+|Network perimeter |My resources can only be accessed from expected networks |RCP |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService, aws:PrincipalIsAWSService|[resource_control_policies](resource_control_policies)|
 
 
 Policy examples in this repository include various data access patterns you might need to account for when implementing a data perimeter on AWS. The README.md in the folder for each policy type contains information about the included access patterns.
@@ -54,7 +54,7 @@ Policy examples in this repository use the `aws:PrincipalTag/tag-key` and `aws:R
 5. Tag IAM principals in your accounts that should be excluded from the resource perimeter with the `dp:exclude:resource:<service>` tag key and the value set to `true`. This tag key is designed for human users and applications that should be able to access service-specific resources that do not belong to your organization.
 6. Tag IAM principals and resources in your accounts that should be excluded from all data perimeters with the `dp:exclude` tag key and the value set to `true`. This tag key is designed for human users, applications, and resources that should not be restricted by any perimeter control.
 
-Because the preceding tags are used for authorization, the [data_perimeter_governance_policy_1](service_control_policies/data_perimeter_governance_policy_1.json) and [data_perimeter_governance_rcp](resource_control_policies/data_perimeter_governance_rcp.json) policy examples include statements to protect these tags from unauthorized changes. In the `data_perimeter_governance_policy_1` example, only principals in your organization with the `team` tag and the value set to `admin` will be able to apply and modify these tags. `data_perimeter_governance_rcp` demonstrates how to protect session tags with an exception for tags that are set by your trusted SAML identity provider(s). You can modify the example policies based on the tagging strategy and governance adopted in your organization.
+Because the preceding tags are used for authorization, the [data_perimeter_governance_scp](service_control_policies/data_perimeter_governance_scp.json) and [data_perimeter_governance_rcp](resource_control_policies/data_perimeter_governance_rcp.json) policy examples include statements to protect these tags from unauthorized changes. In the `data_perimeter_governance_scp` example, only principals in your organization with the `team` tag and the value set to `admin` will be able to apply and modify these tags. `data_perimeter_governance_rcp` demonstrates how to protect session tags with an exception for tags that are set by your trusted SAML identity provider(s). You can modify the example policies based on the tagging strategy and governance adopted in your organization.
 
 
 Note that if you are using [AWS Control Tower](https://aws.amazon.com/controltower/) to centrally manage and govern your accounts, you might also need to exclude [AWSControlTowerExecution and other roles](https://docs.aws.amazon.com/controltower/latest/userguide/roles-how.html) that the service uses to manage accounts on your behalf.
@@ -80,7 +80,7 @@ To effectively use the example policies in this repository, follow these steps:
         * If you do not have third party integrations that require access to your resources or networks:
             * Remove `<third-party-account-a>` and `<third-party-account-b>` from the `aws:PrincipalAccount` condition key in the resource control policy (RCP) examples.
             * Remove `"Sid": “AllowRequestsByOrgsIdentitiesToThirdPartyResources"` and `"Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"` statements from the VPC endpoint policy examples.
-            * Remove the `"Sid":"EnforceResourcePerimeterThirdPartyResources"` statement from the `resource_perimeter_policy` SCP example.
+            * Remove the `"Sid":"EnforceResourcePerimeterThirdPartyResources"` statement from the `resource_perimeter_scp` SCP example.
     * Replace `<OIDC_provider_name_1>`, `<OIDC_provider_name_2>`, and `<my-tenant-value>` with the names of your trusted OIDC providers and tenant.        
     * Tag IAM identities and resources in your accounts in accordance with the tagging conventions for applying data perimeter controls (see the [Tagging conventions](#tagging-conventions) earlier in this document).
 3. Deploy policies by using the AWS Management Console or AWS CLI. You can also automate the deployment by using your Infrastructure as Code and CI/CD solutions.

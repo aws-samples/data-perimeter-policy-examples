@@ -130,6 +130,24 @@
             }
          }
       },
+            {
+         "Sid":"PreventLambdaFunctionURLAuthNone",
+         "Effect":"Deny",
+         "Action":[
+            "lambda:AddPermission",
+            "lambda:UpdateFunctionU*",
+            "lambda:CreateFunctionU*"
+         ],
+         "Resource":"*",
+         "Condition":{
+            "StringNotEqualsIfExists":{
+               "aws:PrincipalTag/dp:exclude:identity": "true"
+            },
+            "StringEquals": {
+               "lambda:FunctionUrlAuthType" : "NONE"
+            }
+         }
+      },
       {
          "Sid": "ProtectDataPerimeterTags",
          "Effect": "Deny",
