@@ -1,0 +1,42 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "PreventIdPTrustModifications",
+         "Effect": "Deny",
+         "Action": [
+           "iam:CreateOpenIDConnectProvider",
+           "iam:DeleteOpenIDConnectProvider",
+           "iam:AddClientIDToOpenIDConnectProvider",
+           "iam:RemoveClientIDFromOpenIDConnectProvider",
+           "iam:TagOpenIDConnectProvider",
+           "iam:UntagOpenIDConnectProvider",
+           "iam:UpdateOpenIDConnectProviderThumbprint",
+           "iam:CreateSAMLProvider",
+           "iam:DeleteSAMLProvider",
+           "iam:TagSAMLProvider",
+           "iam:UntagSAMLProvider",
+           "iam:UpdateSAMLProvider",
+           "rolesanywhere:CreateTrustAnchor",
+           "rolesanywhere:DeleteTrustAnchor",
+           "rolesanywhere:EnableTrustAnchor",
+           "rolesanywhere:DisableTrustAnchor",
+           "rolesanywhere:UpdateTrustAnchor",
+           "rolesanywhere:EnableCrl",
+           "rolesanywhere:DeleteCrl",
+           "rolesanywhere:DisableCrl",
+           "rolesanywhere:ImportCrl",
+           "rolesanywhere:UpdateCrl",
+           "rolesanywhere:TagResource",
+           "rolesanywhere:UntagResource",
+           "sso:CreateInstance"
+         ],
+         "Resource": "*",
+         "Condition": {
+           "StringNotEqualsIfExists": {
+             "aws:PrincipalTag/dp:exclude:identity": "true"
+           }
+         }
+      }
+   ]
+}
