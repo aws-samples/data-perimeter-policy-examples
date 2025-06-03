@@ -135,8 +135,8 @@
          "Effect":"Deny",
          "Action":[
             "lambda:AddPermission",
-            "lambda:UpdateFunctionU*",
-            "lambda:CreateFunctionU*"
+            "lambda:UpdateFunctionUrlConfig",
+            "lambda:CreateFunctionUrlConfig"
          ],
          "Resource":"*",
          "Condition":{
