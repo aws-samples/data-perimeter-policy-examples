@@ -160,7 +160,7 @@ Example data access patterns:
 * [Amazon WorkSpaces image](https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html): You can share custom WorkSpaces images with other accounts with the `UpdateWorkspaceImagePermission` API.
 * [Amazon CloudWatch sink](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html): You can share observability data with other accounts with the `CreateLink` API.
 * [AWS Service Catalog portfolio](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_sharing.html): AWS Service Catalog portfolios can be shared with other AWS accounts with the `CreatePortfolioShare` API.
-* [AWS Config aggregator](https://docs.aws.amazon.com/config/latest/developerguide/aggregate-data.html): The `PutConfigurationAggregator` API allows you to select another account to add to your AWS Config aggregator.
+* [AWS Config aggregator](https://docs.aws.amazon.com/config/latest/developerguide/aggregate-data.html): The `PutConfigurationAggregator` API allows you to select another account to add to your AWS Config aggregator. Additionally, the `PutAggregationAuthorization` API allows you to authorize another account to collect data from your account.
 * [AWS Fault Injection experiment template](https://docs.aws.amazon.com/fis/latest/userguide/multi-account.html): You create a multi-account experiment template by specifying other accounts with the `CreateTargetAccountConfiguration` API. 
 * [AWS Global Accelerator attachment](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.create-attachment.html): You can add a resource from another account as an endpoint for an accelerator with the `CreateCrossAccountAttachment` API.
 * [AWS Cloud9 shared environment](https://docs.aws.amazon.com/cloud9/latest/user-guide/share-environment.html): You can share AWS Cloud9 development environment with users from other accounts with the `CreateEnvironmentMembership` API.
@@ -169,7 +169,7 @@ Example data access patterns:
 
 ### "Sid":"ProtectActionsNotSupportedByPrimaryDPControls"
 
-This statement is included in [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts actions that are not supported by primary data perimeter controls, such as those listed in the[ResourceOrgID condition key page](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourceorgid). 
+This statement is included in [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts actions that are not supported by primary data perimeter controls, such as those listed in the [ResourceOrgID condition key page](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourceorgid). 
 
 Example data access patterns:
 
@@ -190,16 +190,6 @@ You can also consider using service-specific condition keys such as `ec2:Accepte
 ### "Sid":"ProtectDataPerimeterTags"
 
 This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and prevents the attaching, detaching, and modifying of tags used for authorization controls within the data perimeter.
-
-### "Sid":"PreventS3PublicAccessBlockConfigurations"
-
-This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and prevents users from altering S3 Block Public Access configurations.
-
-[S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html) provides settings for access points, buckets, and accounts to help you manage public access to Amazon S3 resources. With S3 Block Public Access, account administrators and bucket owners can set up centralized controls to limit public access to their Amazon S3 resources that are enforced, regardless of how the resources are created. 
-
-### "Sid":"PreventPublicBucketACL"
-
-This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and prevents users from applying public read and public read-write canned access control lists to Amazon S3 buckets.
 
 ### "Sid":"PreventLambdaFunctionURLAuthNone"
 

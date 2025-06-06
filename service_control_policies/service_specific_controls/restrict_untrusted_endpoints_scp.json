@@ -1,0 +1,24 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PreventUntrustedSNSEmailSubscriptions",
+      "Effect": "Deny",
+      "Action": [
+        "sns:Subscribe"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "sns:Protocol": "email"
+        },
+        "StringNotLike": {
+          "sns:Endpoint": "*@<trusted_email_domain>"
+        },
+        "StringNotEqualsIfExists": {
+          "aws:PrincipalTag/dp:exclude:resource": "true"
+        }
+      }
+    }
+  ]
+}

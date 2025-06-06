@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PreventCreationOfServicePresignedURL",
+      "Effect": "Deny",
+      "Action": [
+        "lambda:GetFunction"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEqualsIfExists": {
+          "aws:PrincipalTag/dp:exclude:network": "true"
+        }
+      }
+    }
+  ]
+}

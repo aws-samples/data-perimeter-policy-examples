@@ -12,7 +12,9 @@ Use the following example SCPs individually or in combination:
 * [network_perimeter_iam_users_scp](/service_control_policies/service_specific_controls/network_perimeter_iam_users_scp.json) - Enforces network perimeter controls on IAM users with long-term access keys.
 * [network_perimeter_lambda_scp](/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json) - Enforces network perimeter controls on service roles used by AWS Lambda.
 * [restrict_nonvpc_deployment_scp](/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) - Enforces deployment of resources in a customer managed Amazon VPC.
-* [restrict_idp_configurations_scp](/service_control_policies/service_specific_controls/restrict_idp_configurations_scp.json) - Restricts ability to make configuration changes to the IAM SAML identity providers.
+* [restrict_idp_configurations_scp](/service_control_policies/service_specific_controls/restrict_idp_configurations_scp.json) - Restricts the ability to make configuration changes to the IAM SAML identity providers.
+* [restrict_untrusted_endpoints_scp](/service_control_policies/service_specific_controls/restrict_untrusted_endpoints_scp.json) - Prevent untrusted non-AWS resources from being configured as targets for service operations.
+* [restrict_presignedURL_scp](service_control_policies/service_specific_controls/restrict_presignedURL_scp.json) - Restricts the ability to create Amazon S3 presigned URLs within specific services.
 
 Note that the SCP examples in this repository use a [deny list strategy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_strategies.html), which means that you also need a FullAWSAccess policy or other policy attached to your AWS Organizations organization entities to allow actions. You still also need to grant appropriate permissions to your principals by using identity-based or resource-based policies.
 
@@ -91,3 +93,10 @@ For more details, see the definition of the parameter [`AppNetworkAccessType`](h
 This statement is included in the [restrict_nonvpc_deployment_scp](restrict_nonvpc_deployment_scp.json) and prevents users from creating [Amazon SageMaker Notebooks Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) that can access the internet through a VPC managed by SageMaker.        
 For more details, see [Connect a Notebook Instance in a VPC to External Resources](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-notebook-and-internet-access.html) in the Amazon SageMaker documentation.
 
+### "Sid": "PreventUntrustedSNSEmailSubscriptions"
+
+This statement is included in the [restrict_sns_subscription_scp](/service_control_policies/service_specific_controls/restrict_sns_subscription_scp.json) and prevents users from subscribing email addresses that belong to domains other than the one denoted by <trusted_email_domain> to an SNS topic. See [Amazon SNS policy keys](https://docs.aws.amazon.com/sns/latest/dg/sns-using-identity-based-policies.html#sns-policy-keys) for more details.
+
+### "Sid": "PreventCreationOfServicePresignedURL"
+
+This statement is included in the [restrict_presignedURL_scp](service_control_policies/service_specific_controls/restrict_presignedURL_scp.json) and prevents users from creating Amazon S3 presigned URLs within specific services.
