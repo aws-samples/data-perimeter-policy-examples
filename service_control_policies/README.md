@@ -129,9 +129,9 @@ This statement is included in the [data_perimeter_governance_scp](data_perimeter
 
 [Some AWS resources](https://docs.aws.amazon.com/ram/latest/userguide/shareable.html#shareable-r53.) allow cross-account sharing via AWS RAM instead of resource-based policies. By default, AWS RAM shares allow sharing outside of an Organizations organization. You can explicitly [restrict sharing of resources outside of AWS Organizations](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-create.html) and then limit AWS RAM actions based on this configuration.
 
-### "Sid":"PreventExternalResourceShare"
+### "Sid":"PreventExternalResourceShare" and "Sid": "PreventExternalResourceShareKMS"
 
-This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts resource sharing by capabilities that are embedded into services.
+These statements are included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restrict resource sharing by capabilities that are embedded into services.
 
 Some AWS services use neither resource-based policies nor AWS RAM.
 
@@ -166,6 +166,7 @@ Example data access patterns:
 * [AWS Cloud9 shared environment](https://docs.aws.amazon.com/cloud9/latest/user-guide/share-environment.html): You can share AWS Cloud9 development environment with users from other accounts with the `CreateEnvironmentMembership` API.
 * [Amazon Connect dataset](https://docs.aws.amazon.com/connect/latest/APIReference/API_BatchAssociateAnalyticsDataSet.html#connect-BatchAssociateAnalyticsDataSet-request-DataSetIds): You can associate a list of Amazon Connect instance analytics datasets to a target account using `BatchAssociateAnalyticsDataSet` API.
 * [Amazon Redshift Serverless snapshot](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_PutResourcePolicy.html): You can share snapshots across AWS accounts using `PutResourcePolicy` API.
+* [AWS KMS grants](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html): The `CreateGrant` API allows you to add a grant for another account to use your KMS key.
 
 ### "Sid":"ProtectActionsNotSupportedByPrimaryDPControls"
 

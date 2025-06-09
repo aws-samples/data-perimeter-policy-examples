@@ -11,9 +11,9 @@ The following table specifies whether additional considerations apply to a speci
 | Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
 |----------------|-------------------|------------|-------------|------------------------|
 | Identity perimeter | Only trusted identities can access my resources | Resource | RCP | N |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC Endpoint Policy | Y |
+| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | Y |
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | N |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC Endpoint Policy | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
 | Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
 
@@ -30,8 +30,8 @@ The service does not currently support VPC endpoint policies.
 
 If you want to restrict access to your networks to trusted identities and trusted resources, consider implementing these additional controls:
 
-* **Preventative control example**: Consider implementing `aws:ResourceOrgID` in an SCP to restrict service API calls so that your identities can only access trusted resources. See [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for an example policy.
-* **Preventative control example**: Consider using your existing security appliances such as outbound proxies to inspect service API calls in your environment for the identities making the calls and resources being accessed, and restrict the calls accordingly. This type of solution might have implications for security, scalability, latency, and reliability that you should evaluate carefully.
+* **Preventative control example 1**: Consider implementing `aws:ResourceOrgID` in an SCP to restrict service API calls so that your identities can only access trusted resources. See [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for an example policy.
+* **Preventative control example 2**: Consider using your existing security appliances such as outbound proxies to inspect service API calls in your environment for the identities making the calls and resources being accessed, and restrict the calls accordingly. This type of solution might have implications for security, scalability, latency, and reliability that you should evaluate carefully.
 
 
 

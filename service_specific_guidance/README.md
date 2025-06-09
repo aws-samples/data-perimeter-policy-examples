@@ -15,4 +15,4 @@ The following are the types of additional controls that you might want to consid
 
 Based on your risk-mitigation strategy, determine which of these control types to apply for additional considerations outlined in each service-specific document. 
 
-When AWS services make calls to other services on your behalf, you might need to review service-specific guidance for all services in use to implement appropriate controls. For example, when using services that stores data using your Amazon S3 buckets, consider implementing data perimeter controls for Amazon S3 by consulting S3-specific guidance for comprehensive control coverage.
+When AWS services make calls to other services on your behalf, you might need to review service-specific guidance for all services in use to implement appropriate controls. For example, when using services that store data using your Amazon S3 buckets, consider implementing data perimeter controls for Amazon S3 by consulting S3-specific guidance for comprehensive control coverage.

@@ -7,7 +7,6 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License-
 * [DISCLAIMER](#disclaimer)
 * [Introduction](#introduction)
 * [Getting started](#getting-started)
-* [Tagging conventions](#tagging-conventions)
 * [Implementation](#implementation)
 * [License summary](#license-summary)
 
@@ -23,23 +22,23 @@ This repository contains example policies to help you implement a [data perimete
 
 A data perimeter is a set of preventive controls you can use to help ensure that only your trusted identities access your trusted resources from expected networks. These controls act as always-on boundaries to help protect sensitive data from unintended access and data disclosure risks. 
 
-To help you get started, we cover three initial phases of a data perimeter implementation journey: 1. Examine your security objectives, 2. Set your boundaries, and 3. Design data perimeter controls. This repository does not cover other phases of the journey such as impact analysis that are detailed in [Establishing a data perimeter on AWS: Analyze your account activity to evaluate impact and refine controls](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-analyze-your-account-activity-to-evaluate-impact-and-refine-controls/).
+To help you get started, we cover three initial phases of a data perimeter implementation journey: 1. Examine your security objectives, 2. Set your boundaries, and 3. Design data perimeter controls. For details about the other phases of the journey such as impact analysis, see [Establishing a data perimeter on AWS: Analyze your account activity to evaluate impact and refine controls](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-analyze-your-account-activity-to-evaluate-impact-and-refine-controls/).
 
 ![data_perimeter_implementation_journey](data_perimeter_implementation_journey.png)
 
-Note: A data perimeter is a set of [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/) authorization controls that helps restrict access over AWS APIs. Other types of security controls for preventing unauthorized access, such as network traffic inspection and encryption, are not covered in this repository.
+**Note**: A data perimeter is a set of [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/) authorization controls that helps restrict access over AWS APIs. Other types of security controls for preventing unauthorized access, such as network traffic inspection and encryption, are not covered in this repository.
 
 ### Examine your security objectives
 
 The first step in implementing a data perimeter is identifying areas where data perimeter controls could help improve your security posture or optimize the implementation of controls for your organization's security control objectives. Your control objectives can be influenced by a variety of factors such as compliance and regulatory requirements, legal and contractual obligations, types of workloads, data classification, and your organizations’ threat model. When your control objectives are well-defined and prioritized, identify those that can be achieved by using data perimeter controls. 
 
-To better inform the iterative risk-based approach to implementing data perimeter controls, you need to understand which security risks and threat vectors they help address. The following table contains data perimeter control objectives mapped to common security risks. You can learn more about the security objectives and risks reduced by each perimeter type by reading the associated blog posts.
+To better inform the iterative risk-based approach to implementing data perimeter controls, you need to understand which security risks and threat vectors they help address. The following table contains data perimeter control objectives mapped to common security risks. You can learn more about the security objectives and risks reduced by each perimeter type by reading the blog posts linked in the "Security risk reduced" column.
 
-|Data perimeter	| Control objective| Security risk reduced | Blog post |
-|--- |---	|---	|---	|
-|Identity perimeter  |Only trusted identities can access my resources<br /><br /> Only trusted identities are allowed from my network |Unauthorized access by identities external to your organization |[Identity perimeter blog post](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-only-trusted-identities-to-access-company-data/)|
-|Resource perimeter |My identities can access only trusted resources<br /><br /> Only trusted resources can be accessed from my network|Unintended data movement to resources outside your organization |[Resource perimeter blog post](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-only-trusted-resources-from-my-organization/)|
-|Network perimeter |My identities can access resources only from expected networks<br /><br /> My resources can only be accessed from expected networks |Use of credentials outside your corporate environment |[Network perimeter blog post](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-access-to-company-data-only-from-expected-networks/)|
+|Data perimeter	| Control objective| Security risk reduced |
+|--- |---	|---	|
+|Identity perimeter  |Only trusted identities can access my resources<br /><br /> Only trusted identities are allowed from my network |[Unauthorized access by identities external to your organization](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-only-trusted-identities-to-access-company-data/)|
+|Resource perimeter |My identities can access only trusted resources<br /><br /> Only trusted resources can be accessed from my network|[Unintended data movement to resources outside your organization](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-only-trusted-resources-from-my-organization/) |
+|Network perimeter |My identities can access resources only from expected networks<br /><br /> My resources can only be accessed from expected networks |[Use of credentials outside your corporate environment](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-access-to-company-data-only-from-expected-networks/) |
 
 Your cloud operating model and specific use of AWS services should inform the necessity for specific data perimeter controls. Though you may have existing controls in place to address data perimeter objectives, it's important to evaluate their effectiveness. If these controls don't reduce risks to an acceptable level or fall short of fully achieving your security objectives, implementing data perimeter controls can provide a scalable solution.
 
@@ -47,40 +46,44 @@ Your cloud operating model and specific use of AWS services should inform the ne
 
 After your security objectives are defined and data perimeter controls are selected, you need to define what trusted identities, trusted resources, and expected networks mean to your organization. These terms are defined as follows:
 
-•	Trusted identities: Principals (IAM roles or users) within your AWS accounts, or AWS services acting on your behalf. 
-•	Trusted resources: Resources owned by your AWS accounts or by AWS services acting on your behalf. 
-•	Expected networks: Your on-premises data centers and virtual private clouds (VPCs), or networks of AWS services acting on your behalf.
+* **Trusted identities**: Principals (IAM roles or users) within your AWS accounts, or AWS services acting on your behalf. 
+* **Trusted resources**: Resources owned by your AWS accounts or by AWS services acting on your behalf. 
+* **Expected networks**: Your on-premises data centers and virtual private clouds (VPCs), or networks of AWS services acting on your behalf.
 
 To establish effective security boundaries, you might need to expand your data perimeter definitions to encompass the identities, resources, or networks of your trusted partners. For example, you could be working with business partners that require your principals to upload or download data to or from Amazon S3 buckets that belong to their account. You will need to collect your business partners’ AWS account IDs to include in the data perimeter policies.
 
 ### Design data perimeter controls
 
-After you define your trust boundaries based on your business and security requirements, you can start designing the authorization controls for enforcing these boundaries. You should start by using the default data perimeter policy examples provided in this repository. See [General data perimeter guidance](#General_data_perimeter_guidance) for more details. 
+After you define your trust boundaries based on your business and security requirements, you can start designing the authorization controls for enforcing these boundaries. You should start by reviewing the default data perimeter policy examples provided in this repository. See [General data perimeter guidance](#General-data-perimeter-guidance) for more details. You may need to tailor and extend the example policies to suit the needs of your environment and account for all intended access patterns. See [Service-specific data perimeter guidance](#Service-specific-data-perimeter-guidance) for additional considerations specific to individual AWS services.
 
-Before using certain AWS services, you may want to review additional considerations to take into account when implementing a data perimeter for a service. See [Service-specific guidance](Service_specific_guidance/README.md) to determine whether additional considerations apply to a specific service and which controls you might want to implement in addition to the general data perimeter guidance and default policies. When AWS services make calls to other services on your behalf, you might need to review service-specific guidance for all services in use to implement appropriate controls. For example, when using services that stores data using your Amazon S3 buckets, consider implementing data perimeter controls for Amazon S3 by consulting S3-specific guidance for comprehensive control coverage. Evaluate your organization's cloud operating model, existing security controls, and risk acceptance criteria to determine whether any additional controls are necessary.
-
-Note: The effectiveness of data perimeter controls relies heavily on fundamental cloud operational elements implemented correctly, including account management, governance strategy, deployment mechanisms, operating models, and change management processes. For comprehensive guidance about these fundamentals, see Organizing Your AWS Environment Using Multiple Accounts and Operational Excellence Pillar - AWS Well-Architected Framework.
-
-Note: The effectiveness of data perimeter controls relies heavily on fundamental cloud operational elements implemented correctly, including account management, governance strategy, deployment mechanisms, operating models, and change management processes. For comprehensive guidance about these fundamentals, see [Organizing Your AWS Environment Using Multiple Accounts](https://docs.aws.amazon.com/whitepapers/latest/organizing-your-aws-environment/organizing-your-aws-environment.html) and [Operational Excellence Pillar - AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html).
-
-### General data perimeter guidance
+#### General data perimeter guidance
 
 To achieve data perimeter objectives, you will primarily use three policy types: [service control policies (SCPs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html), [resource control policies (RCPs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html), and [VPC endpoint policies](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-access.html#vpc-endpoint-policies). The following table illustrates the relationships between data perimeter objectives and the default data perimeter policies provided in this repository.
 
-|Perimeter type	| Control objective| Applied on | Policy type | Primary condition key | Default policy examples |
-|--- |---	|---	|---	|---	|
-|Identity perimeter  |Only trusted identities can access my resources |Resource |RCP |aws:PrincipalOrgID, aws:PrincipalIsAWSService, aws:SourceOrgID|[identity_perimeter_rcp.json](resource_control_policies/identity_perimeter_rcp.json)|
-|Identity perimeter  | Only trusted identities are allowed from my network |Network |VPC endpoint policy |aws:PrincipalOrgID, aws:PrincipalIsAWSService|[default_endpoint_policy.json](vpc_endpoint_policies/default_endpoint_policy.json)|
-|Resource perimeter |My identities can access only trusted resources |Identity |SCP |aws:ResourceOrgID|[resource_perimeter_scp.json](service_control_policies/resource_perimeter_scp.json)|
-|Resource perimeter |Only trusted resources can be accessed from my network |Network |VPC endpoint policy |aws:ResourceOrgID|[default_endpoint_policy.json](vpc_endpoint_policies/default_endpoint_policy.json)|
-|Network perimeter |My identities can access resources only from expected networks |Identity |SCP |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService|[network_perimeter_scp.json](service_control_policies/network_perimeter_scp.json)|
-|Network perimeter |My resources can only be accessed from expected networks |Resource |RCP |aws:SourceIp, aws:SourceVpc/aws:SourceVpce, aws:ViaAWSService, aws:PrincipalIsAWSService|[network_perimeter_rcp.json](resource_control_policies/network_perimeter_rcp.json)|
+|Perimeter type	| Control objective| Applied on | Default policy examples |
+|--- |---	|---	|---	|
+|Identity perimeter  |Only trusted identities can access my resources |Resource |[identity_perimeter_rcp.json](resource_control_policies/identity_perimeter_rcp.json)|
+|Identity perimeter  | Only trusted identities are allowed from my network |Network |[default_endpoint_policy.json](vpc_endpoint_policies/default_endpoint_policy.json)|
+|Resource perimeter |My identities can access only trusted resources |Identity |[resource_perimeter_scp.json](service_control_policies/resource_perimeter_scp.json)|
+|Resource perimeter |Only trusted resources can be accessed from my network |Network |[default_endpoint_policy.json](vpc_endpoint_policies/default_endpoint_policy.json)|
+|Network perimeter |My identities can access resources only from expected networks |Identity |[network_perimeter_scp.json](service_control_policies/network_perimeter_scp.json)|
+|Network perimeter |My resources can only be accessed from expected networks |Resource |[network_perimeter_rcp.json](resource_control_policies/network_perimeter_rcp.json)|
 
-In addition to the default data perimeter policies linked in the preceding table, consider implementing [data_perimeter_governance_scp.json](service_control_policies/ata_perimeter_governance_scp.json) and [data_perimeter_governance_rcp.json](resource_control_policies/data_perimeter_governance_rcp.json). These policy examples demonstrate how to protect data perimeter control dependencies, such as principal and resource tags used to manage their scope. To achieve data perimeter control objectives with resources that are currently not supported by RCPs, you can use [resource-based policies](resource_control_policies/resource_based_policies), which are policies that are attached to resources directly. See README.md in the [service_control_policies](service_control_policies/README.md) and [resource_control_policies](resource_control_policies/README.md) folders for information about the exact governance controls included in these policies.
+See README.md in the [service_control_policies](service_control_policies/README.md), [resource_control_policies](resource_control_policies/README.md), and [vpc_endpoint_policies](vpc_endpoint_policies/README.md) folders for information about the exact controls included in the data perimeter policies linked in the preceding table.
+
+To achieve data perimeter control objectives with resources that are currently not supported by RCPs, you can use [resource-based policies](resource_control_policies/resource_based_policies), which are policies that are attached to resources directly. 
 
 To enforce data perimeter controls on your networks, use the [default_endpoint_policy.json](vpc_endpoint_policies/default_endpoint_policy.json) for services without service-specific VPC endpoint policy example in the [vpc_endpoint_policies](vpc_endpoint_policies) folder. For services with provided policy examples, such as AWS Systems Manager or Amazon EC2, start with those policies because they account for known service access patterns that require customizations to the default data perimeter controls. See README.md in the [vpc_endpoint_policies](vpc_endpoint_policies/README.md) folder for details about data access patterns to consider when implementing data perimeter controls on your networks.
 
-## Tagging conventions
+#### Service-specific data perimeter guidance
+
+Before using certain AWS services, you may want to review additional considerations to take into account when implementing a data perimeter for a service. See [Service-specific guidance](service_specific_guidance/README.md) to determine whether additional considerations apply to a specific service and which controls you might want to implement in addition to the general data perimeter guidance and default policies. When AWS services make calls to other services on your behalf, you might need to review service-specific guidance for all services in use to implement appropriate controls. For example, when using services that store data using your Amazon S3 buckets, consider implementing data perimeter controls for Amazon S3 by consulting S3-specific guidance for comprehensive control coverage. Evaluate your organization's cloud operating model, existing security controls, and risk acceptance criteria to determine whether any additional controls are necessary.
+
+**Note**: The effectiveness of data perimeter controls relies heavily on fundamental cloud operational elements implemented correctly, including account management, governance strategy, deployment mechanisms, operating models, and change management processes. For comprehensive guidance about these fundamentals, see [Organizing Your AWS Environment Using Multiple Accounts](https://docs.aws.amazon.com/whitepapers/latest/organizing-your-aws-environment/organizing-your-aws-environment.html) and [Operational Excellence Pillar - AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html).
+
+#### Tagging conventions and governance
+
+In addition to the default and service-specific data perimeter policies, consider implementing [data_perimeter_governance_scp.json](service_control_policies/data_perimeter_governance_scp.json) and [data_perimeter_governance_rcp.json](resource_control_policies/data_perimeter_governance_rcp.json). These policy examples demonstrate how to protect data perimeter control dependencies, such as principal and resource tags used to manage their scope. 
 
 Policy examples in this repository use the `aws:PrincipalTag/tag-key` and `aws:ResourceTag/tag-key` global condition keys to control the scope of data perimeter guardrails with the following tagging conventions. You should follow your existing tagging strategy or [AWS tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) when implementing in your environment.
 
@@ -91,7 +94,9 @@ Policy examples in this repository use the `aws:PrincipalTag/tag-key` and `aws:R
 5. Tag IAM principals in your accounts that should be excluded from the resource perimeter with the `dp:exclude:resource:<service>` tag key and the value set to `true`. This tag key is designed for human users and applications that should be able to access service-specific resources that do not belong to your organization.
 6. Tag IAM principals and resources in your accounts that should be excluded from all data perimeters with the `dp:exclude` tag key and the value set to `true`. This tag key is designed for human users, applications, and resources that should not be restricted by any perimeter control.
 
-Because the preceding tags are used for authorization, the [data_perimeter_governance_scp](service_control_policies/data_perimeter_governance_scp.json) and [data_perimeter_governance_rcp](resource_control_policies/data_perimeter_governance_rcp.json) policy examples include statements to protect these tags from unauthorized changes. In the `data_perimeter_governance_scp` example, only principals in your organization with the `team` tag and the value set to `admin` will be able to apply and modify these tags. `data_perimeter_governance_rcp` demonstrates how to protect session tags with an exception for tags that are set by your trusted SAML identity provider(s). You can modify the example policies based on the tagging strategy and governance adopted in your organization.
+The preceding tags are used in default, service-specific, and governance data perimeter policies based on the impact each individual control has on a particular data perimeter type. Each tag may appear in multiple policy statements to provide broad exceptions based on the six data perimeter objectives. You can adopt a more granular tagging convention and modify the example policies based on the tagging strategy and governance adopted in your organization.
+
+Because the preceding tags are used for authorization, the [data_perimeter_governance_scp](service_control_policies/data_perimeter_governance_scp.json) and [data_perimeter_governance_rcp](resource_control_policies/data_perimeter_governance_rcp.json) policy examples include statements to protect these tags from unauthorized changes. In the `data_perimeter_governance_scp` example, only principals in your organization with the `team` tag and the value set to `admin` will be able to apply and modify these tags. `data_perimeter_governance_rcp` demonstrates how to protect session tags with an exception for tags that are set by your trusted SAML identity provider(s). 
 
 
 Note that if you are using [AWS Control Tower](https://aws.amazon.com/controltower/) to centrally manage and govern your accounts, you might also need to exclude [AWSControlTowerExecution and other roles](https://docs.aws.amazon.com/controltower/latest/userguide/roles-how.html) that the service uses to manage accounts on your behalf.
@@ -119,7 +124,7 @@ To effectively use the example policies in this repository, follow these steps:
             * Remove `"Sid": “AllowRequestsByOrgsIdentitiesToThirdPartyResources"` and `"Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"` statements from the VPC endpoint policy examples.
             * Remove the `"Sid":"EnforceResourcePerimeterThirdPartyResources"` statement from the `resource_perimeter_scp` SCP example.
     * Replace `<OIDC_provider_name_1>`, `<OIDC_provider_name_2>`, and `<my-tenant-value>` with the names of your trusted OIDC providers and tenant.        
-    * Tag IAM identities and resources in your accounts in accordance with the tagging conventions for applying data perimeter controls (see the [Tagging conventions](#tagging-conventions) earlier in this document).
+    * Tag IAM identities and resources in your accounts in accordance with the tagging conventions for applying data perimeter controls (see the [Tagging conventions and governance](#tagging-conventions-and-governance) earlier in this document).
 3. Deploy policies by using the AWS Management Console or AWS CLI. You can also automate the deployment by using your Infrastructure as Code and CI/CD solutions.
     * Implement SCPs and RCPs: 
         * To use the AWS Management Console, [create](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_create.html) and [attach](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_attach.html) an SCP and RCP to an account or an organizational unit (OU).

@@ -11,9 +11,9 @@ The following table specifies whether additional considerations apply to a speci
 | Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
 |----------------|-------------------|------------|-------------|------------------------|
 | Identity perimeter | Only trusted identities can access my resources | Resource | RCP | N |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC Endpoint Policy | N |
+| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | N |
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | N |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC Endpoint Policy | N |
+| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
 | Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
 

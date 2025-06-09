@@ -11,9 +11,9 @@ The following table specifies whether additional considerations apply to a speci
 | Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
 |----------------|-------------------|------------|-------------|------------------------|
 | Identity perimeter | Only trusted identities can access my resources | Resource | RCP | Y |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC Endpoint Policy | N |
+| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | N |
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC Endpoint Policy | N |
+| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
 | Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
 
@@ -28,9 +28,9 @@ Perimeter type applicability: identity perimeter applied on resource; resource p
         
 CreateGrant allows you to create a grant for another account.
 
-See ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare) for a list of resources that can be granted cross-account access.
+See ["Sid":"PreventExternalResourceShareKMS"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare-sidpreventexternalresourcesharekms) for a list of resources that can be granted cross-account access.
 
-If you want to restrict access so that only trusted identities can take actions against your resources, consider implementing these additional controls:
+If you want to restrict access so that only trusted identities can view information about your resources, consider implementing these additional controls:
 
 * **Preventative control example 1:** Consider implementing `aws:PrincipalOrgID` in an RCP to restrict service API calls so that your resources can only be accessed by trusted identities. See [identity_perimeter_rcp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/identity_perimeter_rcp.json) for an example policy.
 * **Preventative control example 2:** Consider restricting [CreateGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html) permissions to administrators and AWS services only using an SCP. See [data_perimeter_governance_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/data_perimeter_governance_scp.json) for an example policy.

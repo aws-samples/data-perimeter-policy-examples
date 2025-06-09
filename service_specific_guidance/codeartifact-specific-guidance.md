@@ -11,9 +11,9 @@ The following table specifies whether additional considerations apply to a speci
 | Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
 |----------------|-------------------|------------|-------------|------------------------|
 | Identity perimeter | Only trusted identities can access my resources | Resource | RCP | Y |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC Endpoint Policy | Y |
+| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | Y |
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | N |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC Endpoint Policy | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
 | Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
 
@@ -31,6 +31,7 @@ PutRepositoryPermissionsPolicy allows you to apply a resource-based policy to gr
 
 If you want to restrict access to trusted identities and expected networks, consider implementing these additional controls:
 
+* **Preventative control example**: Consider restricting [PutRepositoryPermissionsPolicy](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PutRepositoryPermissionsPolicy.html) permissions to administrators only using an SCP. See [restrict_resource_policy_configurations_scp.json](../service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [PermissionsPolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codeartifact-repository.html#cfn-codeartifact-repository-permissionspolicydocument) property for the [AWS::CodeArtifact::Repository](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codeartifact-repository.html) resource that grants permissions to untrusted identities or unexpected networks. 
 * **Detective control example:** Consider using CloudTrail management events to monitor the [PutRepositoryPermissionsPolicy](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PutRepositoryPermissionsPolicy.html) API calls in your environment (specifically, the [policyDocument](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PutRepositoryPermissionsPolicy.html#codeartifact-PutRepositoryPermissionsPolicy-request-policyDocument) request parameter). If necessary, remediate with the responsive controls of your choice.
 
@@ -45,8 +46,9 @@ PutDomainPermissionsPolicy allows you to apply a resource-based policy to grant 
 
 If you want to restrict access to trusted identities and expected networks, consider implementing these additional controls:
 
+* **Preventative control example**: Consider restricting [PutDomainPermissionsPolicy](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PutDomainPermissionsPolicy.html) permissions to administrators only using an SCP. See [restrict_resource_policy_configurations_scp.json](../service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [PermissionsPolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codeartifact-domain.html#cfn-codeartifact-domain-permissionspolicydocument) property for the [AWS::CodeArtifact::Domain](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codeartifact-domain.html) resource that grants permissions to untrusted identities or unexpected networks. 
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutDomainPermissionsPolicy](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PutDomainPermissionsPolicy.html) API calls in your environment (specifically, the [policyDocument](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PutDomainPermissionsPolicy.html#API_PutDomainPermissionsPolicy_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your choice. 
+* **Detective control example:** Consider using CloudTrail management events to monitor the [PutDomainPermissionsPolicy](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PutDomainPermissionsPolicy.html) API calls in your environment (specifically, the [policyDocument](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PutDomainPermissionsPolicy.html#codeartifact-PutDomainPermissionsPolicy-request-policyDocument) request parameter). If necessary, remediate with the responsive controls of your choice. 
 
 
 
@@ -58,8 +60,8 @@ The service does not currently support VPC endpoint policies.
 
 If you want to restrict access to your networks to trusted identities and trusted resources, consider implementing these additional controls:
 
-* **Preventative control example**: Consider implementing `aws:ResourceOrgID` in an SCP to restrict service API calls so that your identities can only access trusted resources. See [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for an example policy.
-* **Preventative control example**: Consider using your existing security appliances such as outbound proxies to inspect service API calls in your environment for the identities making the calls and resources being accessed, and restrict the calls accordingly. This type of solution might have implications for security, scalability, latency, and reliability that you should evaluate carefully.
+* **Preventative control example 1**: Consider implementing `aws:ResourceOrgID` in an SCP to restrict service API calls so that your identities can only access trusted resources. See [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for an example policy.
+* **Preventative control example 2**: Consider using your existing security appliances such as outbound proxies to inspect service API calls in your environment for the identities making the calls and resources being accessed, and restrict the calls accordingly. This type of solution might have implications for security, scalability, latency, and reliability that you should evaluate carefully.
 
 
 

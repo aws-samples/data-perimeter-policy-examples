@@ -11,9 +11,9 @@ The following table specifies whether additional considerations apply to a speci
 | Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
 |----------------|-------------------|------------|-------------|------------------------|
 | Identity perimeter | Only trusted identities can access my resources | Resource | RCP | Y |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC Endpoint Policy | Y |
+| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | Y |
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC Endpoint Policy | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | Y |
 | Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
 
@@ -40,7 +40,7 @@ GetFunction returns Amazon S3 presigned URL that users can use to download AWS L
 
 If you want to restrict access to expected networks, consider implementing these additional controls:
 
-* **Preventative control example:** Consider restricting [GetFunction](https://docs.aws.amazon.com/lambda/latest/dg/API_GetFunction.html) permissions to administrators or specific applications only using an SCP. See [restrict_presignedURL_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_presignedURL_scp.json) for an example policy.
+* **Preventative control example:** Consider restricting [GetFunction](https://docs.aws.amazon.com/lambda/latest/dg/API_GetFunction.html) permissions to administrators or specific applications only using an SCP. See [restrict_presignedURL_scp.json](../service_control_policies/service_specific_controls/restrict_presignedURL_scp.json) for an example policy.
 * **Detective control example:** Consider using CloudTrail management events to monitor the [GetFunction](https://docs.aws.amazon.com/lambda/latest/dg/API_GetFunction.html) API calls in your environment. If necessary, remediate with the responsive controls of your choice.
 
 
@@ -80,7 +80,7 @@ Perimeter type applicability: resource perimeter applied on identity.
         
 UpdateCodeSigningConfig allows you to specify a signing profile that does not belong to your organization as the value for the SigningProfileVersionArns parameter. Because the subsequent call is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
-If you want to restrict access to trusted resources, consider implementing these additional controls
+If you want to restrict access to trusted resources, consider implementing these additional controls:
 
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [SigningProfileVersionArns](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-lambda-codesigningconfig-allowedpublishers.html#cfn-lambda-codesigningconfig-allowedpublishers-signingprofileversionarns) property that does not belong to your organization for the [AWS::Lambda::CodeSigningConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lambda-codesigningconfig.html) resource.
 * **Detective control example:** Consider using CloudTrail management events to monitor the [UpdateCodeSigningConfig](https://docs.aws.amazon.com/lambda/latest/api/API_UpdateCodeSigningConfig.html) API calls in your environment (specifically, the [SigningProfileVersionArns](https://docs.aws.amazon.com/lambda/latest/api/API_AllowedPublishers.html#lambda-Type-AllowedPublishers-SigningProfileVersionArns) request parameter). If necessary, remediate with the responsive controls of your  choice.
@@ -94,9 +94,10 @@ AddLayerVersionPermission allows you to apply a resource-based policy to grant a
 
 If you want to restrict access to trusted identities and expected networks, consider implementing these additional controls:
 
+* **Preventative control example**: Consider restricting [AddLayerVersionPermission](https://docs.aws.amazon.com/lambda/latest/dg/API_AddLayerVersionPermission.html) permissions to administrators only using an SCP. See [restrict_resource_policy_configurations_scp.json](../service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [Principal](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lambda-layerversionpermission.html#cfn-lambda-layerversionpermission-principal) and [OrganizationId](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lambda-layerversionpermission.html#cfn-lambda-layerversionpermission-organizationid) properties for the [AWS::Lambda::LayerVersionPermission](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-layerversionpermission.html) resource that grants permissions to untrusted identities. 
-* **Detective control example****:** Consider using [AWS Identity and Access Management Access Analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html) external access analyzers to help identify resource types that support resource-based policies in your accounts that are shared with untrusted identities. If necessary, remediate with the responsive controls of your choice. 
-* **Detective control example:** Consider using CloudTrail management events to monitor the [AddLayerVersionPermission](https://docs.aws.amazon.com/lambda/latest/dg/API_AddLayerVersionPermission.html) API calls in your environment (specifically, the [Principal](https://docs.aws.amazon.com/lambda/latest/api/API_AddLayerVersionPermission.html#lambda-AddLayerVersionPermission-request-Principal) and [OrganizationId](https://docs.aws.amazon.com/lambda/latest/api/API_AddLayerVersionPermission.html#lambda-AddLayerVersionPermission-request-OrganizationId) request parameters). 
+* **Detective control example 1:** Consider using [AWS Identity and Access Management Access Analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html) external access analyzers to help identify resource types that support resource-based policies in your accounts that are shared with untrusted identities. If necessary, remediate with the responsive controls of your choice. 
+* **Detective control example 2:** Consider using CloudTrail management events to monitor the [AddLayerVersionPermission](https://docs.aws.amazon.com/lambda/latest/dg/API_AddLayerVersionPermission.html) API calls in your environment (specifically, the [Principal](https://docs.aws.amazon.com/lambda/latest/api/API_AddLayerVersionPermission.html#lambda-AddLayerVersionPermission-request-Principal) and [OrganizationId](https://docs.aws.amazon.com/lambda/latest/api/API_AddLayerVersionPermission.html#lambda-AddLayerVersionPermission-request-OrganizationId) request parameters). 
 
 
 **Additional consideration 7**
@@ -107,6 +108,7 @@ AddPermission allows you to apply a resource-based policy to grant access to a f
 
 If you want to restrict access to trusted identities and expected networks, consider implementing these additional controls:
 
+* **Preventative control example**: Consider restricting [AddPermission](https://docs.aws.amazon.com/lambda/latest/dg/API_AddPermission.html) permissions to administrators only using an SCP. See [restrict_resource_policy_configurations_scp.json](../service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [Principal](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lambda-permission.html#cfn-lambda-permission-principal) and [PrincipalOrgID](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lambda-permission.html#cfn-lambda-permission-principalorgid) properties for the [AWS::Lambda::Permission](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lambda-permission.html) resource that grants permissions to untrusted identities or unexpected networks. 
 * **Detective control example:** Consider using [AWS Identity and Access Management Access Analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html) external access analyzers to help identify resource types that support resource-based policies in your accounts that are shared with untrusted identities. If necessary, remediate with the responsive controls of your choice. 
 * **Detective control example:** Consider using CloudTrail management events to monitor the [AddPermission](https://docs.aws.amazon.com/lambda/latest/dg/API_AddPermission.html) API calls in your environment (specifically, the [Principal](https://docs.aws.amazon.com/lambda/latest/api/API_AddPermission.html#lambda-AddPermission-request-Principal) and [PrincipalOrgID](https://docs.aws.amazon.com/lambda/latest/api/API_AddPermission.html#lambda-AddPermission-request-PrincipalOrgID) request parameter). If necessary, remediate with the responsive controls of your choice. 
@@ -119,7 +121,7 @@ Perimeter type applicability: network perimeter.
 CreateFunction and UpdateFunctionConfiguration allow you to specify a service role, referred to as a function’s execution role, for your function’s operations. The service uses the role to make AWS API calls from your code and to directly call other services on your behalf.
 
 
-If you want to restrict access to expected networks, consider using the service-specific policy, [network_perimeter_lambda_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json). This policy lists `logs:CreateLogGroup`, `logs:CreateLogStream`, `logs:PutLogEvents`, `elasticfilesystem:ClientMount`, `xray:PutTraceSegmentsin` in the `NotAction` element because the service makes direct calls from its network to CloudWatch Logs, AWS X-Ray, and Amazon Elastic File System (Amazon EFS) on your behalf. If the service role assumes another role as part of function operations, consider restricting access to expected networks for the assumed role by implementing network_perimeter_scp.json.
+If you want to restrict access to expected networks, consider using the service-specific policy, [network_perimeter_lambda_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json). This policy lists `logs:CreateLogGroup`, `logs:CreateLogStream`, `logs:PutLogEvents`, `elasticfilesystem:ClientMount`, `xray:PutTraceSegmentsin` in the `NotAction` element because the service makes direct calls from its network to CloudWatch Logs, AWS X-Ray, and Amazon Elastic File System (Amazon EFS) on your behalf. If the service role assumes another role as part of function operations, consider restricting access to expected networks for the assumed role by implementing |[network_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json).
 
 
 
@@ -129,7 +131,7 @@ Perimeter type applicability: resource perimeter applied on identity.
         
 CreateCodeSigningConfig allows you to specify a signing profile that does not belong to your organization as the value for the SigningProfileVersionArns parameter. Because the subsequent call is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
-If you want to restrict access to trusted resources, consider implementing these additional controls
+If you want to restrict access to trusted resources, consider implementing these additional controls:
 
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [SigningProfileVersionArns](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-lambda-codesigningconfig-allowedpublishers.html#cfn-lambda-codesigningconfig-allowedpublishers-signingprofileversionarns) property that does not belong to your organization for the [AWS::Lambda::CodeSigningConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lambda-codesigningconfig.html) resource.
 * **Detective control example:** Consider using CloudTrail management events to monitor the [CreateCodeSigningConfig](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateCodeSigningConfig.html) API calls in your environment (specifically, the [SigningProfileVersionArns](https://docs.aws.amazon.com/lambda/latest/api/API_AllowedPublishers.html#lambda-Type-AllowedPublishers-SigningProfileVersionArns) request parameter). If necessary, remediate with the responsive controls of your  choice.

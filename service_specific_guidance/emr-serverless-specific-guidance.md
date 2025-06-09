@@ -11,9 +11,9 @@ The following table specifies whether additional considerations apply to a speci
 | Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
 |----------------|-------------------|------------|-------------|------------------------|
 | Identity perimeter | Only trusted identities can access my resources | Resource | RCP | Y |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC Endpoint Policy | Y |
+| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | Y |
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC Endpoint Policy | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | Y |
 | Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
 
@@ -45,7 +45,7 @@ If you want to achieve data perimeter control objectives, consider implementing 
 
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [NetworkConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-emrserverless-application.html#cfn-emrserverless-application-networkconfiguration) property of the [AWS::EMRServerless::Application](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-emrserverless-application.html) resource.
 * **Detective control example 1:** Consider implementing a custom AWS Config rule to help detect EMR Serverless applications not associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
-* **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateApplication](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_CreateApplication.html) API calls in your environment (specifically, the [networkConfiguration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_CreateApplication.html#EMRServerless-CreateApplication-request-NetworkConfiguration) request parameter). If necessary, remediate with the responsive controls of your choice.
+* **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateApplication](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_CreateApplication.html) API calls in your environment (specifically, the [networkConfiguration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_CreateApplication.html#emrserverless-CreateApplication-request-networkConfiguration) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 
 

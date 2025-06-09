@@ -11,9 +11,9 @@ The following table specifies whether additional considerations apply to a speci
 | Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
 |----------------|-------------------|------------|-------------|------------------------|
 | Identity perimeter | Only trusted identities can access my resources | Resource | RCP | Y |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC Endpoint Policy | Y |
+| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | Y |
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC Endpoint Policy | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | Y |
 | Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
 
@@ -30,9 +30,9 @@ UpdateProject allows you to associate projects with an Amazon VPC to run your co
 
 If you want to achieve data perimeter control objectives, consider implementing these additional controls:
 
-* **Preventative control example:** Consider implementing `codebuild:vpcConfig.vpcId` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
-* **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild projects are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
+* **Preventative control example:** Consider implementing `codebuild:vpcConfig` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [VpcConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-vpcconfig) property of the [AWS::CodeBuild::Project](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html) resource.
+* **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild projects are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [UpdateProject](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateProject.html) API calls in your environment (specifically, the [vpcConfig](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateProject.html#CodeBuild-UpdateProject-request-vpcConfig) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 
@@ -44,7 +44,7 @@ UpdateFleet allows you to associate compute fleets with an Amazon VPC to run you
 
 If you want to achieve data perimeter control objectives, consider implementing these additional controls:
 
-* **Preventative control example:** Consider implementing `codebuild:vpcConfig.vpcId` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Preventative control example:** Consider implementing `codebuild:vpcConfig` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [FleetVpcConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html#cfn-codebuild-fleet-fleetvpcconfig) property of the [AWS::CodeBuild::Fleet](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html) resource.
 * **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild fleets are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [UpdateFleet](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateFleet.html) API calls in your environment (specifically, the [vpcConfig](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateFleet.html#CodeBuild-UpdateFleet-request-vpcConfig) request parameter). If necessary, remediate with the responsive controls of your choice.
@@ -59,7 +59,7 @@ CreateProject allows you to associate projects with an Amazon VPC to run your co
 
 If you want to achieve data perimeter control objectives, consider implementing these additional controls:
 
-* **Preventative control example:** Consider implementing `codebuild:vpcConfig.vpcId` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Preventative control example:** Consider implementing `codebuild:vpcConfig` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [VpcConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-vpcconfig) property of the [AWS::CodeBuild::Project](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html) resource.
 * **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild projects are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateProject](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateProject.html) API calls in your environment (specifically, the [vpcConfig](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateProject.html#CodeBuild-CreateProject-request-vpcConfig) request parameter). If necessary, remediate with the responsive controls of your choice.
@@ -74,7 +74,7 @@ CreateFleet allows you to associate compute fleets with an Amazon VPC to run you
 
 If you want to achieve data perimeter control objectives, consider implementing these additional controls:
 
-* **Preventative control example:** Consider implementing `codebuild:vpcConfig.vpcId` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Preventative control example:** Consider implementing `codebuild:vpcConfig` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [FleetVpcConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html#cfn-codebuild-fleet-fleetvpcconfig) property of the [AWS::CodeBuild::Fleet](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html) resource.
 * **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild fleets are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateFleet](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateFleet.html) API calls in your environment (specifically, the [vpcConfig](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateFleet.html#CodeBuild-CreateFleet-request-vpcConfig) request parameter). If necessary, remediate with the responsive controls of your choice.
@@ -89,6 +89,7 @@ PutResourcePolicy allows you to apply a resource-based policy to grant access to
 
 If you want to restrict access to trusted identities and expected networks, consider implementing these additional controls:
 
+* **Preventative control example**: Consider restricting [PutResourcePolicy](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_PutResourcePolicy.html) permissions to administrators only using an SCP. See [restrict_resource_policy_configurations_scp.json](../service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
 * **Detective control example:** Consider using CloudTrail management events to monitor the [PutResourcePolicy](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_PutResourcePolicy.html) API calls in your environment (specifically, the [policy](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_PutResourcePolicy.html#CodeBuild-PutResourcePolicy-request-policy) request parameter).
 
 
