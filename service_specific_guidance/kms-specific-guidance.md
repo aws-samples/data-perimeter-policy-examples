@@ -28,8 +28,6 @@ Perimeter type applicability: identity perimeter applied on resource; resource p
         
 CreateGrant allows you to create a grant for another account.
 
-See ["Sid":"PreventExternalResourceShareKMS"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare-sidpreventexternalresourcesharekms) for a list of resources that can be granted cross-account access.
-
 If you want to restrict access so that only trusted identities can view information about your resources, consider implementing these additional controls:
 
 * **Preventative control example 1:** Consider implementing `aws:PrincipalOrgID` in an RCP to restrict service API calls so that your resources can only be accessed by trusted identities. See [identity_perimeter_rcp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/identity_perimeter_rcp.json) for an example policy.

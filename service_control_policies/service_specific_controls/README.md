@@ -100,7 +100,7 @@ This statement is included in the [restrict_untrusted_endpoints_scp](restrict_un
 
 ### "Sid": "PreventCreationOfServicePresignedURL"
 
-This statement is included in the [restrict_presignedURL_scp](restrict_presignedURL_scp.json) and prevents users from creating Amazon S3 presigned URLs that are presigned by a service principal.
+This statement is included in the [restrict_presignedURL_scp](restrict_presignedURL_scp.json) and prevents users from making API requests that return Amazon S3 presigned URLs that are presigned by a service principal.
 
 ### "Sid": "PreventResourcePolicyConfigurations"
 

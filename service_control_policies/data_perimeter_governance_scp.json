@@ -37,7 +37,6 @@
             "ds:ShareDirectory",
             "directconnect:CreateDirectConnectGatewayAssociationProposal",
             "detective:CreateMembers",
-            "logs:PutSubscriptionFilter",
             "lakeformation:GrantPermissions",
             "lakeformation:BatchGrantPermissions",
             "appstream:UpdateImagePermissions",
@@ -66,7 +65,7 @@
          }
       },
       {
-         "Sid": "PreventExternalResourceShareKMS",
+         "Sid": "RestrictKMSGrantsCreationToAWSServices",
          "Effect": "Deny",
          "Action": "kms:CreateGrant",
          "Resource": "*",

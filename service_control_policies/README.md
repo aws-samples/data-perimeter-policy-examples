@@ -129,9 +129,9 @@ This statement is included in the [data_perimeter_governance_scp](data_perimeter
 
 [Some AWS resources](https://docs.aws.amazon.com/ram/latest/userguide/shareable.html#shareable-r53.) allow cross-account sharing via AWS RAM instead of resource-based policies. By default, AWS RAM shares allow sharing outside of an Organizations organization. You can explicitly [restrict sharing of resources outside of AWS Organizations](https://docs.aws.amazon.com/ram/latest/userguide/working-with-sharing-create.html) and then limit AWS RAM actions based on this configuration.
 
-### "Sid":"PreventExternalResourceShare" and "Sid": "PreventExternalResourceShareKMS"
+### "Sid":"PreventExternalResourceShare"
 
-These statements are included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restrict resource sharing by capabilities that are embedded into services.
+This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts resource sharing by capabilities that are embedded into services.
 
 Some AWS services use neither resource-based policies nor AWS RAM.
 
@@ -149,7 +149,6 @@ Example data access patterns:
 * [AWS Directory Service directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_directory_sharing.html): You can share a directory with other accounts with the `ShareDirectory` API.
 * [AWS Direct Connect gateway](https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html): You can associate a Direct Connect gateway with a virtual private gateway that is owned by another AWS account with the `CreateDirectConnectGatewayAssociationProposal` API.
 * [Amazon Detective graph](https://docs.aws.amazon.com/detective/latest/userguide/accounts.html): A Detective administrator account can invite other accounts to join a behavior graph with the `CreateMembers` API.
-* [Amazon CloudWatch Logs subscription filters](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/SubscriptionFilters.html): You can send CloudWatch Logs to cross-account destinations with the `PutSubscriptionFilter` API.
 * [AWS Glue Data Catalog](https://docs.aws.amazon.com/lake-formation/latest/dg/granting-catalog-perms-TBAC.html) databases: You can grant data catalog permissions to another account by using the AWS Lake Formation tag-based access control method with the `GrantPermissions` and `BatchGrantPermissions` APIs.
 * [Amazon AppStream 2.0 image](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html#share-image-with-another-account): You can share an Amazon AppStream 2.0 image that you own with other accounts with the `UpdateImagePermissions` API.
 * [Amazon Macie member accounts](https://docs.aws.amazon.com/macie/latest/user/accounts-mgmt-invitations-administer.html): You can add member accounts to your Macie administrator account with the `CreateInvitations` API.
@@ -166,7 +165,11 @@ Example data access patterns:
 * [AWS Cloud9 shared environment](https://docs.aws.amazon.com/cloud9/latest/user-guide/share-environment.html): You can share AWS Cloud9 development environment with users from other accounts with the `CreateEnvironmentMembership` API.
 * [Amazon Connect dataset](https://docs.aws.amazon.com/connect/latest/APIReference/API_BatchAssociateAnalyticsDataSet.html#connect-BatchAssociateAnalyticsDataSet-request-DataSetIds): You can associate a list of Amazon Connect instance analytics datasets to a target account using `BatchAssociateAnalyticsDataSet` API.
 * [Amazon Redshift Serverless snapshot](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_PutResourcePolicy.html): You can share snapshots across AWS accounts using `PutResourcePolicy` API.
-* [AWS KMS grants](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html): The `CreateGrant` API allows you to add a grant for another account to use your KMS key.
+
+### "Sid": “RestrictKMSGrantsCreationToAWSServices”
+This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts creation of [AWS KMS grants](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html) to administrators and AWS services only.
+
+The `CreateGrant` API allows you to add a grant for another account to use your KMS key. Use this statement to help ensure that only trusted identities can view information about your keys.
 
 ### "Sid":"ProtectActionsNotSupportedByPrimaryDPControls"
 

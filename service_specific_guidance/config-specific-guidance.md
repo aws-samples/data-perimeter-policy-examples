@@ -28,7 +28,7 @@ Perimeter type applicability: identity perimeter applied on resource; resource p
         
 PutConfigurationAggregator allows you to add another account to your aggregator.
 
-See ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare-sidpreventexternalresourcesharekms) for a list of resources that can be granted cross-account access.
+See ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare) for a list of resources that can be granted cross-account access.
 
 If you want to restrict access so that only trusted identities can take actions against your resources, consider implementing these additional controls:
 
@@ -94,7 +94,7 @@ Perimeter type applicability: identity perimeter applied on resource; resource p
         
 PutAggregationAuthorization allows you to authorize another account to collect data from your account
 
-See ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare-sidpreventexternalresourcesharekms) for a list of resources that can be granted cross-account access.
+See ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare) for a list of resources that can be granted cross-account access.
 
 If you want to restrict access so that only trusted identities can take actions against your resources, consider implementing these additional controls:
 
