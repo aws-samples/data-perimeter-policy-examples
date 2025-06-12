@@ -2,7 +2,9 @@
 # Service-specific guidance: AWS Private Certificate Authority
 
 
-This document outlines service-specific guidance for implementing a data perimeter for AWS Private Certificate Authority (AWS Private CA). AWS Private CA is a managed service that allows you to create and manage private certificate authorities (CAs) within your organization. It enables you to issue and manage private certificates for your internal applications, services, and devices, providing secure communication and authentication within your AWS environment and on-premises infrastructure.
+This document outlines service-specific guidance for implementing a data perimeter for AWS Private Certificate Authority (AWS Private CA). 
+
+AWS Private CA is a managed service that allows you to create and manage private certificate authorities (CAs) within your organization. It enables you to issue and manage private certificates for your internal applications, services, and devices, providing secure communication and authentication within your AWS environment and on-premises infrastructure.
 
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.

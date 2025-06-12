@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon Simple Storage Service. 
+
 Amazon Simple Storage Service (Amazon S3) is a scalable object storage service that offers industry-leading durability, availability, and performance. It allows you to store and retrieve any amount of data from anywhere on the web, making it ideal for a wide range of use cases such as data lakes, websites, mobile applications, backup and restore, archive, and big data analytics.
 
 

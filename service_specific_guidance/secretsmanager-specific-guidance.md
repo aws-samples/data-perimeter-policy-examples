@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for AWS Secrets Manager. 
+
 AWS Secrets Manager is a service that helps you protect access to your applications, services, and IT resources. It enables you to easily rotate, manage, and retrieve database credentials, API keys, and other secrets throughout their lifecycle. Secrets Manager allows you to replace hardcoded credentials in your code with an API call to Secrets Manager to retrieve the secret programmatically.
 
 

@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon DynamoDB. 
+
 Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. It allows you to store and retrieve any amount of data, and serve any level of request traffic. DynamoDB offers built-in security, backup and restore, and in-memory caching for internet-scale applications.
 
 

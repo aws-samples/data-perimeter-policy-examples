@@ -2,7 +2,9 @@
 # Service-specific guidance: AWS Identity and Access Management Access Analyzer
 
 
-This document outlines service-specific guidance for implementing a data perimeter for AWS Identity and Access Management Access Analyzer. IAM Access Analyzer helps you to set, verify, and refine your IAM policies by providing a suite of capabilities. Its features include findings for external and unused access, basic and custom policy checks for validating policies, and policy generation to generate fine-grained policies. 
+This document outlines service-specific guidance for implementing a data perimeter for AWS Identity and Access Management Access Analyzer. 
+
+IAM Access Analyzer helps you to set, verify, and refine your IAM policies by providing a suite of capabilities. Its features include findings for external and unused access, basic and custom policy checks for validating policies, and policy generation to generate fine-grained policies. 
 
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.

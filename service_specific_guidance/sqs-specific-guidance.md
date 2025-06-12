@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon Simple Queue Service (SQS). 
+
 Amazon SQS is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications. SQS offers two types of message queues: standard queues for maximum throughput and at-least-once delivery, and FIFO queues for exactly-once processing and strict message ordering. It allows you to send, store, and receive messages between software components without losing messages or requiring other services to be available.
 
 

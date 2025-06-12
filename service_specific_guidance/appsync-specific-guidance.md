@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for AWS AppSync. 
+
 AWS AppSync is a fully managed service that enables developers to create scalable GraphQL APIs. It simplifies the process of building applications by allowing you to easily connect to various data sources, including AWS DynamoDB, Lambda, and HTTP APIs. AppSync handles real-time data synchronization and offline programming models, making it ideal for building responsive and collaborative applications across web and mobile platforms.
 
 

@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon EMR Serverless. 
+
 Amazon EMR Serverless is a managed service that allows you to run big data analytics applications without the need to configure, manage, or scale clusters and servers. It provides a serverless runtime environment for Apache Spark and Apache Hive, enabling you to process data quickly and cost-effectively while automatically scaling resources based on workload demands.
 
 

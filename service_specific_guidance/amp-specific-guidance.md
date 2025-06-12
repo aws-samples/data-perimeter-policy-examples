@@ -2,7 +2,9 @@
 # Service-specific guidance: Amazon Managed Service for Prometheus
 
 
-This document outlines service-specific guidance for implementing a data perimeter for Amazon Managed Service for Prometheus. Amazon Managed Service for Prometheus is a fully managed monitoring service that makes it easy to monitor containerized applications and infrastructure at scale. It provides a highly available, secure, and managed environment for Prometheus, an open-source monitoring and alerting tool, allowing users to collect, store, and analyze metrics from their applications and infrastructure without the need to manage the underlying infrastructure.
+This document outlines service-specific guidance for implementing a data perimeter for Amazon Managed Service for Prometheus. 
+
+Amazon Managed Service for Prometheus is a fully managed monitoring service that makes it easy to monitor containerized applications and infrastructure at scale. It provides a highly available, secure, and managed environment for Prometheus, an open-source monitoring and alerting tool, allowing users to collect, store, and analyze metrics from their applications and infrastructure without the need to manage the underlying infrastructure.
 
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.

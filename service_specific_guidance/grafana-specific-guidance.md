@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon Managed Grafana. 
+
 Amazon Managed Grafana is a fully managed service that makes it easy to deploy, operate, and scale Grafana, an open-source analytics and monitoring platform. It allows users to create, explore, and share observability dashboards to visualize and analyze metrics, logs, and traces from various data sources across their applications and infrastructure.
 
 

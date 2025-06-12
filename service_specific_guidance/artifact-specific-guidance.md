@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for AWS Artifact. 
+
 AWS Artifact is a self-service portal that provides on-demand access to AWS' compliance reports and agreements. It allows customers to download AWS security and compliance documents, such as ISO certifications, PCI reports, and SOC reports, to support their regulatory and compliance requirements. AWS Artifact helps organizations demonstrate AWS infrastructure compliance to auditors and regulators.
 
 

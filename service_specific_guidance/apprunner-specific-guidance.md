@@ -2,7 +2,9 @@
 # Service-specific guidance: AWS App Runner
 
 
-This document outlines service-specific guidance for implementing a data perimeter for AWS App Runner. AWS App Runner is a fully managed service that makes it easy to deploy containerized web applications and APIs at scale. It automatically builds and deploys your code, handles load balancing, scaling, and provides a secure HTTPS endpoint, allowing developers to focus on their application code rather than infrastructure management.
+This document outlines service-specific guidance for implementing a data perimeter for AWS App Runner. 
+
+AWS App Runner is a fully managed service that makes it easy to deploy containerized web applications and APIs at scale. It automatically builds and deploys your code, handles load balancing, scaling, and provides a secure HTTPS endpoint, allowing developers to focus on their application code rather than infrastructure management.
 
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.

@@ -2,7 +2,9 @@
 # Service-specific guidance: AWS Certificate Manager
 
 
-This document outlines service-specific guidance for implementing a data perimeter for AWS Certificate Manager (ACM). ACM is a service that simplifies the process of provisioning, managing, and deploying public and private SSL/TLS certificates for use with AWS services and your internal connected resources. ACM handles the complexity of creating, storing, and renewing SSL/TLS certificates, helping you secure your applications and websites while reducing the time-consuming manual process of managing certificates.
+This document outlines service-specific guidance for implementing a data perimeter for AWS Certificate Manager (ACM). 
+
+ACM is a service that simplifies the process of provisioning, managing, and deploying public and private SSL/TLS certificates for use with AWS services and your internal connected resources. ACM handles the complexity of creating, storing, and renewing SSL/TLS certificates, helping you secure your applications and websites while reducing the time-consuming manual process of managing certificates.
 
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.

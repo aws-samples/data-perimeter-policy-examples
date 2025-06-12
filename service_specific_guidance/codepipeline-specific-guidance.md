@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for AWS CodePipeline. 
+
 AWS CodePipeline is a fully managed continuous delivery service that helps you automate your software release processes. It enables you to model, visualize, and automate the steps required to release your software, allowing you to rapidly and reliably deliver features and updates. CodePipeline integrates with various AWS services and third-party tools, making it easy to build, test, and deploy your code every time there's a change.
 
 

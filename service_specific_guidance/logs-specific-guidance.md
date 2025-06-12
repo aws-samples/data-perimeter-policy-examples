@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon CloudWatch Logs. 
+
 Amazon CloudWatch Logs is a fully managed service that enables you to centralize, monitor, and store log files from various AWS resources and applications. It allows you to easily search, analyze, and set alarms on your log data, helping you troubleshoot issues, identify patterns, and gain insights into your system's performance and behavior.
 
 

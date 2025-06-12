@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for AWS Key Management Service (KMS). 
+
 AWS KMS is a managed service that makes it easy for you to create and control the encryption keys used to encrypt your data. KMS integrates with other AWS services to help you protect the data you store in these services and control access to it. It provides a centralized system for managing keys across a wide range of AWS services and in your applications.
 
 

@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for AWS Config. 
+
 AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. It provides a detailed view of the configuration of AWS resources in your account, including how they are related to one another and how they have changed over time. This helps you simplify compliance auditing, security analysis, change management, and operational troubleshooting.
 
 

@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon Simple Notification Service (SNS). 
+
 Amazon SNS is a fully managed messaging service that enables you to send messages, notifications, and alerts to a wide range of endpoints. It provides a flexible, scalable, and cost-effective way to distribute messages to multiple subscribers through a publish/subscribe model. SNS supports various communication protocols, including email, SMS, mobile push notifications, and HTTP/HTTPS endpoints, making it easy to integrate with diverse applications and services.
 
 

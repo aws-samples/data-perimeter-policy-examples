@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for AWS CodeArtifact. 
+
 AWS CodeArtifact is a fully managed artifact repository service that makes it easy for organizations to securely store, publish, and share software packages used in their software development process. It integrates with commonly used build tools and package managers, allowing developers to easily retrieve dependencies while maintaining control over package access and versioning.
 
 

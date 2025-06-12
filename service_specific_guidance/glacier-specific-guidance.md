@@ -3,6 +3,7 @@
 
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon S3 Glacier. 
+
 Amazon S3 Glacier is a secure, durable, and low-cost cloud storage service for data archiving and long-term backup. It is designed for infrequently accessed data with flexible retrieval options ranging from minutes to hours. S3 Glacier integrates with Amazon S3 to provide a complete data storage solution for cost-effective data lifecycle management.
 
 
