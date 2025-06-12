@@ -149,7 +149,6 @@ Example data access patterns:
 * [AWS Directory Service directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_directory_sharing.html): You can share a directory with other accounts with the `ShareDirectory` API.
 * [AWS Direct Connect gateway](https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html): You can associate a Direct Connect gateway with a virtual private gateway that is owned by another AWS account with the `CreateDirectConnectGatewayAssociationProposal` API.
 * [Amazon Detective graph](https://docs.aws.amazon.com/detective/latest/userguide/accounts.html): A Detective administrator account can invite other accounts to join a behavior graph with the `CreateMembers` API.
-* [Amazon CloudWatch Logs subscription filters](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/SubscriptionFilters.html): You can send CloudWatch Logs to cross-account destinations with the `PutSubscriptionFilter` API.
 * [AWS Glue Data Catalog](https://docs.aws.amazon.com/lake-formation/latest/dg/granting-catalog-perms-TBAC.html) databases: You can grant data catalog permissions to another account by using the AWS Lake Formation tag-based access control method with the `GrantPermissions` and `BatchGrantPermissions` APIs.
 * [Amazon AppStream 2.0 image](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html#share-image-with-another-account): You can share an Amazon AppStream 2.0 image that you own with other accounts with the `UpdateImagePermissions` API.
 * [Amazon Macie member accounts](https://docs.aws.amazon.com/macie/latest/user/accounts-mgmt-invitations-administer.html): You can add member accounts to your Macie administrator account with the `CreateInvitations` API.
@@ -160,16 +159,21 @@ Example data access patterns:
 * [Amazon WorkSpaces image](https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html): You can share custom WorkSpaces images with other accounts with the `UpdateWorkspaceImagePermission` API.
 * [Amazon CloudWatch sink](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html): You can share observability data with other accounts with the `CreateLink` API.
 * [AWS Service Catalog portfolio](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_sharing.html): AWS Service Catalog portfolios can be shared with other AWS accounts with the `CreatePortfolioShare` API.
-* [AWS Config aggregator](https://docs.aws.amazon.com/config/latest/developerguide/aggregate-data.html): The `PutConfigurationAggregator` API allows you to select another account to add to your AWS Config aggregator.
+* [AWS Config aggregator](https://docs.aws.amazon.com/config/latest/developerguide/aggregate-data.html): The `PutConfigurationAggregator` API allows you to select another account to add to your AWS Config aggregator. Additionally, the `PutAggregationAuthorization` API allows you to authorize another account to collect data from your account.
 * [AWS Fault Injection experiment template](https://docs.aws.amazon.com/fis/latest/userguide/multi-account.html): You create a multi-account experiment template by specifying other accounts with the `CreateTargetAccountConfiguration` API. 
 * [AWS Global Accelerator attachment](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.create-attachment.html): You can add a resource from another account as an endpoint for an accelerator with the `CreateCrossAccountAttachment` API.
 * [AWS Cloud9 shared environment](https://docs.aws.amazon.com/cloud9/latest/user-guide/share-environment.html): You can share AWS Cloud9 development environment with users from other accounts with the `CreateEnvironmentMembership` API.
 * [Amazon Connect dataset](https://docs.aws.amazon.com/connect/latest/APIReference/API_BatchAssociateAnalyticsDataSet.html#connect-BatchAssociateAnalyticsDataSet-request-DataSetIds): You can associate a list of Amazon Connect instance analytics datasets to a target account using `BatchAssociateAnalyticsDataSet` API.
 * [Amazon Redshift Serverless snapshot](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_PutResourcePolicy.html): You can share snapshots across AWS accounts using `PutResourcePolicy` API.
 
+### "Sid": “RestrictKMSGrantsCreationToAWSServices”
+This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts creation of [AWS KMS grants](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html) to administrators and AWS services only.
+
+The `CreateGrant` API allows you to add a grant for another account to use your KMS key. Use this statement to help ensure that only trusted identities can view information about your keys.
+
 ### "Sid":"ProtectActionsNotSupportedByPrimaryDPControls"
 
-This statement is included in [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts actions that are not supported by primary data perimeter controls, such as those listed in the[ResourceOrgID condition key page](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourceorgid). 
+This statement is included in [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts actions that are not supported by primary data perimeter controls, such as those listed in the [ResourceOrgID condition key page](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourceorgid). 
 
 Example data access patterns:
 
@@ -190,16 +194,6 @@ You can also consider using service-specific condition keys such as `ec2:Accepte
 ### "Sid":"ProtectDataPerimeterTags"
 
 This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and prevents the attaching, detaching, and modifying of tags used for authorization controls within the data perimeter.
-
-### "Sid":"PreventS3PublicAccessBlockConfigurations"
-
-This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and prevents users from altering S3 Block Public Access configurations.
-
-[S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html) provides settings for access points, buckets, and accounts to help you manage public access to Amazon S3 resources. With S3 Block Public Access, account administrators and bucket owners can set up centralized controls to limit public access to their Amazon S3 resources that are enforced, regardless of how the resources are created. 
-
-### "Sid":"PreventPublicBucketACL"
-
-This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and prevents users from applying public read and public read-write canned access control lists to Amazon S3 buckets.
 
 ### "Sid":"PreventLambdaFunctionURLAuthNone"
 

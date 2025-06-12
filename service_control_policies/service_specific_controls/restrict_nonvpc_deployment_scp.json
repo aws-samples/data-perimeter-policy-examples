@@ -15,9 +15,9 @@
          }
       },
       {
-         "Sid":"PreventNonVPCDeploymentSageMaker",
-         "Effect":"Deny",
-         "Action":[
+         "Sid": "PreventNonVPCDeploymentSageMaker",
+         "Effect": "Deny",
+         "Action": [
             "sagemaker:CreateAutoMLJob",
             "sagemaker:CreateAutoMLJobV2",
             "sagemaker:CreateCluster",
@@ -35,13 +35,13 @@
             "sagemaker:UpdateDomain",
             "sagemaker:UpdateMonitoringSchedule"
          ],
-         "Resource":"*",
-         "Condition":{
+         "Resource": "*",
+         "Condition": {
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/dp:exclude": "true"
             },
-            "Null":{
-               "sagemaker:VpcSubnets":"true"
+            "Null": {
+               "sagemaker:VpcSubnets": "true"
             }
          }
       },
@@ -52,8 +52,8 @@
             "sagemaker:CreateDomain",
             "sagemaker:UpdateDomain"
          ],
-        "Resource": "*",
-        "Condition": {
+         "Resource": "*",
+         "Condition": {
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/dp:exclude": "true",
                "sagemaker:AppNetworkAccessType": "VpcOnly"
@@ -66,8 +66,8 @@
          "Action": [
             "sagemaker:CreateNotebookInstance"
          ],
-        "Resource": "*",
-        "Condition": {
+         "Resource": "*",
+         "Condition": {
             "StringEquals": {
                "sagemaker:DirectInternetAccess": "Enabled"
             },
@@ -77,24 +77,24 @@
          }
       },
       {
-         "Sid":"PreventNonVPCDeploymentLambda",
-         "Effect":"Deny",
-         "Action":[
+         "Sid": "PreventNonVPCDeploymentLambda",
+         "Effect": "Deny",
+         "Action": [
             "lambda:CreateFunction",
             "lambda:UpdateFunctionConfiguration"
          ],
-         "Resource":"*",
-         "Condition":{
+         "Resource": "*",
+         "Condition": {
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/dp:exclude": "true"
             },
-            "Null":{
-               "lambda:VpcIds":"true"
+            "Null": {
+               "lambda:VpcIds": "true"
             }
          }
       },
       {
-         "Sid":"PreventNonVPCDeploymentGlueJob",
+         "Sid": "PreventNonVPCDeploymentGlueJob",
          "Effect": "Deny",
          "Action": [
             "glue:CreateJob",
@@ -117,7 +117,7 @@
          ],
          "Effect": "Deny",
          "Resource": "*",
-         "Condition": {   
+         "Condition": {
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/dp:exclude": "true"
             },
@@ -134,12 +134,31 @@
             "apprunner:UpdateService"
          ],
          "Resource": "*",
-         "Condition": {   
+         "Condition": {
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/dp:exclude": "true"
             },
             "Null": {
                "apprunner:VpcConnectorArn": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventNonVPCDeploymentCodeBuild",
+         "Effect": "Deny",
+         "Action": [
+            "codebuild:CreateProject",
+            "codebuild:UpdateProject",
+            "codebuild:CreateFleet",
+            "codebuild:UpdateFleet"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true"
+            },
+            "Null": {
+               "codebuild:vpcConfig.vpcId": "true"
             }
          }
       }
