@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -44,93 +44,92 @@ If you want to restrict access so that your identities cannot view resources tha
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* GetParametersForImport
 
-            * GetParametersForImport
-            
-            * ImportKeyMaterial
-            
-            * DeleteImportedKeyMaterial
-            
-            * CreateKey
-            
-            * EnableKeyRotation
-            
-            * DisableKeyRotation
-            
-            * DisableKey
-            
-            * EnableKey
-            
-            * GenerateMac
-            
-            * Encrypt
-            
-            * Sign
-            
-            * CreateGrant
-            
-            * ListRetirableGrants
-            
-            * RetireGrant
-            
-            * CreateAlias
-            
-            * PutKeyPolicy
-            
-            * TagResource
-            
-            * UpdateAlias
-            
-            * UpdateKeyDescription
-            
-            * UpdatePrimaryRegion
-            
-            * ListAliases
-            
-            * ListGrants
-            
-            * ListKeyPolicies
-            
-            * ListKeyRotations
-            
-            * ListKeys
-            
-            * ListResourceTags
-            
-            * GetKeyPolicy
-            
-            * GetKeyRotationStatus
-            
-            * GetPublicKey
-            
-            * DescribeCustomKeyStores
-            
-            * DescribeKey
-            
-            * UntagResource
-            
-            * GenerateDataKeyPairWithoutPlaintext
-            
-            * Verify
-            
-            * GenerateDataKeyPair
-            
-            * VerifyMac
-            
-            * ReplicateKey
-            
-            * ReEncrypt
-            
-            * RotateKeyOnDemand
-            
-            * GenerateDataKeyWithoutPlaintext
-            
-            * Decrypt
-            
-            * GenerateDataKey
-            
-            * DeriveSharedSecret
-            
-            * DeleteAlias
-            
+* ImportKeyMaterial
+
+* DeleteImportedKeyMaterial
+
+* CreateKey
+
+* EnableKeyRotation
+
+* DisableKeyRotation
+
+* DisableKey
+
+* EnableKey
+
+* GenerateMac
+
+* Encrypt
+
+* Sign
+
+* CreateGrant
+
+* ListRetirableGrants
+
+* RetireGrant
+
+* CreateAlias
+
+* PutKeyPolicy
+
+* TagResource
+
+* UpdateAlias
+
+* UpdateKeyDescription
+
+* UpdatePrimaryRegion
+
+* ListAliases
+
+* ListGrants
+
+* ListKeyPolicies
+
+* ListKeyRotations
+
+* ListKeys
+
+* ListResourceTags
+
+* GetKeyPolicy
+
+* GetKeyRotationStatus
+
+* GetPublicKey
+
+* DescribeCustomKeyStores
+
+* DescribeKey
+
+* UntagResource
+
+* GenerateDataKeyPairWithoutPlaintext
+
+* Verify
+
+* GenerateDataKeyPair
+
+* VerifyMac
+
+* ReplicateKey
+
+* ReEncrypt
+
+* RotateKeyOnDemand
+
+* GenerateDataKeyWithoutPlaintext
+
+* Decrypt
+
+* GenerateDataKey
+
+* DeriveSharedSecret
+
+* DeleteAlias
+
 

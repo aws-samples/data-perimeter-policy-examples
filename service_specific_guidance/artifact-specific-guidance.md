@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | N |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -40,17 +40,16 @@ If you want to restrict access to your networks to trusted identities and truste
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* ListReports
 
-            * ListReports
-            
-            * GetTermForReport
-            
-            * PutAccountSettings
-            
-            * GetAccountSettings
-            
-            * GetReport
-            
-            * GetReportMetadata
+* GetTermForReport
+
+* PutAccountSettings
+
+* GetAccountSettings
+
+* GetReport
+
+* GetReportMetadata
             
 

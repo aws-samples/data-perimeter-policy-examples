@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | Y |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | Y |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -53,35 +53,34 @@ If you want to achieve data perimeter control objectives, consider implementing 
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* CreateApplication
 
-            * CreateApplication
-            
-            * UpdateApplication
-            
-            * StartApplication
-            
-            * StartJobRun
-            
-            * TagResource
-            
-            * ListApplications
-            
-            * ListJobRunAttempts
-            
-            * ListJobRuns
-            
-            * ListTagsForResource
-            
-            * GetApplication
-            
-            * GetJobRun
-            
-            * UntagResource
-            
-            * CancelJobRun
-            
-            * StopApplication
-            
-            * DeleteApplication
-            
+* UpdateApplication
+
+* StartApplication
+
+* StartJobRun
+
+* TagResource
+
+* ListApplications
+
+* ListJobRunAttempts
+
+* ListJobRuns
+
+* ListTagsForResource
+
+* GetApplication
+
+* GetJobRun
+
+* UntagResource
+
+* CancelJobRun
+
+* StopApplication
+
+* DeleteApplication
+
 

@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -131,163 +131,162 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* DescribeConformancePacks
 
-            * DescribeConformancePacks
-            
-            * DescribeConfigurationRecorders
-            
-            * DescribeOrganizationConfigRules
-            
-            * StopConfigurationRecorder
-            
-            * StartConfigurationRecorder
-            
-            * DescribeDeliveryChannels
-            
-            * DescribeOrganizationConformancePacks
-            
-            * DeleteOrganizationConformancePack
-            
-            * DeleteOrganizationConfigRule
-            
-            * PutAggregationAuthorization
-            
-            * PutConfigRule
-            
-            * PutConfigurationAggregator
-            
-            * PutConformancePack
-            
-            * PutOrganizationConfigRule
-            
-            * PutOrganizationConformancePack
-            
-            * PutRemediationConfigurations
-            
-            * PutRetentionConfiguration
-            
-            * PutStoredQuery
-            
-            * StartConfigRulesEvaluation
-            
-            * StartRemediationExecution
-            
-            * StartResourceEvaluation
-            
-            * TagResource
-            
-            * ListAggregateDiscoveredResources
-            
-            * ListConformancePackComplianceScores
-            
-            * ListDiscoveredResources
-            
-            * ListResourceEvaluations
-            
-            * ListStoredQueries
-            
-            * ListTagsForResource
-            
-            * GetAggregateComplianceDetailsByConfigRule
-            
-            * GetAggregateConfigRuleComplianceSummary
-            
-            * GetAggregateConformancePackComplianceSummary
-            
-            * GetAggregateDiscoveredResourceCounts
-            
-            * GetAggregateResourceConfig
-            
-            * GetComplianceDetailsByConfigRule
-            
-            * GetComplianceDetailsByResource
-            
-            * GetComplianceSummaryByConfigRule
-            
-            * GetComplianceSummaryByResourceType
-            
-            * GetConformancePackComplianceDetails
-            
-            * GetConformancePackComplianceSummary
-            
-            * GetCustomRulePolicy
-            
-            * GetDiscoveredResourceCounts
-            
-            * GetOrganizationConfigRuleDetailedStatus
-            
-            * GetOrganizationConformancePackDetailedStatus
-            
-            * GetResourceConfigHistory
-            
-            * GetResourceEvaluationSummary
-            
-            * GetStoredQuery
-            
-            * SelectAggregateResourceConfig
-            
-            * SelectResourceConfig
-            
-            * DescribeAggregateComplianceByConfigRules
-            
-            * DescribeAggregateComplianceByConformancePacks
-            
-            * DescribeAggregationAuthorizations
-            
-            * DescribeComplianceByConfigRule
-            
-            * DescribeComplianceByResource
-            
-            * DescribeConfigRuleEvaluationStatus
-            
-            * DescribeConfigRules
-            
-            * DescribeConfigurationAggregatorSourcesStatus
-            
-            * DescribeConfigurationAggregators
-            
-            * DescribeConfigurationRecorderStatus
-            
-            * DescribeConformancePackCompliance
-            
-            * DescribeConformancePackStatus
-            
-            * DescribeDeliveryChannelStatus
-            
-            * DescribeOrganizationConfigRuleStatuses
-            
-            * DescribeOrganizationConformancePackStatuses
-            
-            * DescribePendingAggregationRequests
-            
-            * DescribeRemediationConfigurations
-            
-            * DescribeRemediationExecutionStatus
-            
-            * DescribeRetentionConfigurations
-            
-            * UntagResource
-            
-            * DeliverConfigSnapshot
-            
-            * BatchGetResourceConfig
-            
-            * BatchGetAggregateResourceConfig
-            
-            * DeleteAggregationAuthorization
-            
-            * DeleteConfigurationAggregator
-            
-            * DeleteConformancePack
-            
-            * DeleteEvaluationResults
-            
-            * DeletePendingAggregationRequest
-            
-            * DeleteRetentionConfiguration
-            
-            * DeleteConfigRule
-            
-            * DeleteRemediationConfiguration
-            
+* DescribeConfigurationRecorders
+
+* DescribeOrganizationConfigRules
+
+* StopConfigurationRecorder
+
+* StartConfigurationRecorder
+
+* DescribeDeliveryChannels
+
+* DescribeOrganizationConformancePacks
+
+* DeleteOrganizationConformancePack
+
+* DeleteOrganizationConfigRule
+
+* PutAggregationAuthorization
+
+* PutConfigRule
+
+* PutConfigurationAggregator
+
+* PutConformancePack
+
+* PutOrganizationConfigRule
+
+* PutOrganizationConformancePack
+
+* PutRemediationConfigurations
+
+* PutRetentionConfiguration
+
+* PutStoredQuery
+
+* StartConfigRulesEvaluation
+
+* StartRemediationExecution
+
+* StartResourceEvaluation
+
+* TagResource
+
+* ListAggregateDiscoveredResources
+
+* ListConformancePackComplianceScores
+
+* ListDiscoveredResources
+
+* ListResourceEvaluations
+
+* ListStoredQueries
+
+* ListTagsForResource
+
+* GetAggregateComplianceDetailsByConfigRule
+
+* GetAggregateConfigRuleComplianceSummary
+
+* GetAggregateConformancePackComplianceSummary
+
+* GetAggregateDiscoveredResourceCounts
+
+* GetAggregateResourceConfig
+
+* GetComplianceDetailsByConfigRule
+
+* GetComplianceDetailsByResource
+
+* GetComplianceSummaryByConfigRule
+
+* GetComplianceSummaryByResourceType
+
+* GetConformancePackComplianceDetails
+
+* GetConformancePackComplianceSummary
+
+* GetCustomRulePolicy
+
+* GetDiscoveredResourceCounts
+
+* GetOrganizationConfigRuleDetailedStatus
+
+* GetOrganizationConformancePackDetailedStatus
+
+* GetResourceConfigHistory
+
+* GetResourceEvaluationSummary
+
+* GetStoredQuery
+
+* SelectAggregateResourceConfig
+
+* SelectResourceConfig
+
+* DescribeAggregateComplianceByConfigRules
+
+* DescribeAggregateComplianceByConformancePacks
+
+* DescribeAggregationAuthorizations
+
+* DescribeComplianceByConfigRule
+
+* DescribeComplianceByResource
+
+* DescribeConfigRuleEvaluationStatus
+
+* DescribeConfigRules
+
+* DescribeConfigurationAggregatorSourcesStatus
+
+* DescribeConfigurationAggregators
+
+* DescribeConfigurationRecorderStatus
+
+* DescribeConformancePackCompliance
+
+* DescribeConformancePackStatus
+
+* DescribeDeliveryChannelStatus
+
+* DescribeOrganizationConfigRuleStatuses
+
+* DescribeOrganizationConformancePackStatuses
+
+* DescribePendingAggregationRequests
+
+* DescribeRemediationConfigurations
+
+* DescribeRemediationExecutionStatus
+
+* DescribeRetentionConfigurations
+
+* UntagResource
+
+* DeliverConfigSnapshot
+
+* BatchGetResourceConfig
+
+* BatchGetAggregateResourceConfig
+
+* DeleteAggregationAuthorization
+
+* DeleteConfigurationAggregator
+
+* DeleteConformancePack
+
+* DeleteEvaluationResults
+
+* DeletePendingAggregationRequest
+
+* DeleteRetentionConfiguration
+
+* DeleteConfigRule
+
+* DeleteRemediationConfiguration
+
 

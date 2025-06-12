@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | Y |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -82,79 +82,78 @@ If you want to restrict access to trusted identities and expected networks, cons
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* CreateTopic
 
-            * CreateTopic
-            
-            * Subscribe
-            
-            * SetTopicAttributes
-            
-            * TagResource
-            
-            * CreatePlatformApplication
-            
-            * CreatePlatformEndpoint
-            
-            * PutDataProtectionPolicy
-            
-            * SetEndpointAttributes
-            
-            * SetPlatformApplicationAttributes
-            
-            * SetSMSAttributes
-            
-            * SetSubscriptionAttributes
-            
-            * AddPermission
-            
-            * ListEndpointsByPlatformApplication
-            
-            * ListOriginationNumbers
-            
-            * ListPhoneNumbersOptedOut
-            
-            * ListPlatformApplications
-            
-            * ListSMSSandboxPhoneNumbers
-            
-            * ListSubscriptions
-            
-            * ListSubscriptionsByTopic
-            
-            * ListTagsForResource
-            
-            * ListTopics
-            
-            * GetDataProtectionPolicy
-            
-            * GetEndpointAttributes
-            
-            * GetPlatformApplicationAttributes
-            
-            * GetSMSAttributes
-            
-            * GetSMSSandboxAccountStatus
-            
-            * GetSubscriptionAttributes
-            
-            * GetTopicAttributes
-            
-            * UntagResource
-            
-            * OptInPhoneNumber
-            
-            * PublishBatch
-            
-            * CheckIfPhoneNumberIsOptedOut
-            
-            * RemovePermission
-            
-            * Publish
-            
-            * DeleteEndpoint
-            
-            * DeletePlatformApplication
-            
-            * DeleteTopic
-            
+* Subscribe
+
+* SetTopicAttributes
+
+* TagResource
+
+* CreatePlatformApplication
+
+* CreatePlatformEndpoint
+
+* PutDataProtectionPolicy
+
+* SetEndpointAttributes
+
+* SetPlatformApplicationAttributes
+
+* SetSMSAttributes
+
+* SetSubscriptionAttributes
+
+* AddPermission
+
+* ListEndpointsByPlatformApplication
+
+* ListOriginationNumbers
+
+* ListPhoneNumbersOptedOut
+
+* ListPlatformApplications
+
+* ListSMSSandboxPhoneNumbers
+
+* ListSubscriptions
+
+* ListSubscriptionsByTopic
+
+* ListTagsForResource
+
+* ListTopics
+
+* GetDataProtectionPolicy
+
+* GetEndpointAttributes
+
+* GetPlatformApplicationAttributes
+
+* GetSMSAttributes
+
+* GetSMSSandboxAccountStatus
+
+* GetSubscriptionAttributes
+
+* GetTopicAttributes
+
+* UntagResource
+
+* OptInPhoneNumber
+
+* PublishBatch
+
+* CheckIfPhoneNumberIsOptedOut
+
+* RemovePermission
+
+* Publish
+
+* DeleteEndpoint
+
+* DeletePlatformApplication
+
+* DeleteTopic
+
 

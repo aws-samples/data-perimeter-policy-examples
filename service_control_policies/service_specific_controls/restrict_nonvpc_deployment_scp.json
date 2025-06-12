@@ -158,7 +158,7 @@
                "aws:PrincipalTag/dp:exclude": "true"
             },
             "Null": {
-               "codebuild:vpcConfig": "true"
+               "codebuild:vpcConfig.vpcId": "true"
             }
          }
       }

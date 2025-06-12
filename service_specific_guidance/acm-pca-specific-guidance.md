@@ -14,7 +14,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -36,47 +36,46 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* CreateCertificateAuthorityAuditReport
 
-            * CreateCertificateAuthorityAuditReport
-            
-            * CreateCertificateAuthority
-            
-            * CreatePermission
-            
-            * PutPolicy
-            
-            * TagCertificateAuthority
-            
-            * UpdateCertificateAuthority
-            
-            * ListCertificateAuthorities
-            
-            * ListPermissions
-            
-            * ListTags
-            
-            * GetCertificate
-            
-            * GetCertificateAuthorityCertificate
-            
-            * GetCertificateAuthorityCsr
-            
-            * GetPolicy
-            
-            * DescribeCertificateAuthority
-            
-            * DescribeCertificateAuthorityAuditReport
-            
-            * RestoreCertificateAuthority
-            
-            * UntagCertificateAuthority
-            
-            * IssueCertificate
-            
-            * DeletePermission
-            
-            * DeletePolicy
-            
-            * DeleteCertificateAuthority
-            
+* CreateCertificateAuthority
+
+* CreatePermission
+
+* PutPolicy
+
+* TagCertificateAuthority
+
+* UpdateCertificateAuthority
+
+* ListCertificateAuthorities
+
+* ListPermissions
+
+* ListTags
+
+* GetCertificate
+
+* GetCertificateAuthorityCertificate
+
+* GetCertificateAuthorityCsr
+
+* GetPolicy
+
+* DescribeCertificateAuthority
+
+* DescribeCertificateAuthorityAuditReport
+
+* RestoreCertificateAuthority
+
+* UntagCertificateAuthority
+
+* IssueCertificate
+
+* DeletePermission
+
+* DeletePolicy
+
+* DeleteCertificateAuthority
+
 

@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | N |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | Y |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -52,117 +52,116 @@ If you want to restrict access to trusted identities and expected networks, cons
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* ImportTable
 
-            * ImportTable
-            
-            * CreateTable
-            
-            * CreateGlobalTable
-            
-            * UpdateTable
-            
-            * DescribeGlobalTableSettings
-            
-            * DescribeGlobalTable
-            
-            * UpdateGlobalTableSettings
-            
-            * ListGlobalTables
-            
-            * PutItem
-            
-            * BatchGetItem
-            
-            * BatchWriteItem
-            
-            * TagResource
-            
-            * DescribeTable
-            
-            * ListTables
-            
-            * ListTagsOfResource
-            
-            * UntagResource
-            
-            * UpdateContinuousBackups
-            
-            * CreateBackup
-            
-            * Query
-            
-            * DescribeContinuousBackups
-            
-            * RestoreTableToPointInTime
-            
-            * PutResourcePolicy
-            
-            * RestoreTableFromBackup
-            
-            * ExportTableToPointInTime
-            
-            * EnableKinesisStreamingDestination
-            
-            * DescribeKinesisStreamingDestination
-            
-            * DisableKinesisStreamingDestination
-            
-            * DescribeExport
-            
-            * BatchExecuteStatement
-            
-            * DeleteItem
-            
-            * DescribeContributorInsights
-            
-            * DescribeEndpoints
-            
-            * DescribeImport
-            
-            * DescribeLimits
-            
-            * DescribeTableReplicaAutoScaling
-            
-            * DescribeTimeToLive
-            
-            * ExecuteStatement
-            
-            * ExecuteTransaction
-            
-            * GetItem
-            
-            * ListBackups
-            
-            * ListContributorInsights
-            
-            * ListExports
-            
-            * ListImports
-            
-            * Scan
-            
-            * TransactGetItems
-            
-            * TransactWriteItems
-            
-            * UpdateContributorInsights
-            
-            * UpdateGlobalTable
-            
-            * UpdateItem
-            
-            * UpdateTableReplicaAutoScaling
-            
-            * UpdateTimeToLive
-            
-            * DescribeBackup
-            
-            * DeleteBackup
-            
-            * DeleteTable
-            
-            * GetResourcePolicy
-            
-            * DeleteResourcePolicy
-            
+* CreateTable
+
+* CreateGlobalTable
+
+* UpdateTable
+
+* DescribeGlobalTableSettings
+
+* DescribeGlobalTable
+
+* UpdateGlobalTableSettings
+
+* ListGlobalTables
+
+* PutItem
+
+* BatchGetItem
+
+* BatchWriteItem
+
+* TagResource
+
+* DescribeTable
+
+* ListTables
+
+* ListTagsOfResource
+
+* UntagResource
+
+* UpdateContinuousBackups
+
+* CreateBackup
+
+* Query
+
+* DescribeContinuousBackups
+
+* RestoreTableToPointInTime
+
+* PutResourcePolicy
+
+* RestoreTableFromBackup
+
+* ExportTableToPointInTime
+
+* EnableKinesisStreamingDestination
+
+* DescribeKinesisStreamingDestination
+
+* DisableKinesisStreamingDestination
+
+* DescribeExport
+
+* BatchExecuteStatement
+
+* DeleteItem
+
+* DescribeContributorInsights
+
+* DescribeEndpoints
+
+* DescribeImport
+
+* DescribeLimits
+
+* DescribeTableReplicaAutoScaling
+
+* DescribeTimeToLive
+
+* ExecuteStatement
+
+* ExecuteTransaction
+
+* GetItem
+
+* ListBackups
+
+* ListContributorInsights
+
+* ListExports
+
+* ListImports
+
+* Scan
+
+* TransactGetItems
+
+* TransactWriteItems
+
+* UpdateContributorInsights
+
+* UpdateGlobalTable
+
+* UpdateItem
+
+* UpdateTableReplicaAutoScaling
+
+* UpdateTimeToLive
+
+* DescribeBackup
+
+* DeleteBackup
+
+* DeleteTable
+
+* GetResourcePolicy
+
+* DeleteResourcePolicy
+
 

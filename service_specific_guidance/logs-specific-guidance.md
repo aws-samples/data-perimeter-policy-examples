@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | Y |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -77,139 +77,138 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* ListLogAnomalyDetectors
 
-            * ListLogAnomalyDetectors
-            
-            * DeleteLogAnomalyDetector
-            
-            * DescribeDeliverySources
-            
-            * DeleteDeliverySource
-            
-            * CreateExportTask
-            
-            * CancelExportTask
-            
-            * PutDeliveryDestination
-            
-            * PutDeliverySource
-            
-            * CreateDelivery
-            
-            * CreateLogAnomalyDetector
-            
-            * CreateLogGroup
-            
-            * CreateLogStream
-            
-            * PutAccountPolicy
-            
-            * PutDataProtectionPolicy
-            
-            * PutDeliveryDestinationPolicy
-            
-            * PutDestination
-            
-            * PutDestinationPolicy
-            
-            * PutLogEvents
-            
-            * PutMetricFilter
-            
-            * PutQueryDefinition
-            
-            * PutResourcePolicy
-            
-            * PutRetentionPolicy
-            
-            * PutSubscriptionFilter
-            
-            * AssociateKmsKey
-            
-            * StartLiveTail
-            
-            * StartQuery
-            
-            * TagResource
-            
-            * UpdateLogAnomalyDetector
-            
-            * ListAnomalies
-            
-            * ListTagsForResource
-            
-            * GetDataProtectionPolicy
-            
-            * GetDelivery
-            
-            * GetDeliveryDestination
-            
-            * GetDeliveryDestinationPolicy
-            
-            * GetDeliverySource
-            
-            * GetLogAnomalyDetector
-            
-            * GetLogEvents
-            
-            * GetLogGroupFields
-            
-            * GetQueryResults
-            
-            * DescribeDeliveries
-            
-            * DescribeDeliveryDestinations
-            
-            * DescribeDestinations
-            
-            * DescribeExportTasks
-            
-            * DescribeLogGroups
-            
-            * DescribeLogStreams
-            
-            * DescribeMetricFilters
-            
-            * DescribeQueries
-            
-            * DescribeQueryDefinitions
-            
-            * DescribeResourcePolicies
-            
-            * DescribeSubscriptionFilters
-            
-            * UntagResource
-            
-            * DisassociateKmsKey
-            
-            * TestMetricFilter
-            
-            * FilterLogEvents
-            
-            * DeleteAccountPolicy
-            
-            * DeleteDataProtectionPolicy
-            
-            * DeleteDelivery
-            
-            * DeleteDeliveryDestinationPolicy
-            
-            * DeleteDestination
-            
-            * DeleteLogStream
-            
-            * DeleteMetricFilter
-            
-            * DeleteQueryDefinition
-            
-            * DeleteResourcePolicy
-            
-            * DeleteRetentionPolicy
-            
-            * DeleteSubscriptionFilter
-            
-            * DeleteDeliveryDestination
-            
-            * DeleteLogGroup
-            
+* DeleteLogAnomalyDetector
+
+* DescribeDeliverySources
+
+* DeleteDeliverySource
+
+* CreateExportTask
+
+* CancelExportTask
+
+* PutDeliveryDestination
+
+* PutDeliverySource
+
+* CreateDelivery
+
+* CreateLogAnomalyDetector
+
+* CreateLogGroup
+
+* CreateLogStream
+
+* PutAccountPolicy
+
+* PutDataProtectionPolicy
+
+* PutDeliveryDestinationPolicy
+
+* PutDestination
+
+* PutDestinationPolicy
+
+* PutLogEvents
+
+* PutMetricFilter
+
+* PutQueryDefinition
+
+* PutResourcePolicy
+
+* PutRetentionPolicy
+
+* PutSubscriptionFilter
+
+* AssociateKmsKey
+
+* StartLiveTail
+
+* StartQuery
+
+* TagResource
+
+* UpdateLogAnomalyDetector
+
+* ListAnomalies
+
+* ListTagsForResource
+
+* GetDataProtectionPolicy
+
+* GetDelivery
+
+* GetDeliveryDestination
+
+* GetDeliveryDestinationPolicy
+
+* GetDeliverySource
+
+* GetLogAnomalyDetector
+
+* GetLogEvents
+
+* GetLogGroupFields
+
+* GetQueryResults
+
+* DescribeDeliveries
+
+* DescribeDeliveryDestinations
+
+* DescribeDestinations
+
+* DescribeExportTasks
+
+* DescribeLogGroups
+
+* DescribeLogStreams
+
+* DescribeMetricFilters
+
+* DescribeQueries
+
+* DescribeQueryDefinitions
+
+* DescribeResourcePolicies
+
+* DescribeSubscriptionFilters
+
+* UntagResource
+
+* DisassociateKmsKey
+
+* TestMetricFilter
+
+* FilterLogEvents
+
+* DeleteAccountPolicy
+
+* DeleteDataProtectionPolicy
+
+* DeleteDelivery
+
+* DeleteDeliveryDestinationPolicy
+
+* DeleteDestination
+
+* DeleteLogStream
+
+* DeleteMetricFilter
+
+* DeleteQueryDefinition
+
+* DeleteResourcePolicy
+
+* DeleteRetentionPolicy
+
+* DeleteSubscriptionFilter
+
+* DeleteDeliveryDestination
+
+* DeleteLogGroup
+
 

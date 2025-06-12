@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | Y |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | Y |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -139,119 +139,118 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* ListFunctions
 
-            * ListFunctions
-            
-            * PublishLayerVersion
-            
-            * ListLayerVersions
-            
-            * CreateCodeSigningConfig
-            
-            * CreateFunction
-            
-            * CreateAlias
-            
-            * PutFunctionConcurrency
-            
-            * AddPermission
-            
-            * AddLayerVersionPermission
-            
-            * GetLayerVersionPolicy
-            
-            * RemovePermission
-            
-            * RemoveLayerVersionPermission
-            
-            * UpdateFunctionConfiguration
-            
-            * PublishVersion
-            
-            * CreateEventSourceMapping
-            
-            * CreateFunctionUrlConfig
-            
-            * PutFunctionCodeSigningConfig
-            
-            * PutFunctionEventInvokeConfig
-            
-            * PutFunctionRecursionConfig
-            
-            * TagResource
-            
-            * UpdateAlias
-            
-            * UpdateFunctionCode
-            
-            * UpdateFunctionUrlConfig
-            
-            * ListAliases
-            
-            * ListCodeSigningConfigs
-            
-            * ListEventSourceMappings
-            
-            * ListFunctionEventInvokeConfigs
-            
-            * ListFunctionUrlConfigs
-            
-            * ListFunctionsByCodeSigningConfig
-            
-            * ListLayers
-            
-            * ListProvisionedConcurrencyConfigs
-            
-            * ListTags
-            
-            * ListVersionsByFunction
-            
-            * GetAccountSettings
-            
-            * GetAlias
-            
-            * GetCodeSigningConfig
-            
-            * GetFunction
-            
-            * GetFunctionCodeSigningConfig
-            
-            * GetFunctionConcurrency
-            
-            * GetFunctionConfiguration
-            
-            * GetFunctionEventInvokeConfig
-            
-            * GetFunctionRecursionConfig
-            
-            * GetFunctionUrlConfig
-            
-            * GetLayerVersion
-            
-            * GetLayerVersionByArn
-            
-            * GetPolicy
-            
-            * GetRuntimeManagementConfig
-            
-            * UntagResource
-            
-            * Invoke
-            
-            * DeleteAlias
-            
-            * DeleteCodeSigningConfig
-            
-            * DeleteEventSourceMapping
-            
-            * DeleteFunction
-            
-            * DeleteFunctionCodeSigningConfig
-            
-            * DeleteFunctionConcurrency
-            
-            * DeleteFunctionUrlConfig
-            
-            * DeleteLayerVersion
-            
+* PublishLayerVersion
+
+* ListLayerVersions
+
+* CreateCodeSigningConfig
+
+* CreateFunction
+
+* CreateAlias
+
+* PutFunctionConcurrency
+
+* AddPermission
+
+* AddLayerVersionPermission
+
+* GetLayerVersionPolicy
+
+* RemovePermission
+
+* RemoveLayerVersionPermission
+
+* UpdateFunctionConfiguration
+
+* PublishVersion
+
+* CreateEventSourceMapping
+
+* CreateFunctionUrlConfig
+
+* PutFunctionCodeSigningConfig
+
+* PutFunctionEventInvokeConfig
+
+* PutFunctionRecursionConfig
+
+* TagResource
+
+* UpdateAlias
+
+* UpdateFunctionCode
+
+* UpdateFunctionUrlConfig
+
+* ListAliases
+
+* ListCodeSigningConfigs
+
+* ListEventSourceMappings
+
+* ListFunctionEventInvokeConfigs
+
+* ListFunctionUrlConfigs
+
+* ListFunctionsByCodeSigningConfig
+
+* ListLayers
+
+* ListProvisionedConcurrencyConfigs
+
+* ListTags
+
+* ListVersionsByFunction
+
+* GetAccountSettings
+
+* GetAlias
+
+* GetCodeSigningConfig
+
+* GetFunction
+
+* GetFunctionCodeSigningConfig
+
+* GetFunctionConcurrency
+
+* GetFunctionConfiguration
+
+* GetFunctionEventInvokeConfig
+
+* GetFunctionRecursionConfig
+
+* GetFunctionUrlConfig
+
+* GetLayerVersion
+
+* GetLayerVersionByArn
+
+* GetPolicy
+
+* GetRuntimeManagementConfig
+
+* UntagResource
+
+* Invoke
+
+* DeleteAlias
+
+* DeleteCodeSigningConfig
+
+* DeleteEventSourceMapping
+
+* DeleteFunction
+
+* DeleteFunctionCodeSigningConfig
+
+* DeleteFunctionConcurrency
+
+* DeleteFunctionUrlConfig
+
+* DeleteLayerVersion
+
 

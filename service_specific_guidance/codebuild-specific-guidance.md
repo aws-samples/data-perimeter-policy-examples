@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | Y |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | Y |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | Y |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -30,7 +30,7 @@ UpdateProject allows you to associate projects with an Amazon VPC to run your co
 
 If you want to achieve data perimeter control objectives, consider implementing these additional controls:
 
-* **Preventative control example:** Consider implementing `codebuild:vpcConfig` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Preventative control example:** Consider implementing `codebuild:vpcConfig.vpcId` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [VpcConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-vpcconfig) property of the [AWS::CodeBuild::Project](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html) resource.
 * **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild projects are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [UpdateProject](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateProject.html) API calls in your environment (specifically, the [vpcConfig](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateProject.html#CodeBuild-UpdateProject-request-vpcConfig) request parameter). If necessary, remediate with the responsive controls of your choice.
@@ -44,7 +44,7 @@ UpdateFleet allows you to associate compute fleets with an Amazon VPC to run you
 
 If you want to achieve data perimeter control objectives, consider implementing these additional controls:
 
-* **Preventative control example:** Consider implementing `codebuild:vpcConfig` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Preventative control example:** Consider implementing `codebuild:vpcConfig.vpcId` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [FleetVpcConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html#cfn-codebuild-fleet-fleetvpcconfig) property of the [AWS::CodeBuild::Fleet](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html) resource.
 * **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild fleets are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [UpdateFleet](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateFleet.html) API calls in your environment (specifically, the [vpcConfig](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateFleet.html#CodeBuild-UpdateFleet-request-vpcConfig) request parameter). If necessary, remediate with the responsive controls of your choice.
@@ -59,7 +59,7 @@ CreateProject allows you to associate projects with an Amazon VPC to run your co
 
 If you want to achieve data perimeter control objectives, consider implementing these additional controls:
 
-* **Preventative control example:** Consider implementing `codebuild:vpcConfig` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Preventative control example:** Consider implementing `codebuild:vpcConfig.vpcId` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [VpcConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-vpcconfig) property of the [AWS::CodeBuild::Project](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html) resource.
 * **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild projects are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateProject](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateProject.html) API calls in your environment (specifically, the [vpcConfig](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateProject.html#CodeBuild-CreateProject-request-vpcConfig) request parameter). If necessary, remediate with the responsive controls of your choice.
@@ -74,7 +74,7 @@ CreateFleet allows you to associate compute fleets with an Amazon VPC to run you
 
 If you want to achieve data perimeter control objectives, consider implementing these additional controls:
 
-* **Preventative control example:** Consider implementing `codebuild:vpcConfig` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Preventative control example:** Consider implementing `codebuild:vpcConfig.vpcId` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [FleetVpcConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html#cfn-codebuild-fleet-fleetvpcconfig) property of the [AWS::CodeBuild::Fleet](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html) resource.
 * **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild fleets are associated with a VPC, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateFleet](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateFleet.html) API calls in your environment (specifically, the [vpcConfig](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateFleet.html#CodeBuild-CreateFleet-request-vpcConfig) request parameter). If necessary, remediate with the responsive controls of your choice.
@@ -99,97 +99,96 @@ If you want to restrict access to trusted identities and expected networks, cons
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* ListFleets
 
-            * ListFleets
-            
-            * ListBuildsForProject
-            
-            * CreateFleet
-            
-            * CreateProject
-            
-            * CreateReportGroup
-            
-            * PutResourcePolicy
-            
-            * StartBuild
-            
-            * StartBuildBatch
-            
-            * UpdateFleet
-            
-            * UpdateProject
-            
-            * UpdateProjectVisibility
-            
-            * UpdateReportGroup
-            
-            * ListBuildBatches
-            
-            * ListBuildBatchesForProject
-            
-            * ListBuilds
-            
-            * ListCuratedEnvironmentImages
-            
-            * ListProjects
-            
-            * ListReportGroups
-            
-            * ListReports
-            
-            * ListReportsForReportGroup
-            
-            * ListSharedProjects
-            
-            * ListSharedReportGroups
-            
-            * ListSourceCredentials
-            
-            * GetReportGroupTrend
-            
-            * GetResourcePolicy
-            
-            * DescribeCodeCoverages
-            
-            * DescribeTestCases
-            
-            * BatchGetBuildBatches
-            
-            * InvalidateProjectCache
-            
-            * BatchGetBuilds
-            
-            * StopBuild
-            
-            * BatchGetReports
-            
-            * StopBuildBatch
-            
-            * BatchGetProjects
-            
-            * BatchDeleteBuilds
-            
-            * BatchGetReportGroups
-            
-            * BatchGetFleets
-            
-            * ImportSourceCredentials
-            
-            * RetryBuild
-            
-            * DeleteBuildBatch
-            
-            * DeleteFleet
-            
-            * DeleteProject
-            
-            * DeleteReport
-            
-            * DeleteResourcePolicy
-            
-            * DeleteSourceCredentials
-            
-            * DeleteReportGroup
-            
+* ListBuildsForProject
+
+* CreateFleet
+
+* CreateProject
+
+* CreateReportGroup
+
+* PutResourcePolicy
+
+* StartBuild
+
+* StartBuildBatch
+
+* UpdateFleet
+
+* UpdateProject
+
+* UpdateProjectVisibility
+
+* UpdateReportGroup
+
+* ListBuildBatches
+
+* ListBuildBatchesForProject
+
+* ListBuilds
+
+* ListCuratedEnvironmentImages
+
+* ListProjects
+
+* ListReportGroups
+
+* ListReports
+
+* ListReportsForReportGroup
+
+* ListSharedProjects
+
+* ListSharedReportGroups
+
+* ListSourceCredentials
+
+* GetReportGroupTrend
+
+* GetResourcePolicy
+
+* DescribeCodeCoverages
+
+* DescribeTestCases
+
+* BatchGetBuildBatches
+
+* InvalidateProjectCache
+
+* BatchGetBuilds
+
+* StopBuild
+
+* BatchGetReports
+
+* StopBuildBatch
+
+* BatchGetProjects
+
+* BatchDeleteBuilds
+
+* BatchGetReportGroups
+
+* BatchGetFleets
+
+* ImportSourceCredentials
+
+* RetryBuild
+
+* DeleteBuildBatch
+
+* DeleteFleet
+
+* DeleteProject
+
+* DeleteReport
+
+* DeleteResourcePolicy
+
+* DeleteSourceCredentials
+
+* DeleteReportGroup
+
 

@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -117,187 +117,186 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* CreateBucket
 
-            * CreateBucket
-            
-            * CreateMultipartUpload
-            
-            * PutObject
-            
-            * PutObjectLockConfiguration
-            
-            * PutObjectLegalHold
-            
-            * GetObjectLegalHold
-            
-            * PutObjectRetention
-            
-            * PutObjectTagging
-            
-            * DeleteObjectTagging
-            
-            * UploadPart
-            
-            * UploadPartCopy
-            
-            * ListParts
-            
-            * CompleteMultipartUpload
-            
-            * CreateSession
-            
-            * PutBucketAccelerateConfiguration
-            
-            * PutBucketAcl
-            
-            * PutBucketAnalyticsConfiguration
-            
-            * PutBucketCors
-            
-            * PutBucketEncryption
-            
-            * PutBucketIntelligentTieringConfiguration
-            
-            * PutBucketInventoryConfiguration
-            
-            * PutBucketLifecycleConfiguration
-            
-            * PutBucketLogging
-            
-            * PutBucketMetricsConfiguration
-            
-            * PutBucketNotificationConfiguration
-            
-            * PutBucketOwnershipControls
-            
-            * PutBucketPolicy
-            
-            * PutBucketReplication
-            
-            * PutBucketRequestPayment
-            
-            * PutBucketTagging
-            
-            * PutBucketVersioning
-            
-            * PutBucketWebsite
-            
-            * PutObjectAcl
-            
-            * PutPublicAccessBlock
-            
-            * CopyObject
-            
-            * ListBucketAnalyticsConfigurations
-            
-            * ListBucketIntelligentTieringConfigurations
-            
-            * ListBucketInventoryConfigurations
-            
-            * ListBucketMetricsConfigurations
-            
-            * ListBuckets
-            
-            * ListDirectoryBuckets
-            
-            * ListMultipartUploads
-            
-            * ListObjectVersions
-            
-            * ListObjects
-            
-            * ListObjectsV2
-            
-            * GetBucketAccelerateConfiguration
-            
-            * GetBucketAcl
-            
-            * GetBucketAnalyticsConfiguration
-            
-            * GetBucketCors
-            
-            * GetBucketEncryption
-            
-            * GetBucketIntelligentTieringConfiguration
-            
-            * GetBucketInventoryConfiguration
-            
-            * GetBucketLifecycleConfiguration
-            
-            * GetBucketLocation
-            
-            * GetBucketLogging
-            
-            * GetBucketMetricsConfiguration
-            
-            * GetBucketNotificationConfiguration
-            
-            * GetBucketOwnershipControls
-            
-            * GetBucketPolicy
-            
-            * GetBucketPolicyStatus
-            
-            * GetBucketReplication
-            
-            * GetBucketRequestPayment
-            
-            * GetBucketTagging
-            
-            * GetBucketVersioning
-            
-            * GetBucketWebsite
-            
-            * GetObject
-            
-            * GetObjectAcl
-            
-            * GetObjectAttributes
-            
-            * GetObjectLockConfiguration
-            
-            * GetObjectRetention
-            
-            * GetObjectTagging
-            
-            * GetPublicAccessBlock
-            
-            * SelectObjectContent
-            
-            * HeadBucket
-            
-            * HeadObject
-            
-            * AbortMultipartUpload
-            
-            * DeleteBucketAnalyticsConfiguration
-            
-            * DeleteBucketCors
-            
-            * DeleteBucketEncryption
-            
-            * DeleteBucketIntelligentTieringConfiguration
-            
-            * DeleteBucketInventoryConfiguration
-            
-            * DeleteBucketLifecycle
-            
-            * DeleteBucketMetricsConfiguration
-            
-            * DeleteBucketOwnershipControls
-            
-            * DeleteBucketPolicy
-            
-            * DeleteBucketReplication
-            
-            * DeleteBucketTagging
-            
-            * DeleteBucketWebsite
-            
-            * DeleteObject
-            
-            * DeleteObjects
-            
-            * DeletePublicAccessBlock
-            
+* CreateMultipartUpload
+
+* PutObject
+
+* PutObjectLockConfiguration
+
+* PutObjectLegalHold
+
+* GetObjectLegalHold
+
+* PutObjectRetention
+
+* PutObjectTagging
+
+* DeleteObjectTagging
+
+* UploadPart
+
+* UploadPartCopy
+
+* ListParts
+
+* CompleteMultipartUpload
+
+* CreateSession
+
+* PutBucketAccelerateConfiguration
+
+* PutBucketAcl
+
+* PutBucketAnalyticsConfiguration
+
+* PutBucketCors
+
+* PutBucketEncryption
+
+* PutBucketIntelligentTieringConfiguration
+
+* PutBucketInventoryConfiguration
+
+* PutBucketLifecycleConfiguration
+
+* PutBucketLogging
+
+* PutBucketMetricsConfiguration
+
+* PutBucketNotificationConfiguration
+
+* PutBucketOwnershipControls
+
+* PutBucketPolicy
+
+* PutBucketReplication
+
+* PutBucketRequestPayment
+
+* PutBucketTagging
+
+* PutBucketVersioning
+
+* PutBucketWebsite
+
+* PutObjectAcl
+
+* PutPublicAccessBlock
+
+* CopyObject
+
+* ListBucketAnalyticsConfigurations
+
+* ListBucketIntelligentTieringConfigurations
+
+* ListBucketInventoryConfigurations
+
+* ListBucketMetricsConfigurations
+
+* ListBuckets
+
+* ListDirectoryBuckets
+
+* ListMultipartUploads
+
+* ListObjectVersions
+
+* ListObjects
+
+* ListObjectsV2
+
+* GetBucketAccelerateConfiguration
+
+* GetBucketAcl
+
+* GetBucketAnalyticsConfiguration
+
+* GetBucketCors
+
+* GetBucketEncryption
+
+* GetBucketIntelligentTieringConfiguration
+
+* GetBucketInventoryConfiguration
+
+* GetBucketLifecycleConfiguration
+
+* GetBucketLocation
+
+* GetBucketLogging
+
+* GetBucketMetricsConfiguration
+
+* GetBucketNotificationConfiguration
+
+* GetBucketOwnershipControls
+
+* GetBucketPolicy
+
+* GetBucketPolicyStatus
+
+* GetBucketReplication
+
+* GetBucketRequestPayment
+
+* GetBucketTagging
+
+* GetBucketVersioning
+
+* GetBucketWebsite
+
+* GetObject
+
+* GetObjectAcl
+
+* GetObjectAttributes
+
+* GetObjectLockConfiguration
+
+* GetObjectRetention
+
+* GetObjectTagging
+
+* GetPublicAccessBlock
+
+* SelectObjectContent
+
+* HeadBucket
+
+* HeadObject
+
+* AbortMultipartUpload
+
+* DeleteBucketAnalyticsConfiguration
+
+* DeleteBucketCors
+
+* DeleteBucketEncryption
+
+* DeleteBucketIntelligentTieringConfiguration
+
+* DeleteBucketInventoryConfiguration
+
+* DeleteBucketLifecycle
+
+* DeleteBucketMetricsConfiguration
+
+* DeleteBucketOwnershipControls
+
+* DeleteBucketPolicy
+
+* DeleteBucketReplication
+
+* DeleteBucketTagging
+
+* DeleteBucketWebsite
+
+* DeleteObject
+
+* DeleteObjects
+
+* DeletePublicAccessBlock
+
 

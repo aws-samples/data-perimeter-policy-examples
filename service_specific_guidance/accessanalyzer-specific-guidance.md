@@ -14,7 +14,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | N |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -22,73 +22,72 @@ The following table specifies whether additional considerations apply to a speci
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* CreateAnalyzer
 
-            * CreateAnalyzer
-            
-            * ListAnalyzers
-            
-            * CreateAccessPreview
-            
-            * CreateArchiveRule
-            
-            * StartPolicyGeneration
-            
-            * ListFindings
-            
-            * ListFindingsV2
-            
-            * StartResourceScan
-            
-            * GenerateFindingRecommendation
-            
-            * ApplyArchiveRule
-            
-            * TagResource
-            
-            * UpdateArchiveRule
-            
-            * UpdateFindings
-            
-            * ListAccessPreviewFindings
-            
-            * ListAccessPreviews
-            
-            * ListAnalyzedResources
-            
-            * ListArchiveRules
-            
-            * ListPolicyGenerations
-            
-            * ListTagsForResource
-            
-            * GetAccessPreview
-            
-            * GetAnalyzedResource
-            
-            * GetAnalyzer
-            
-            * GetArchiveRule
-            
-            * GetFinding
-            
-            * GetFindingV2
-            
-            * GetGeneratedPolicy
-            
-            * UntagResource
-            
-            * CancelPolicyGeneration
-            
-            * CheckNoNewAccess
-            
-            * ValidatePolicy
-            
-            * CheckAccessNotGranted
-            
-            * CheckNoPublicAccess
-            
-            * DeleteArchiveRule
-            
-            * DeleteAnalyzer
-            
+* ListAnalyzers
+
+* CreateAccessPreview
+
+* CreateArchiveRule
+
+* StartPolicyGeneration
+
+* ListFindings
+
+* ListFindingsV2
+
+* StartResourceScan
+
+* GenerateFindingRecommendation
+
+* ApplyArchiveRule
+
+* TagResource
+
+* UpdateArchiveRule
+
+* UpdateFindings
+
+* ListAccessPreviewFindings
+
+* ListAccessPreviews
+
+* ListAnalyzedResources
+
+* ListArchiveRules
+
+* ListPolicyGenerations
+
+* ListTagsForResource
+
+* GetAccessPreview
+
+* GetAnalyzedResource
+
+* GetAnalyzer
+
+* GetArchiveRule
+
+* GetFinding
+
+* GetFindingV2
+
+* GetGeneratedPolicy
+
+* UntagResource
+
+* CancelPolicyGeneration
+
+* CheckNoNewAccess
+
+* ValidatePolicy
+
+* CheckAccessNotGranted
+
+* CheckNoPublicAccess
+
+* DeleteArchiveRule
+
+* DeleteAnalyzer
+
 

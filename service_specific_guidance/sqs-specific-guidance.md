@@ -15,7 +15,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources | Identity | SCP | N |
 | Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
 | Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accesses only from expected networks | Resource | RCP | N |
+| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
  
@@ -23,49 +23,48 @@ The following table specifies whether additional considerations apply to a speci
 
 **List of service APIs reviewed against data perimeter control objectives**
 
+* CreateQueue
 
-            * CreateQueue
-            
-            * SendMessage
-            
-            * ReceiveMessage
-            
-            * ChangeMessageVisibility
-            
-            * SetQueueAttributes
-            
-            * AddPermission
-            
-            * StartMessageMoveTask
-            
-            * TagQueue
-            
-            * ListDeadLetterSourceQueues
-            
-            * ListMessageMoveTasks
-            
-            * ListQueueTags
-            
-            * ListQueues
-            
-            * GetQueueAttributes
-            
-            * GetQueueUrl
-            
-            * UntagQueue
-            
-            * RemovePermission
-            
-            * ChangeMessageVisibilityBatch
-            
-            * PurgeQueue
-            
-            * SendMessageBatch
-            
-            * DeleteMessage
-            
-            * DeleteMessageBatch
-            
-            * DeleteQueue
-            
+* SendMessage
+
+* ReceiveMessage
+
+* ChangeMessageVisibility
+
+* SetQueueAttributes
+
+* AddPermission
+
+* StartMessageMoveTask
+
+* TagQueue
+
+* ListDeadLetterSourceQueues
+
+* ListMessageMoveTasks
+
+* ListQueueTags
+
+* ListQueues
+
+* GetQueueAttributes
+
+* GetQueueUrl
+
+* UntagQueue
+
+* RemovePermission
+
+* ChangeMessageVisibilityBatch
+
+* PurgeQueue
+
+* SendMessageBatch
+
+* DeleteMessage
+
+* DeleteMessageBatch
+
+* DeleteQueue
+
 
