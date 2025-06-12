@@ -37,7 +37,6 @@
             "ds:ShareDirectory",
             "directconnect:CreateDirectConnectGatewayAssociationProposal",
             "detective:CreateMembers",
-            "logs:PutSubscriptionFilter",
             "lakeformation:GrantPermissions",
             "lakeformation:BatchGrantPermissions",
             "appstream:UpdateImagePermissions",
@@ -51,6 +50,7 @@
             "oam:CreateLink",
             "servicecatalog:CreatePortfolioShare",
             "config:PutConfigurationAggregator",
+            "config:PutAggregationAuthorization",
             "fis:CreateTargetAccountConfiguration",
             "globalaccelerator:CreateCrossAccountAttachment",
             "cloud9:CreateEnvironmentMembership",
@@ -59,6 +59,21 @@
          ],
          "Resource": "*",
          "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:identity": "true"
+            }
+         }
+      },
+      {
+         "Sid": "RestrictKMSGrantsCreationToAWSServices",
+         "Effect": "Deny",
+         "Action": "kms:CreateGrant",
+         "Resource": "*",
+         "Condition": {
+            "BoolIfExists": {
+               "kms:GrantIsForAWSResource": "false",
+               "aws:PrincipalIsAWSService": "false"
+            },
             "StringNotEqualsIfExists": {
                "aws:PrincipalTag/dp:exclude:identity": "true"
             }
@@ -100,51 +115,20 @@
          }
       },
       {
-         "Sid": "PreventPublicBucketACL",
+         "Sid": "PreventLambdaFunctionURLAuthNone",
          "Effect": "Deny",
          "Action": [
-            "s3:PutBucketAcl",
-            "s3:CreateBucket"
-         ],
-         "Resource": "*",
-         "Condition": {
-            "StringEquals": {
-               "s3:x-amz-acl": [
-                  "public-read",
-                  "public-read-write"
-               ]
-            },
-            "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/dp:exclude:identity": "true"
-            }
-         }
-      },
-      {
-         "Sid": "PreventS3PublicAccessBlockConfigurations",
-         "Effect": "Deny",
-         "Action": "s3:PutAccountPublicAccessBlock",
-         "Resource": "*",
-         "Condition": {
-            "StringNotEqualsIfExists": {
-               "aws:PrincipalTag/dp:exclude:identity": "true"
-            }
-         }
-      },
-            {
-         "Sid":"PreventLambdaFunctionURLAuthNone",
-         "Effect":"Deny",
-         "Action":[
             "lambda:AddPermission",
             "lambda:UpdateFunctionUrlConfig",
             "lambda:CreateFunctionUrlConfig"
          ],
-         "Resource":"*",
-         "Condition":{
-            "StringNotEqualsIfExists":{
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
                "aws:PrincipalTag/dp:exclude:identity": "true"
             },
             "StringEquals": {
-               "lambda:FunctionUrlAuthType" : "NONE"
+               "lambda:FunctionUrlAuthType": "NONE"
             }
          }
       },

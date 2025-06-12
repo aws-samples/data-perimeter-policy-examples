@@ -1,0 +1,27 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PreventResourcePolicyConfigurations",
+      "Effect": "Deny",
+      "Action": [
+        "codeartifact:PutRepositoryPermissionsPolicy",
+        "codeartifact:PutDomainPermissionsPolicy",
+        "codebuild:PutResourcePolicy",
+        "dynamodb:PutResourcePolicy",
+        "glacier:SetVaultAccessPolicy",
+        "lambda:AddLayerVersionPermission",
+        "lambda:AddPermission",
+        "logs:PutResourcePolicy",
+        "logs:PutDestinationPolicy",
+        "sns:AddPermission"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEqualsIfExists": {
+          "aws:PrincipalTag/dp:exclude:identity": "true"
+        }
+      }
+    }
+  ]
+}

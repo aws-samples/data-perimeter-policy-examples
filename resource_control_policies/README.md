@@ -18,7 +18,7 @@ RCPs are a type of [AWS Organizations](https://aws.amazon.com/organizations/) or
 
 This folder contains examples of RCPs that help enforce identity and network perimeter controls on [services supported by RCPs](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html#rcp-supported-services). This folder also includes policy examples you can implement as [resource-based policies](resource_based_policies) for select services that are not supported by RCPs.
 
-These examples do not represent a complete list of valid data access patterns, and they are intended for you to tailor and extend them to suit the needs of your environment. See [Tagging conventions](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main?tab=readme-ov-file#tagging-conventions) used in the policy examples to control the scope of data perimeter guardrails. You can also use the `NotResource` IAM policy element to exclude specific resources from the controls.
+These examples do not represent a complete list of valid data access patterns, and they are intended for you to tailor and extend them to suit the needs of your environment. See [Tagging conventions](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main?tab=readme-ov-file#tagging-conventions-and-governance) used in the policy examples to control the scope of data perimeter guardrails. You can also use the `NotResource` IAM policy element to exclude specific resources from the controls.
 
 Use the following RCP examples individually or in combination:
 * [identity_perimeter_rcp](identity_perimeter_rcp.json) – Enforces identity perimeter controls on resources within your Organizations organization.
