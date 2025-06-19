@@ -16,7 +16,9 @@
                 "sts:GetFederationToken",
                 "sts:GetServiceBearerToken",
                 "sts:GetSessionToken",
-                "sts:SetContext"
+                "sts:SetContext",
+                "aoss:*",
+                "ecr:*"
             ],
             "Resource": "*",
             "Condition": {
@@ -73,7 +75,9 @@
                 "sqs:*",
                 "kms:*",
                 "secretsmanager:*",
-                "sts:*"
+                "sts:*",
+                "aoss:*",
+                "ecr:*"
             ],
             "Resource": "*",
             "Condition": {
