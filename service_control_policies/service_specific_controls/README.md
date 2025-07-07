@@ -11,6 +11,7 @@ Use the following example SCPs individually or in combination:
 * [network_perimeter_ec2_scp](network_perimeter_ec2_scp.json) – Enforces network perimeter controls on service roles used by Amazon EC2 instances.
 * [network_perimeter_iam_users_scp](network_perimeter_iam_users_scp.json) - Enforces network perimeter controls on IAM users with long-term access keys.
 * [network_perimeter_lambda_scp](network_perimeter_lambda_scp.json) - Enforces network perimeter controls on service roles used by AWS Lambda.
+* [network_perimeter_glue_scp](network_perimeter_glue_scp.json) - Enforces network perimeter controls on service roles used by AWS Glue jobs.
 * [restrict_nonvpc_deployment_scp](restrict_nonvpc_deployment_scp.json) - Enforces deployment of resources in a customer managed Amazon VPC.
 * [restrict_idp_configurations_scp](restrict_idp_configurations_scp.json) - Restricts the ability to make configuration changes to the IAM SAML identity providers.
 * [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) - Prevent untrusted non-AWS resources from being configured as targets for service operations.
@@ -65,6 +66,16 @@ This policy statement is included in the [network_perimeter_lambda_scp](/service
 *   AWS Lambda networks when the service interacts with [CloudWatch Logs]( https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html), [AWS X-Ray](https://aws.amazon.com/xray/), and [Amazon EFS]( https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html), as denoted by the `NotAction` element with the actions `xray:PutTraceSegments`,`logs:CreateLogGroup`,`logs:CreateLogStream`,`logs:PutLogEvents`, `elasticfilesystem:ClientMount`.
 
 The [` lambda:SourceFunctionArn `](https://docs.aws.amazon.com/lambda/latest/dg/permissions-source-function-arn.html) condition key is used to target role sessions that are created for your function's execution environment.
+
+### "Sid":"EnforceNetworkPerimeterOnGlueRoles"
+
+This policy statement is included in the [network_perimeter_glue_scp](/service_control_policies/service_specific_controls/network_perimeter_glue_scp.json) and limits access to expected networks for service roles used by AWS Glue jobs. Expected networks are defined as follows:
+*   Your on-premises data centers and static egress points in AWS such as a NAT gateway that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement.
+*   Your organization’s VPCs that are specified by VPC IDs (`<my-vpc>`) in the policy statement.
+*   Networks of AWS services that use [forward access sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) to access resources on your behalf as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service, and that service takes subsequent actions on your behalf by using your IAM credentials.
+*   AWS Glue networks when the service interacts with [CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html), as denoted by the `NotAction` element with the actions `logs:CreateLogGroup`,`logs:CreateLogStream`,`logs:PutLogEvents`.
+
+The [`glue:CredentialIssuingService`](https://docs.aws.amazon.com/glue/latest/dg/security_iam_id-based-policy-examples.html#glue-identity-based-policy-context-key-glue) condition key is used to target role sessions that are created for your job's execution environment.
 
 ### "Sid":"PreventIdPTrustModifications"
 
