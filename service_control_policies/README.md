@@ -22,9 +22,11 @@ Use the following example SCPs individually or in combination:
 * [network_perimeter_scp](network_perimeter_scp.json) – Enforces network perimeter controls on IAM principals tagged with the `dp:include:network` tag set to `true`.
 * [data_perimeter_governance_scp](data_perimeter_governance_scp.json) – Include statements to secure tags that are used for authorization controls. This SCP also include statements that should be included in your data perimeter to account for specific data access patterns that are not covered by primary data perimeter controls. 
 
+[service_specific_controls](service_specific_controls) subfolder contains policy examples you might want to use when implementing a data perimeter for a service.
+
 Note that the SCP examples in this repository use a [deny list strategy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_strategies.html), which means that you also need a FullAWSAccess policy or other policy attached to your AWS Organizations organization entities to allow actions. You still also need to grant appropriate permissions to your principals by using identity-based or resource-based policies.
 
-For your network perimeter, this folder has examples of policies for enforcing controls on specific service roles and IAM principals tagged with the `dp:include:network` tag set to `true`.
+For your network perimeter, this folder has examples of policies for enforcing controls on specific service roles and IAM principals tagged with the `dp:include:network` tag set to `true`. See [Tagging conventions](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main?tab=readme-ov-file#tagging-conventions-and-governance) used in the policy examples to control the scope of data perimeter guardrails.
 
 ## Included data access patterns
 

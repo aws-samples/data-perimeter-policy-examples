@@ -1,0 +1,45 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "EnforceNetworkPerimeterVpceOrgID",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": [
+                "s3:*",
+                "kms:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "NotIpAddressIfExists": {
+                    "aws:SourceIp": "<my-corporate-cidr>"
+                },
+                "StringNotEqualsIfExists": {
+                    "aws:VpceOrgID": "<my-org-id>",
+                    "aws:PrincipalTag/dp:exclude:network": "true",
+                    "aws:PrincipalAccount": [
+                        "<load-balancing-account-id>",
+                        "<fin-space-account-id>"
+                    ],
+                    "aws:VpceAccount": [
+                        "<third-party-account-a>",
+                        "<third-party-account-b>"
+                    ],
+                    "aws:ResourceTag/dp:exclude:network": "true"
+                },
+                "BoolIfExists": {
+                    "aws:PrincipalIsAWSService": "false",
+                    "aws:ViaAWSService": "false"
+                },
+                "ArnNotLikeIfExists": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/aws:ec2-infrastructure"
+                    ]
+                },
+                "StringEquals": {
+                    "aws:PrincipalTag/dp:include:network": "true"
+                }
+            }
+        }
+    ]
+}

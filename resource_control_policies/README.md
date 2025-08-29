@@ -16,7 +16,7 @@ RCPs are a type of [AWS Organizations](https://aws.amazon.com/organizations/) or
 
 ## Description
 
-This folder contains examples of RCPs that help enforce identity and network perimeter controls on [services supported by RCPs](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html#rcp-supported-services). This folder also includes policy examples you can implement as [resource-based policies](resource_based_policies) for select services that are not supported by RCPs.
+This folder contains examples of RCPs that help enforce identity and network perimeter controls on [services supported by RCPs](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html#rcp-supported-services).
 
 These examples do not represent a complete list of valid data access patterns, and they are intended for you to tailor and extend them to suit the needs of your environment. See [Tagging conventions](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main?tab=readme-ov-file#tagging-conventions-and-governance) used in the policy examples to control the scope of data perimeter guardrails. You can also use the `NotResource` IAM policy element to exclude specific resources from the controls.
 
@@ -25,11 +25,15 @@ Use the following RCP examples individually or in combination:
 * [network_perimeter_rcp](network_perimeter_rcp.json) – Enforces network perimeter controls on resources within your Organizations organization.
 * [data_perimeter_governance_rcp](data_perimeter_governance_rcp.json) – Includes controls for protecting data perimeter controls’ dependencies, such as session tags used to control their scope.
 
+[service_specific_controls](service_specific_controls) subfolder contains policy examples you can implement as resource-based policies for select services that are not supported by RCPs and other service-specific controls.
+
 Note that the policy examples in this folder do not grant any permissions; they only restrict access by explicitly denying specific data access patterns. You still have to grant appropriate permissions with explicit `Allow` statements in identity-based or resource-based policies.  
 
 ## Included data access patterns
 
 The following policy statements are included in the RCP and resource-based policy examples, each statement representing specific data access patterns.
+
+These policy statements demonstrate using `aws:ResourceTag/tag-key` to exclude specific resources from the control. Note that this key only works with resources that [support authorization based on tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html). For details on supported service actions, see the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html). For resources not yet supporting `aws:ResourceTag/tag-key`, you can use `aws:ResourceAccount` or `aws:ResourceOrgPaths` to exclude resources owned by specific AWS accounts, or the `NotResource` IAM policy element to exclude specific resource Amazon Resource Names (ARNs). Alternatively, you can use a service-specific version of `aws:ResourceTag/tag-key` such as `s3:ExistingObjectTag`, if available.
 
 ### "Sid":"EnforceOrgIdentities"
 
@@ -99,6 +103,10 @@ This policy statement is included in the [network_perimeter_rcp](network_perimet
 * Networks of AWS services that use [service roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to access resources on your behalf as denoted by `arn:aws:iam::*:role/aws:ec2-infrastructure` in the policy statement.
 * Networks of trusted third parties are specified by their account IDs (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement.
 
+Additional considerations:
+
+* This policy statement exempts identities that are tagged with `dp:exclude:network` set to `true` from the network perimeter guardrail. Note that it is not recommended to have this exception in the policy unless it is accompanied by `"Sid": "EnforceOrgIdentities"`. This helps ensure that an account outside of your Organizations organization cannot tag their identities with `dp:exclude:network` to circumvent your network perimeter controls.
+
 Example data access patterns:
 
 * *Amazon Athena query*. When an application running in your VPC [creates an Athena query](https://docs.aws.amazon.com/athena/latest/ug/getting-started.html), Athena uses the application’s credentials to make subsequent requests to Amazon S3 to read data from your bucket and return results. 
@@ -107,8 +115,6 @@ Example data access patterns:
 * *Amazon EBS volume decryption*. When you mount an encrypted Amazon EBS volume to an Amazon EC2 instance, Amazon EC2 calls AWS KMS to decrypt the data key that was used to encrypt the volume. The call to AWS KMS is signed by an IAM role, `arn:aws:iam::*:role/aws:ec2-infrastructure`, which is created in your account by Amazon EC2, and comes from the service network.
 * *Elastic Load Balancing (ELB) access logging*. In some AWS Regions, [Classic Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html#attach-bucket-policy) and [Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions) use AWS account credentials that belong to an AWS service to publish logs to your Amazon S3 buckets. Because the call to Amazon S3 comes from the service network, the `aws:PrincipalAccount` condition key in the resource control policy should contain the ELB account ID if access logging is enabled.
 * *Amazon FinSpace data encryption*. To encrypt data at rest, [Amazon FinSpace](https://aws.amazon.com/finspace/) uses AWS account credentials that belong to the service to access your AWS KMS customer managed key. Because the call to AWS KMS comes from the service network, the `aws:PrincipalAccount` condition key in the resource control policy should contain the [FinSpace environment infrastructure account](https://docs.aws.amazon.com/finspace/latest/userguide/data-sharing-lake-formation.html). You can find the ID of the infrastructure account that's dedicated to your FinSpace environment on the environment page of the FinSpace console.
-
-This policy statement exempts identities that are tagged with `dp:exclude:network` set to `true` from the network perimeter guardrail. Note that it is not recommended to have this exception in the policy unless it is accompanied by `"Sid": "EnforceOrgIdentities"`. This helps ensure that an account outside of your Organizations organization cannot tag their identities with `dp:exclude:network` to circumvent your network perimeter controls.
 
 ### "Sid":"ProtectDataPerimeterSessionTags"
 

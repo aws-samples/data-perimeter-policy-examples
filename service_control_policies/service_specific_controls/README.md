@@ -12,6 +12,7 @@ Use the following example SCPs individually or in combination:
 * [network_perimeter_iam_users_scp](network_perimeter_iam_users_scp.json) - Enforces network perimeter controls on IAM users with long-term access keys.
 * [network_perimeter_lambda_scp](network_perimeter_lambda_scp.json) - Enforces network perimeter controls on service roles used by AWS Lambda.
 * [network_perimeter_glue_scp](network_perimeter_glue_scp.json) - Enforces network perimeter controls on service roles used by AWS Glue jobs.
+* [network_perimeter_vpceorgid_scp](network_perimeter_vpceorgid_scp.json) - Enforces network perimeter controls using aws:VpceOrgID on [supported services](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-vpceorgid).
 * [restrict_nonvpc_deployment_scp](restrict_nonvpc_deployment_scp.json) - Enforces deployment of resources in a customer managed Amazon VPC.
 * [restrict_idp_configurations_scp](restrict_idp_configurations_scp.json) - Restricts the ability to make configuration changes to the IAM SAML identity providers.
 * [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) - Prevent untrusted non-AWS resources from being configured as targets for service operations.
@@ -20,20 +21,17 @@ Use the following example SCPs individually or in combination:
 
 Note that the SCP examples in this repository use a [deny list strategy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_strategies.html), which means that you also need a FullAWSAccess policy or other policy attached to your AWS Organizations organization entities to allow actions. You still also need to grant appropriate permissions to your principals by using identity-based or resource-based policies.
 
+See [Tagging conventions](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main?tab=readme-ov-file#tagging-conventions-and-governance) used in the policy examples to control the scope of data perimeter guardrails.
+
 #### Network perimeter controls
 
 Network perimeter policy examples in this folder enforce the controls on specific service roles and IAM users. 
-* Some AWS services use [service roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-role)  to perform tasks on your behalf. Some service roles are designed to be used by a service to directly call other services on your behalf as well as to make API calls from your code (for example, an [AWS Lambda](https://aws.amazon.com/lambda/)  function role is used to publish logs to [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/)  and to make calls to AWS APIs from the Lambda function code). Because these services allow code execution, it is possible for a user to obtain the credentials associated with a service role. Therefore, you may want to enforce the use of such credentials from expected networks only. 
-* You may also want to restrict the use of [IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) to expected networks only. We recommend using [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) instead of IAM users with long-term access keys, as these access keys remain valid until manually revoked and therefore present a higher security risk. If your organization continues to use IAM users, implementing network perimeter controls can help mitigate potential security risks. 
 
-The following are the services and actions that require an exception to the network perimeter:
-* Some AWS services have resources that are accessible from within your VPC through network interfaces or run inside your VPC, and use IAM for authentication. To account for this access pattern, you should list relevant actions in the `NotAction` element in the example policies and use network security controls such as [security groups](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html), [access control lists](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html), and firewalls such as [AWS Network Firewall](https://aws.amazon.com/network-firewall/) to control the networks and IP addresses that can access these resources.
-    * `dax:GetItem`, `dax:BatchGetItem`, `dax:Query`, `dax:Scan`, `dax:PutItem`, `dax:UpdateItem`, `dax:DeleteItem`, `dax:BatchWriteItem`, and `dax:ConditionCheckItem` – Required for [Amazon DynamoDB Accelerator (DAX)](https://aws.amazon.com/dynamodb/dax/) operations. At runtime, the DAX client directs all of your application's DynamoDB API requests to the DAX cluster, which runs in your VPC. Even though these requests originate from your VPC, they do not traverse a VPC endpoint. 
-    * `neptune-db:*` – Required for [Amazon Neptune](https://aws.amazon.com/neptune/). Amazon Neptune databases are deployed in your VPC and are accessed over a network interface in the VPC. The `neptune-db` IAM namespace is only used to access the Neptune database in your VPCs with [IAM authentication](https://docs.aws.amazon.com/neptune/latest/userguide/iam-auth-connecting.html) and is not used with AWS APIs.
-    * `elasticfilesystem:ClientMount`,`elasticfilesystem:RootAccess`,`elasticfilesystem:ClientWrite` – Required to use [Amazon Elastic File System (EFS)](https://aws.amazon.com/efs/) with [IAM authorization](https://docs.aws.amazon.com/efs/latest/ug/mounting-IAM-option.html). These IAM actions are only used to access Amazon EFS file systems from within your VPC via a network interface. To save space in the policy example, these three IAM actions are written with a wildcard character as `elasticfilesystem:Client*`.
-    * `rds-db:Connect` – Required to use [Amazon Relational Database Service (RDS)](https://aws.amazon.com/rds/) with [IAM authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html). Amazon RDS databases are deployed in your VPC and are accessed over a network interface in the VPC. The `rds-db` IAM namespace is only used for authentication to RDS databases. 
-    * `kafka-cluster:*` – Required to use [Amazon Managed Streaming for Apache Kafka (MSK)](https://aws.amazon.com/msk/) with [IAM access control](https://docs.aws.amazon.com/msk/latest/developerguide/iam-access-control.html). The `kafka-cluster` IAM namespace is only used to access Amazon MSK clusters in your VPCs with IAM authentication.
-    * `es:ESHttpGet`, `es:ESHttpPut`,`es:ESHttpDelete`,`es:ESHttpPost`,`es:ESHttpPatch`,`es:ESHttpHead`  – Required to use [Amazon OpenSearch Service](https://aws.amazon.com/opensearch-service/) with [IAM authentication for OpenSearch Domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ac.html#ac-types-resource). These IAM actions are only used to access OpenSearch domains. When an OpenSearch domain is deployed with "VPC Access" selected, requests to that OpenSearch domain traverse a network interface in your VPC and does not traverse a VPC endpoint. If you are using IAM authentication with an OpenSearch domain that is configured to be accessible in "public" mode over the Internet, you can use the `aws:SourceIp` condition key to help control from which networks the OpenSearch domain can be accessed. To save space in the policy example, these IAM actions are written with a wildcard character as `es:ES*`.
+* Some AWS services use [service roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-role)  to perform tasks on your behalf. Some service roles are designed to be used by a service to directly call other services on your behalf as well as to make API calls from your code (for example, an [AWS Lambda](https://aws.amazon.com/lambda/) function role is used to publish logs to [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) and to make calls to AWS APIs from the Lambda function code). Because these services allow code execution, it is possible for a user to obtain the credentials associated with a service role. Therefore, you may want to enforce the use of such credentials from expected networks only. 
+* You may also want to restrict the use of [IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) to expected networks only. We recommend using [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) instead of IAM users with long-term access keys, as these access keys remain valid until manually revoked and therefore present a higher security risk. If your organization continues to use IAM users, implementing network perimeter controls can help mitigate potential security risks. 
+* This folder has examples of policies for enforcing controls on specific service roles and IAM principals tagged with the `dp:include:network` tag set to `true` and service-specific condition keys.
+
+For description of actions listed in the `NotAction` element in the example policies, see [Services and actions that require an exception to the network perimeter](../#services-and-actions-that-require-an-exception-to-the-network-perimeter).
 
 ## Included data access patterns
 
@@ -49,7 +47,7 @@ This policy statement is included in the [network_perimeter_ec2_scp](network_per
 
 The `ec2:SourceInstanceARN` condition key is used to target role sessions that are created for applications running on your Amazon EC2 instances. 
 
-### "Sid":"EnforceNetworkPerimeterOnIAMUsers "
+### "Sid":"EnforceNetworkPerimeterOnIAMUsers"
 
 This policy statement is included in the [network_perimeter_iam_users_scp](/service_control_policies/service_specific_controls/network_perimeter_iam_users_scp.json) and limits access to expected networks for IAM users. Expected networks are defined as follows:
 *	Your on-premises data centers and static egress points in AWS such as a NAT gateway that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement.
@@ -76,6 +74,19 @@ This policy statement is included in the [network_perimeter_glue_scp](/service_c
 *   AWS Glue networks when the service interacts with [CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html), as denoted by the `NotAction` element with the actions `logs:CreateLogGroup`,`logs:CreateLogStream`,`logs:PutLogEvents`.
 
 The [`glue:CredentialIssuingService`](https://docs.aws.amazon.com/glue/latest/dg/security_iam_id-based-policy-examples.html#glue-identity-based-policy-context-key-glue) condition key is used to target role sessions that are created for your job's execution environment.
+
+### "Sid":"EnforceNetworkPerimeterVpceOrgID"
+
+This policy statement is included in the [network_perimeter_vpceorgid_scp](/service_control_policies/service_specific_controls/network_perimeter_vpceorgid_scp.json). It limits access to expected networks with the aws:VpceOrgID condition key for [supported services](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-vpceorgid) and for IAM principals tagged with the `dp:include:network` tag set to `true`. Expected networks are defined as follows:
+
+*   Your on-premises data centers and static egress points in AWS such as a NAT gateway that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement.
+*   Your organization’s VPCs that are specified by the organization ID (`<my-org-id>`) in the policy statement.
+*   Networks of AWS services that use [forward access sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) to access resources on your behalf as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service, and that service takes subsequent actions on your behalf by using your IAM credentials.
+*   Networks of AWS services when AWS services interact with [KMS](https://aws.amazon.com/kms/) encrypted AMIs, volumes, or snapshots as denoted by the `aws:PrincipalArn` condition key with a value of `arn:aws:iam:::role/aws:ec2-infrastructure`. 
+*   Networks of trusted third parties are specified by their account IDs (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement.
+
+Additional considerations:
+* We recommend that you use aws:VpceOrgID only if all of the services you want to restrict access to are currently supported. Using this condition key with unsupported services can lead to unintended authorization results. If you need to enforce the restriction on a wider range of services, consider using aws:SourceVpc as demonstrated in the [network_perimeter_scp](../network_perimeter_scp.json). See [Establishing a data perimeter on AWS: Allow access to company data only from expected networks](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-access-to-company-data-only-from-expected-networks/) for more details.
 
 ### "Sid":"PreventIdPTrustModifications"
 
