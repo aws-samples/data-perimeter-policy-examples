@@ -19,52 +19,28 @@ The following table specifies whether additional considerations apply to a speci
 | Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
 
 *Y – Additional considerations apply. N – No additional considerations apply.
- 
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* ListWorkspaces
-
-* ListScrapers
-
-* CreateWorkspace
-
-* CreateRuleGroupsNamespace
-
-* PutRuleGroupsNamespace
-
 * CreateLoggingConfiguration
-
+* CreateRuleGroupsNamespace
 * CreateScraper
-
-* TagResource
-
-* UpdateLoggingConfiguration
-
-* UpdateWorkspaceAlias
-
-* ListRuleGroupsNamespaces
-
-* ListTagsForResource
-
-* GetDefaultScraperConfiguration
-
-* DescribeLoggingConfiguration
-
-* DescribeRuleGroupsNamespace
-
-* DescribeScraper
-
-* DescribeWorkspace
-
-* UntagResource
-
+* CreateWorkspace
 * DeleteLoggingConfiguration
-
 * DeleteRuleGroupsNamespace
-
 * DeleteScraper
-
 * DeleteWorkspace
-
-
+* DescribeLoggingConfiguration
+* DescribeRuleGroupsNamespace
+* DescribeScraper
+* DescribeWorkspace
+* GetDefaultScraperConfiguration
+* ListRuleGroupsNamespaces
+* ListScrapers
+* ListTagsForResource
+* ListWorkspaces
+* PutRuleGroupsNamespace
+* TagResource
+* UntagResource
+* UpdateLoggingConfiguration
+* UpdateWorkspaceAlias

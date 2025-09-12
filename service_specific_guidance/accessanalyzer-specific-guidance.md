@@ -24,72 +24,40 @@ The following table specifies whether additional considerations apply to a speci
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* CreateAnalyzer
-
-* ListAnalyzers
-
-* CreateAccessPreview
-
-* CreateArchiveRule
-
-* StartPolicyGeneration
-
-* ListFindings
-
-* ListFindingsV2
-
-* StartResourceScan
-
-* GenerateFindingRecommendation
-
 * ApplyArchiveRule
-
-* TagResource
-
-* UpdateArchiveRule
-
-* UpdateFindings
-
-* ListAccessPreviewFindings
-
-* ListAccessPreviews
-
-* ListAnalyzedResources
-
-* ListArchiveRules
-
-* ListPolicyGenerations
-
-* ListTagsForResource
-
-* GetAccessPreview
-
-* GetAnalyzedResource
-
-* GetAnalyzer
-
-* GetArchiveRule
-
-* GetFinding
-
-* GetFindingV2
-
-* GetGeneratedPolicy
-
-* UntagResource
-
 * CancelPolicyGeneration
-
+* CheckAccessNotGranted
 * CheckNoNewAccess
-
+* CheckNoPublicAccess
+* CreateAccessPreview
+* CreateAnalyzer
+* CreateArchiveRule
+* DeleteAnalyzer
+* DeleteArchiveRule
+* GenerateFindingRecommendation
+* GetAccessPreview
+* GetAnalyzedResource
+* GetAnalyzer
+* GetArchiveRule
+* GetFinding
+* GetFindingV2
+* GetGeneratedPolicy
+* ListAccessPreviewFindings
+* ListAccessPreviews
+* ListAnalyzedResources
+* ListAnalyzers
+* ListArchiveRules
+* ListFindings
+* ListFindingsV2
+* ListPolicyGenerations
+* ListTagsForResource
+* StartPolicyGeneration
+* StartResourceScan
+* TagResource
+* UntagResource
+* UpdateArchiveRule
+* UpdateFindings
 * ValidatePolicy
 
-* CheckAccessNotGranted
-
-* CheckNoPublicAccess
-
-* DeleteArchiveRule
-
-* DeleteAnalyzer
 
 

@@ -54,96 +54,49 @@ If you want to restrict access to trusted identities and expected networks, cons
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* CreateDomain
-
-* CreateRepository
-
-* PublishPackageVersion
-
-* CreatePackageGroup
-
-* PutDomainPermissionsPolicy
-
-* PutPackageOriginConfiguration
-
-* PutRepositoryPermissionsPolicy
-
-* CopyPackageVersions
-
 * AssociateExternalConnection
-
-* TagResource
-
-* UpdatePackageGroup
-
-* UpdatePackageGroupOriginConfiguration
-
-* UpdatePackageVersionsStatus
-
-* UpdateRepository
-
-* ListAssociatedPackages
-
-* ListDomains
-
-* ListPackageGroups
-
-* ListPackageVersionAssets
-
-* ListPackageVersionDependencies
-
-* ListPackageVersions
-
-* ListPackages
-
-* ListRepositories
-
-* ListRepositoriesInDomain
-
-* ListSubPackageGroups
-
-* ListTagsForResource
-
-* GetAssociatedPackageGroup
-
-* GetAuthorizationToken
-
-* GetDomainPermissionsPolicy
-
-* GetPackageVersionAsset
-
-* GetRepositoryEndpoint
-
-* GetRepositoryPermissionsPolicy
-
-* DescribeDomain
-
-* DescribePackage
-
-* DescribePackageGroup
-
-* DescribePackageVersion
-
-* DescribeRepository
-
-* UntagResource
-
-* DisassociateExternalConnection
-
-* DisposePackageVersions
-
-* DeleteDomainPermissionsPolicy
-
-* DeletePackageGroup
-
-* DeletePackageVersions
-
-* DeleteRepositoryPermissionsPolicy
-
-* DeletePackage
-
-* DeleteRepository
-
+* CopyPackageVersions
+* CreateDomain
+* CreatePackageGroup
+* CreateRepository
 * DeleteDomain
-
-
+* DeleteDomainPermissionsPolicy
+* DeletePackage
+* DeletePackageGroup
+* DeletePackageVersions
+* DeleteRepository
+* DeleteRepositoryPermissionsPolicy
+* DescribeDomain
+* DescribePackage
+* DescribePackageGroup
+* DescribePackageVersion
+* DescribeRepository
+* DisassociateExternalConnection
+* DisposePackageVersions
+* GetAssociatedPackageGroup
+* GetAuthorizationToken
+* GetDomainPermissionsPolicy
+* GetPackageVersionAsset
+* GetRepositoryEndpoint
+* GetRepositoryPermissionsPolicy
+* ListAssociatedPackages
+* ListDomains
+* ListPackageGroups
+* ListPackageVersionAssets
+* ListPackageVersionDependencies
+* ListPackageVersions
+* ListPackages
+* ListRepositories
+* ListRepositoriesInDomain
+* ListSubPackageGroups
+* ListTagsForResource
+* PublishPackageVersion
+* PutDomainPermissionsPolicy
+* PutPackageOriginConfiguration
+* PutRepositoryPermissionsPolicy
+* TagResource
+* UntagResource
+* UpdatePackageGroup
+* UpdatePackageGroupOriginConfiguration
+* UpdatePackageVersionsStatus
+* UpdateRepository

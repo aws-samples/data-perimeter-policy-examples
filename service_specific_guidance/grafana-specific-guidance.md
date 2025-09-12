@@ -24,52 +24,27 @@ The following table specifies whether additional considerations apply to a speci
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* ListWorkspaces
-
-* CreateWorkspaceApiKey
-
-* CreateWorkspaceServiceAccount
-
 * CreateWorkspace
-
+* CreateWorkspaceApiKey
+* CreateWorkspaceServiceAccount
 * CreateWorkspaceServiceAccountToken
-
-* TagResource
-
-* UpdatePermissions
-
-* UpdateWorkspace
-
-* UpdateWorkspaceAuthentication
-
-* UpdateWorkspaceConfiguration
-
-* ListPermissions
-
-* ListTagsForResource
-
-* ListVersions
-
-* ListWorkspaceServiceAccountTokens
-
-* ListWorkspaceServiceAccounts
-
-* DescribeWorkspace
-
-* DescribeWorkspaceAuthentication
-
-* DescribeWorkspaceConfiguration
-
-* UntagResource
-
-* DisassociateLicense
-
-* DeleteWorkspaceApiKey
-
-* DeleteWorkspaceServiceAccountToken
-
-* DeleteWorkspaceServiceAccount
-
 * DeleteWorkspace
-
-
+* DeleteWorkspaceApiKey
+* DeleteWorkspaceServiceAccount
+* DeleteWorkspaceServiceAccountToken
+* DescribeWorkspace
+* DescribeWorkspaceAuthentication
+* DescribeWorkspaceConfiguration
+* DisassociateLicense
+* ListPermissions
+* ListTagsForResource
+* ListVersions
+* ListWorkspaceServiceAccountTokens
+* ListWorkspaceServiceAccounts
+* ListWorkspaces
+* TagResource
+* UntagResource
+* UpdatePermissions
+* UpdateWorkspace
+* UpdateWorkspaceAuthentication
+* UpdateWorkspaceConfiguration

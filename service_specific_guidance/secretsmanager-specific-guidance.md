@@ -24,46 +24,24 @@ The following table specifies whether additional considerations apply to a speci
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* CreateSecret
-
-* PutResourcePolicy
-
-* PutSecretValue
-
-* TagResource
-
-* UpdateSecret
-
-* ListSecretVersionIds
-
-* ListSecrets
-
-* GetRandomPassword
-
-* GetResourcePolicy
-
-* GetSecretValue
-
-* DescribeSecret
-
-* RestoreSecret
-
-* UntagResource
-
-* CancelRotateSecret
-
-* ValidateResourcePolicy
-
-* RotateSecret
-
 * BatchGetSecretValue
-
-* ReplicateSecretToRegions
-
+* CancelRotateSecret
+* CreateSecret
 * DeleteResourcePolicy
-
-* RemoveRegionsFromReplication
-
 * DeleteSecret
-
-
+* DescribeSecret
+* GetRandomPassword
+* GetResourcePolicy
+* GetSecretValue
+* ListSecretVersionIds
+* ListSecrets
+* PutResourcePolicy
+* PutSecretValue
+* RemoveRegionsFromReplication
+* ReplicateSecretToRegions
+* RestoreSecret
+* RotateSecret
+* TagResource
+* UntagResource
+* UpdateSecret
+* ValidateResourcePolicy

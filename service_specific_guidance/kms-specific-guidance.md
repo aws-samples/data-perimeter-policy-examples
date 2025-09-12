@@ -45,92 +45,47 @@ If you want to restrict access so that your identities cannot view resources tha
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* GetParametersForImport
-
-* ImportKeyMaterial
-
-* DeleteImportedKeyMaterial
-
-* CreateKey
-
-* EnableKeyRotation
-
-* DisableKeyRotation
-
-* DisableKey
-
-* EnableKey
-
-* GenerateMac
-
-* Encrypt
-
-* Sign
-
-* CreateGrant
-
-* ListRetirableGrants
-
-* RetireGrant
-
 * CreateAlias
-
-* PutKeyPolicy
-
-* TagResource
-
-* UpdateAlias
-
-* UpdateKeyDescription
-
-* UpdatePrimaryRegion
-
-* ListAliases
-
-* ListGrants
-
-* ListKeyPolicies
-
-* ListKeyRotations
-
-* ListKeys
-
-* ListResourceTags
-
-* GetKeyPolicy
-
-* GetKeyRotationStatus
-
-* GetPublicKey
-
-* DescribeCustomKeyStores
-
-* DescribeKey
-
-* UntagResource
-
-* GenerateDataKeyPairWithoutPlaintext
-
-* Verify
-
-* GenerateDataKeyPair
-
-* VerifyMac
-
-* ReplicateKey
-
-* ReEncrypt
-
-* RotateKeyOnDemand
-
-* GenerateDataKeyWithoutPlaintext
-
+* CreateGrant
+* CreateKey
 * Decrypt
-
-* GenerateDataKey
-
-* DeriveSharedSecret
-
 * DeleteAlias
-
-
+* DeleteImportedKeyMaterial
+* DeriveSharedSecret
+* DescribeCustomKeyStores
+* DescribeKey
+* DisableKey
+* DisableKeyRotation
+* EnableKey
+* EnableKeyRotation
+* Encrypt
+* GenerateDataKey
+* GenerateDataKeyPair
+* GenerateDataKeyPairWithoutPlaintext
+* GenerateDataKeyWithoutPlaintext
+* GenerateMac
+* GetKeyPolicy
+* GetKeyRotationStatus
+* GetParametersForImport
+* GetPublicKey
+* ImportKeyMaterial
+* ListAliases
+* ListGrants
+* ListKeyPolicies
+* ListKeyRotations
+* ListKeys
+* ListResourceTags
+* ListRetirableGrants
+* PutKeyPolicy
+* ReEncrypt
+* ReplicateKey
+* RetireGrant
+* RotateKeyOnDemand
+* Sign
+* TagResource
+* UntagResource
+* UpdateAlias
+* UpdateKeyDescription
+* UpdatePrimaryRegion
+* Verify
+* VerifyMac

@@ -54,62 +54,32 @@ If you want to restrict access to your networks to trusted identities and truste
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* CreateVault
-
-* InitiateVaultLock
-
-* InitiateJob
-
-* InitiateMultipartUpload
-
-* UploadMultipartPart
-
-* SetDataRetrievalPolicy
-
-* SetVaultAccessPolicy
-
-* SetVaultNotifications
-
-* AddTagsToVault
-
-* ListJobs
-
-* ListMultipartUploads
-
-* ListParts
-
-* ListProvisionedCapacity
-
-* ListTagsForVault
-
-* ListVaults
-
-* GetDataRetrievalPolicy
-
-* GetVaultAccessPolicy
-
-* GetVaultLock
-
-* GetVaultNotifications
-
-* DescribeJob
-
-* DescribeVault
-
-* UploadArchive
-
-* RemoveTagsFromVault
-
 * AbortMultipartUpload
-
 * AbortVaultLock
-
+* AddTagsToVault
+* CreateVault
 * DeleteArchive
-
 * DeleteVault
-
 * DeleteVaultAccessPolicy
-
 * DeleteVaultNotifications
-
-
+* DescribeJob
+* DescribeVault
+* GetDataRetrievalPolicy
+* GetVaultAccessPolicy
+* GetVaultLock
+* GetVaultNotifications
+* InitiateJob
+* InitiateMultipartUpload
+* InitiateVaultLock
+* ListJobs
+* ListMultipartUploads
+* ListParts
+* ListProvisionedCapacity
+* ListTagsForVault
+* ListVaults
+* RemoveTagsFromVault
+* SetDataRetrievalPolicy
+* SetVaultAccessPolicy
+* SetVaultNotifications
+* UploadArchive
+* UploadMultipartPart

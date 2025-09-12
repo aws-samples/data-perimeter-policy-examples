@@ -35,38 +35,19 @@ If you want to restrict access to your networks to trusted identities and truste
 * **Preventative control example 2**: Consider using your existing security appliances such as outbound proxies to inspect service API calls in your environment for the identities making the calls and resources being accessed, and restrict the calls accordingly. This type of solution might have implications for security, scalability, latency, and reliability that you should evaluate carefully.
 
 
-
-
-
-
 **List of service APIs reviewed against data perimeter control objectives**
 
-* ImportCertificate
-
-* RequestCertificate
-
-* ExportCertificate
-
-* PutAccountConfiguration
-
 * AddTagsToCertificate
-
-* UpdateCertificateOptions
-
-* ListCertificates
-
-* ListTagsForCertificate
-
-* GetAccountConfiguration
-
-* GetCertificate
-
-* DescribeCertificate
-
-* RenewCertificate
-
-* RemoveTagsFromCertificate
-
 * DeleteCertificate
-
-
+* DescribeCertificate
+* ExportCertificate
+* GetAccountConfiguration
+* GetCertificate
+* ImportCertificate
+* ListCertificates
+* ListTagsForCertificate
+* PutAccountConfiguration
+* RemoveTagsFromCertificate
+* RenewCertificate
+* RequestCertificate
+* UpdateCertificateOptions

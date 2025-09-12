@@ -119,14 +119,25 @@ If you want to restrict access to trusted identities and expected networks, cons
 
 Perimeter type applicability: network perimeter.
         
-CreateFunction and UpdateFunctionConfiguration allow you to specify a service role, referred to as a function’s execution role, for your function’s operations. The service uses the role to make AWS API calls from your code and to directly call other services on your behalf.
+CreateFunction allows you to specify a service role, referred to as a function’s execution role, for your function’s operations. The service uses the role to make AWS API calls from your code and to directly call other services on your behalf.
 
 
-If you want to restrict access to expected networks, consider using the service-specific policy, [network_perimeter_lambda_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json). This policy lists `logs:CreateLogGroup`, `logs:CreateLogStream`, `logs:PutLogEvents`, `elasticfilesystem:ClientMount`, `xray:PutTraceSegmentsin` in the `NotAction` element because the service makes direct calls from its network to CloudWatch Logs, AWS X-Ray, and Amazon Elastic File System (Amazon EFS) on your behalf. If the service role assumes another role as part of function operations, consider restricting access to expected networks for the assumed role by implementing |[network_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json).
+If you want to restrict access to expected networks, consider using the service-specific policy, [network_perimeter_lambda_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json). This policy lists `logs:CreateLogGroup`, `logs:CreateLogStream`, `logs:PutLogEvents`, `elasticfilesystem:ClientMount`, `xray:PutTraceSegments` in the `NotAction` element because the service makes direct calls from its network to CloudWatch Logs, AWS X-Ray, and Amazon Elastic File System (Amazon EFS) on your behalf. If the service role assumes another role as part of function operations, consider restricting access to expected networks for the assumed role by implementing [network_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/network_perimeter_scp.json).
 
 
 
 **Additional consideration 9**
+
+Perimeter type applicability: network perimeter.
+        
+UpdateFunctionConfiguration allows you to specify a service role, referred to as a function’s execution role, for your function’s operations. The service uses the role to make AWS API calls from your code and to directly call other services on your behalf.
+
+
+If you want to restrict access to expected networks, consider using the service-specific policy, [network_perimeter_lambda_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json). This policy lists `logs:CreateLogGroup`, `logs:CreateLogStream`, `logs:PutLogEvents`, `elasticfilesystem:ClientMount`, `xray:PutTraceSegments` in the `NotAction` element because the service makes direct calls from its network to CloudWatch Logs, AWS X-Ray, and Amazon Elastic File System (Amazon EFS) on your behalf. If the service role assumes another role as part of function operations, consider restricting access to expected networks for the assumed role by implementing [network_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/network_perimeter_scp.json).
+
+
+
+**Additional consideration 10**
 
 Perimeter type applicability: resource perimeter applied on identity.
         
@@ -140,118 +151,60 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* ListFunctions
-
-* PublishLayerVersion
-
-* ListLayerVersions
-
-* CreateCodeSigningConfig
-
-* CreateFunction
-
-* CreateAlias
-
-* PutFunctionConcurrency
-
-* AddPermission
-
 * AddLayerVersionPermission
-
-* GetLayerVersionPolicy
-
-* RemovePermission
-
-* RemoveLayerVersionPermission
-
-* UpdateFunctionConfiguration
-
-* PublishVersion
-
+* AddPermission
+* CreateAlias
+* CreateCodeSigningConfig
 * CreateEventSourceMapping
-
+* CreateFunction
 * CreateFunctionUrlConfig
-
-* PutFunctionCodeSigningConfig
-
-* PutFunctionEventInvokeConfig
-
-* PutFunctionRecursionConfig
-
-* TagResource
-
-* UpdateAlias
-
-* UpdateFunctionCode
-
-* UpdateFunctionUrlConfig
-
-* ListAliases
-
-* ListCodeSigningConfigs
-
-* ListEventSourceMappings
-
-* ListFunctionEventInvokeConfigs
-
-* ListFunctionUrlConfigs
-
-* ListFunctionsByCodeSigningConfig
-
-* ListLayers
-
-* ListProvisionedConcurrencyConfigs
-
-* ListTags
-
-* ListVersionsByFunction
-
-* GetAccountSettings
-
-* GetAlias
-
-* GetCodeSigningConfig
-
-* GetFunction
-
-* GetFunctionCodeSigningConfig
-
-* GetFunctionConcurrency
-
-* GetFunctionConfiguration
-
-* GetFunctionEventInvokeConfig
-
-* GetFunctionRecursionConfig
-
-* GetFunctionUrlConfig
-
-* GetLayerVersion
-
-* GetLayerVersionByArn
-
-* GetPolicy
-
-* GetRuntimeManagementConfig
-
-* UntagResource
-
-* Invoke
-
 * DeleteAlias
-
 * DeleteCodeSigningConfig
-
 * DeleteEventSourceMapping
-
 * DeleteFunction
-
 * DeleteFunctionCodeSigningConfig
-
 * DeleteFunctionConcurrency
-
 * DeleteFunctionUrlConfig
-
 * DeleteLayerVersion
-
-
+* GetAccountSettings
+* GetAlias
+* GetCodeSigningConfig
+* GetFunction
+* GetFunctionCodeSigningConfig
+* GetFunctionConcurrency
+* GetFunctionConfiguration
+* GetFunctionEventInvokeConfig
+* GetFunctionRecursionConfig
+* GetFunctionUrlConfig
+* GetLayerVersion
+* GetLayerVersionByArn
+* GetLayerVersionPolicy
+* GetPolicy
+* GetRuntimeManagementConfig
+* Invoke
+* ListAliases
+* ListCodeSigningConfigs
+* ListEventSourceMappings
+* ListFunctionEventInvokeConfigs
+* ListFunctionUrlConfigs
+* ListFunctions
+* ListFunctionsByCodeSigningConfig
+* ListLayerVersions
+* ListLayers
+* ListProvisionedConcurrencyConfigs
+* ListTags
+* ListVersionsByFunction
+* PublishLayerVersion
+* PublishVersion
+* PutFunctionCodeSigningConfig
+* PutFunctionConcurrency
+* PutFunctionEventInvokeConfig
+* PutFunctionRecursionConfig
+* RemoveLayerVersionPermission
+* RemovePermission
+* TagResource
+* UntagResource
+* UpdateAlias
+* UpdateFunctionCode
+* UpdateFunctionConfiguration
+* UpdateFunctionUrlConfig

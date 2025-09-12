@@ -94,102 +94,129 @@ If you want to restrict access to trusted identities and expected networks, cons
 * **Detective control example:** Consider using CloudTrail management events to monitor the [PutResourcePolicy](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_PutResourcePolicy.html) API calls in your environment (specifically, the [policy](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_PutResourcePolicy.html#CodeBuild-PutResourcePolicy-request-policy) request parameter).
 
 
+**Additional consideration 6**
+
+Perimeter type applicability: all.
+
+UpdateProject allows you to specify Lambda as the compute type, but it does not currently support Lambda functions creation within your Amazon VPC.
+
+If you want to achieve data perimeter control objectives, consider implementing these additional controls:
+
+* **Preventative control example:** Consider implementing `lambda:VpcIds` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying Lambda as the build environment type in the [Environment](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-project.html#cfn-codebuild-project-environment) property of the [AWS::CodeBuild::Project](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html) resource.
+* **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild projects use Lambda as the build environment type, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
+* **Detective control example 2:** Consider using CloudTrail management events to monitor the [UpdateProject](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateProject.html) API calls in your environment (specifically, the [environment](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateProject.html#CodeBuild-UpdateProject-request-environment) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 
+**Additional consideration 7**
 
+Perimeter type applicability: all.
+
+UpdateFleet allows you to specify Lambda as the compute type, but it does not currently support Lambda functions creation within your Amazon VPC.
+
+If you want to achieve data perimeter control objectives, consider implementing these additional controls:
+
+* **Preventative control example:** Consider implementing `lambda:VpcIds` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying Lambda as the build environment type in the [EnvironmentType](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html#cfn-codebuild-fleet-environmenttype) property of the [AWS::CodeBuild::Fleet](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html) resource.
+* **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild fleets use Lambda as the build environment type, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
+* **Detective control example 2:** Consider using CloudTrail management events to monitor the [UpdateFleet](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateFleet.html) API calls in your environment (specifically, the [environmentType](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateFleet.html#CodeBuild-UpdateFleet-request-environmentType) request parameter). If necessary, remediate with the responsive controls of your choice.
+
+**Additional consideration 8**
+
+Perimeter type applicability: all.
+
+CreateFleet allows you to specify Lambda as the compute type, but it does not currently support Lambda functions creation within your Amazon VPC.
+
+If you want to achieve data perimeter control objectives, consider implementing these additional controls:
+
+* **Preventative control example:** Consider implementing `lambda:VpcIds` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying Lambda as the build environment type in the [EnvironmentType](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html#cfn-codebuild-fleet-environmenttype) property of the [AWS::CodeBuild::Fleet](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-fleet.html) resource.
+* **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild fleets use Lambda as the build environment type, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
+* **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateFleet](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateFleet.html) API calls in your environment (specifically, the [environmentType](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateFleet.html#CodeBuild-CreateFleet-request-environmentType) request parameter). If necessary, remediate with the responsive controls of your choice.
+
+
+**Additional consideration 9**
+
+Perimeter type applicability: all.
+
+CreateProject allows you to specify Lambda as the compute type, but it does not currently support Lambda functions creation within your Amazon VPC.
+
+If you want to achieve data perimeter control objectives, consider implementing these additional controls:
+
+* **Preventative control example:** Consider implementing `lambda:VpcIds` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying Lambda as the build environment type in the [Environment](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-codebuild-project.html#cfn-codebuild-project-environment) property of the [AWS::CodeBuild::Project](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html) resource.
+* **Detective control example 1:** Consider implementing a custom AWS Config rule to check if CodeBuild projects use Lambda as the build environment type, or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
+* **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateProject](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateProject.html) API calls in your environment (specifically, the [environment](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateProject.html#CodeBuild-CreateProject-request-environment) request parameter). If necessary, remediate with the responsive controls of your choice.
+
+
+**Additional consideration 10**
+
+Perimeter type applicability: all.
+
+StartBuild allows you to specify Lambda as the compute type, but it does not currently support Lambda functions creation within your Amazon VPC.
+
+If you want to achieve data perimeter control objectives, consider implementing these additional controls:
+
+* **Preventative control example:** Consider implementing `lambda:VpcIds` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Detective control example:** Consider using CloudTrail management events to monitor the [StartBuild](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_StartBuild.html) API calls in your environment (specifically, the [environmentTypeOverride](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_StartBuild.html#CodeBuild-StartBuild-request-environmentTypeOverride) request parameter). If necessary, remediate with the responsive controls of your choice.
+
+
+**Additional consideration 11**
+
+Perimeter type applicability: all.
+
+StartBuildBatch allows you to specify Lambda as the compute type, but it does not currently support Lambda functions creation within your Amazon VPC.
+
+If you want to achieve data perimeter control objectives, consider implementing these additional controls:
+
+* **Preventative control example:** Consider implementing `lambda:VpcIds` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
+* **Detective control example:** Consider using CloudTrail management events to monitor the [StartBuildBatch](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_StartBuildBatch.html) API calls in your environment (specifically, the [environmentTypeOverride](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_StartBuildBatch.html#CodeBuild-StartBuildBatch-request-environmentTypeOverride) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* ListFleets
-
-* ListBuildsForProject
-
-* CreateFleet
-
-* CreateProject
-
-* CreateReportGroup
-
-* PutResourcePolicy
-
-* StartBuild
-
-* StartBuildBatch
-
-* UpdateFleet
-
-* UpdateProject
-
-* UpdateProjectVisibility
-
-* UpdateReportGroup
-
-* ListBuildBatches
-
-* ListBuildBatchesForProject
-
-* ListBuilds
-
-* ListCuratedEnvironmentImages
-
-* ListProjects
-
-* ListReportGroups
-
-* ListReports
-
-* ListReportsForReportGroup
-
-* ListSharedProjects
-
-* ListSharedReportGroups
-
-* ListSourceCredentials
-
-* GetReportGroupTrend
-
-* GetResourcePolicy
-
-* DescribeCodeCoverages
-
-* DescribeTestCases
-
-* BatchGetBuildBatches
-
-* InvalidateProjectCache
-
-* BatchGetBuilds
-
-* StopBuild
-
-* BatchGetReports
-
-* StopBuildBatch
-
-* BatchGetProjects
-
 * BatchDeleteBuilds
-
-* BatchGetReportGroups
-
+* BatchGetBuildBatches
+* BatchGetBuilds
 * BatchGetFleets
-
-* ImportSourceCredentials
-
-* RetryBuild
-
+* BatchGetProjects
+* BatchGetReportGroups
+* BatchGetReports
+* CreateFleet
+* CreateProject
+* CreateReportGroup
 * DeleteBuildBatch
-
 * DeleteFleet
-
 * DeleteProject
-
 * DeleteReport
-
-* DeleteResourcePolicy
-
-* DeleteSourceCredentials
-
 * DeleteReportGroup
-
-
+* DeleteResourcePolicy
+* DeleteSourceCredentials
+* DescribeCodeCoverages
+* DescribeTestCases
+* GetReportGroupTrend
+* GetResourcePolicy
+* ImportSourceCredentials
+* InvalidateProjectCache
+* ListBuildBatches
+* ListBuildBatchesForProject
+* ListBuilds
+* ListBuildsForProject
+* ListCuratedEnvironmentImages
+* ListFleets
+* ListProjects
+* ListReportGroups
+* ListReports
+* ListReportsForReportGroup
+* ListSharedProjects
+* ListSharedReportGroups
+* ListSourceCredentials
+* PutResourcePolicy
+* RetryBuild
+* StartBuild
+* StartBuildBatch
+* StopBuild
+* StopBuildBatch
+* UpdateFleet
+* UpdateProject
+* UpdateProjectVisibility
+* UpdateReportGroup

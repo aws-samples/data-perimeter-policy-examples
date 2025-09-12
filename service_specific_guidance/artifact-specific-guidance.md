@@ -41,16 +41,9 @@ If you want to restrict access to your networks to trusted identities and truste
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* ListReports
-
-* GetTermForReport
-
-* PutAccountSettings
-
 * GetAccountSettings
-
 * GetReport
-
 * GetReportMetadata
-            
-
+* GetTermForReport
+* ListReports
+* PutAccountSettings

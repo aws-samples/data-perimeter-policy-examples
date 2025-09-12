@@ -93,7 +93,7 @@ If you want to restrict access to trusted resources, consider implementing these
 
 Perimeter type applicability: identity perimeter applied on resource; resource perimeter applied on identity.
         
-PutAggregationAuthorization allows you to authorize another account to collect data from your account
+PutAggregationAuthorization allows you to authorize another account to collect data from your account.
 
 See ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare) for a list of resources that can be granted cross-account access.
 
@@ -116,7 +116,7 @@ PutConformancePack allows you to specify an S3 bucket that does not belong to yo
 If you want to restrict access to trusted resources, consider implementing these additional controls:
 
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [TemplateS3Uri](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-conformancepack.html#cfn-config-conformancepack-templates3uri) property that does not belong to your organization for the [AWS::Config::ConformancePack](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-conformancepack.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) API calls in your environment (specifically, the [TemplateS3Uri](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html#config-PutConformancePack-request-TemplateS3Uri)). If necessary, remediate with the responsive controls of your  choice.
+* **Detective control example:** Consider using CloudTrail management events to monitor the [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) API calls in your environment (specifically, the [TemplateS3Uri](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html#config-PutConformancePack-request-TemplateS3Uri) request parameter). If necessary, remediate with the responsive controls of your  choice.
 
 **Additional consideration 8**
 
@@ -127,167 +127,89 @@ PutOrganizationConformancePack allows you to specify an S3 bucket that does not 
 If you want to restrict access to trusted resources, consider implementing these additional controls:
 
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [TemplateS3Uri](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-organizationconformancepack.html#cfn-config-organizationconformancepack-templates3uri) property that does not belong to your organization for the [AWS::Config::OrganizationConformancePack](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-organizationconformancepack.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html) API calls in your environment (specifically, the [TemplateS3Uri](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html#config-PutOrganizationConformancePack-request-TemplateS3Uri)). If necessary, remediate with the responsive controls of your  choice.
+* **Detective control example:** Consider using CloudTrail management events to monitor the [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html) API calls in your environment (specifically, the [TemplateS3Uri](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html#config-PutOrganizationConformancePack-request-TemplateS3Uri) request parameter). If necessary, remediate with the responsive controls of your  choice.
 
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* DescribeConformancePacks
-
-* DescribeConfigurationRecorders
-
-* DescribeOrganizationConfigRules
-
-* StopConfigurationRecorder
-
-* StartConfigurationRecorder
-
-* DescribeDeliveryChannels
-
-* DescribeOrganizationConformancePacks
-
-* DeleteOrganizationConformancePack
-
-* DeleteOrganizationConfigRule
-
-* PutAggregationAuthorization
-
-* PutConfigRule
-
-* PutConfigurationAggregator
-
-* PutConformancePack
-
-* PutOrganizationConfigRule
-
-* PutOrganizationConformancePack
-
-* PutRemediationConfigurations
-
-* PutRetentionConfiguration
-
-* PutStoredQuery
-
-* StartConfigRulesEvaluation
-
-* StartRemediationExecution
-
-* StartResourceEvaluation
-
-* TagResource
-
-* ListAggregateDiscoveredResources
-
-* ListConformancePackComplianceScores
-
-* ListDiscoveredResources
-
-* ListResourceEvaluations
-
-* ListStoredQueries
-
-* ListTagsForResource
-
-* GetAggregateComplianceDetailsByConfigRule
-
-* GetAggregateConfigRuleComplianceSummary
-
-* GetAggregateConformancePackComplianceSummary
-
-* GetAggregateDiscoveredResourceCounts
-
-* GetAggregateResourceConfig
-
-* GetComplianceDetailsByConfigRule
-
-* GetComplianceDetailsByResource
-
-* GetComplianceSummaryByConfigRule
-
-* GetComplianceSummaryByResourceType
-
-* GetConformancePackComplianceDetails
-
-* GetConformancePackComplianceSummary
-
-* GetCustomRulePolicy
-
-* GetDiscoveredResourceCounts
-
-* GetOrganizationConfigRuleDetailedStatus
-
-* GetOrganizationConformancePackDetailedStatus
-
-* GetResourceConfigHistory
-
-* GetResourceEvaluationSummary
-
-* GetStoredQuery
-
-* SelectAggregateResourceConfig
-
-* SelectResourceConfig
-
-* DescribeAggregateComplianceByConfigRules
-
-* DescribeAggregateComplianceByConformancePacks
-
-* DescribeAggregationAuthorizations
-
-* DescribeComplianceByConfigRule
-
-* DescribeComplianceByResource
-
-* DescribeConfigRuleEvaluationStatus
-
-* DescribeConfigRules
-
-* DescribeConfigurationAggregatorSourcesStatus
-
-* DescribeConfigurationAggregators
-
-* DescribeConfigurationRecorderStatus
-
-* DescribeConformancePackCompliance
-
-* DescribeConformancePackStatus
-
-* DescribeDeliveryChannelStatus
-
-* DescribeOrganizationConfigRuleStatuses
-
-* DescribeOrganizationConformancePackStatuses
-
-* DescribePendingAggregationRequests
-
-* DescribeRemediationConfigurations
-
-* DescribeRemediationExecutionStatus
-
-* DescribeRetentionConfigurations
-
-* UntagResource
-
-* DeliverConfigSnapshot
-
-* BatchGetResourceConfig
-
 * BatchGetAggregateResourceConfig
-
+* BatchGetResourceConfig
 * DeleteAggregationAuthorization
-
-* DeleteConfigurationAggregator
-
-* DeleteConformancePack
-
-* DeleteEvaluationResults
-
-* DeletePendingAggregationRequest
-
-* DeleteRetentionConfiguration
-
 * DeleteConfigRule
-
+* DeleteConfigurationAggregator
+* DeleteConformancePack
+* DeleteEvaluationResults
+* DeleteOrganizationConfigRule
+* DeleteOrganizationConformancePack
+* DeletePendingAggregationRequest
 * DeleteRemediationConfiguration
+* DeleteRetentionConfiguration
+* DeliverConfigSnapshot
+* DescribeAggregateComplianceByConfigRules
+* DescribeAggregateComplianceByConformancePacks
+* DescribeAggregationAuthorizations
+* DescribeComplianceByConfigRule
+* DescribeComplianceByResource
+* DescribeConfigRuleEvaluationStatus
+* DescribeConfigRules
+* DescribeConfigurationAggregatorSourcesStatus
+* DescribeConfigurationAggregators
+* DescribeConfigurationRecorderStatus
+* DescribeConfigurationRecorders
+* DescribeConformancePackCompliance
+* DescribeConformancePackStatus
+* DescribeConformancePacks
+* DescribeDeliveryChannelStatus
+* DescribeDeliveryChannels
+* DescribeOrganizationConfigRuleStatuses
+* DescribeOrganizationConfigRules
+* DescribeOrganizationConformancePackStatuses
+* DescribeOrganizationConformancePacks
+* DescribePendingAggregationRequests
+* DescribeRemediationConfigurations
+* DescribeRemediationExecutionStatus
+* DescribeRetentionConfigurations
+* GetAggregateComplianceDetailsByConfigRule
+* GetAggregateConfigRuleComplianceSummary
+* GetAggregateConformancePackComplianceSummary
+* GetAggregateDiscoveredResourceCounts
+* GetAggregateResourceConfig
+* GetComplianceDetailsByConfigRule
+* GetComplianceDetailsByResource
+* GetComplianceSummaryByConfigRule
+* GetComplianceSummaryByResourceType
+* GetConformancePackComplianceDetails
+* GetConformancePackComplianceSummary
+* GetCustomRulePolicy
+* GetDiscoveredResourceCounts
+* GetOrganizationConfigRuleDetailedStatus
+* GetOrganizationConformancePackDetailedStatus
+* GetResourceConfigHistory
+* GetResourceEvaluationSummary
+* GetStoredQuery
+* ListAggregateDiscoveredResources
+* ListConformancePackComplianceScores
+* ListDiscoveredResources
+* ListResourceEvaluations
+* ListStoredQueries
+* ListTagsForResource
+* PutAggregationAuthorization
+* PutConfigRule
+* PutConfigurationAggregator
+* PutConformancePack
+* PutOrganizationConfigRule
+* PutOrganizationConformancePack
+* PutRemediationConfigurations
+* PutRetentionConfiguration
+* PutStoredQuery
+* SelectAggregateResourceConfig
+* SelectResourceConfig
+* StartConfigRulesEvaluation
+* StartConfigurationRecorder
+* StartRemediationExecution
+* StartResourceEvaluation
+* StopConfigurationRecorder
+* TagResource
+* UntagResource
 
 

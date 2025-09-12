@@ -78,138 +78,73 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* ListLogAnomalyDetectors
-
-* DeleteLogAnomalyDetector
-
-* DescribeDeliverySources
-
-* DeleteDeliverySource
-
-* CreateExportTask
-
-* CancelExportTask
-
-* PutDeliveryDestination
-
-* PutDeliverySource
-
-* CreateDelivery
-
-* CreateLogAnomalyDetector
-
-* CreateLogGroup
-
-* CreateLogStream
-
-* PutAccountPolicy
-
-* PutDataProtectionPolicy
-
-* PutDeliveryDestinationPolicy
-
-* PutDestination
-
-* PutDestinationPolicy
-
-* PutLogEvents
-
-* PutMetricFilter
-
-* PutQueryDefinition
-
-* PutResourcePolicy
-
-* PutRetentionPolicy
-
-* PutSubscriptionFilter
-
 * AssociateKmsKey
-
-* StartLiveTail
-
-* StartQuery
-
-* TagResource
-
-* UpdateLogAnomalyDetector
-
-* ListAnomalies
-
-* ListTagsForResource
-
-* GetDataProtectionPolicy
-
-* GetDelivery
-
-* GetDeliveryDestination
-
-* GetDeliveryDestinationPolicy
-
-* GetDeliverySource
-
-* GetLogAnomalyDetector
-
-* GetLogEvents
-
-* GetLogGroupFields
-
-* GetQueryResults
-
-* DescribeDeliveries
-
-* DescribeDeliveryDestinations
-
-* DescribeDestinations
-
-* DescribeExportTasks
-
-* DescribeLogGroups
-
-* DescribeLogStreams
-
-* DescribeMetricFilters
-
-* DescribeQueries
-
-* DescribeQueryDefinitions
-
-* DescribeResourcePolicies
-
-* DescribeSubscriptionFilters
-
-* UntagResource
-
-* DisassociateKmsKey
-
-* TestMetricFilter
-
-* FilterLogEvents
-
+* CancelExportTask
+* CreateDelivery
+* CreateExportTask
+* CreateLogAnomalyDetector
+* CreateLogGroup
+* CreateLogStream
 * DeleteAccountPolicy
-
 * DeleteDataProtectionPolicy
-
 * DeleteDelivery
-
-* DeleteDeliveryDestinationPolicy
-
-* DeleteDestination
-
-* DeleteLogStream
-
-* DeleteMetricFilter
-
-* DeleteQueryDefinition
-
-* DeleteResourcePolicy
-
-* DeleteRetentionPolicy
-
-* DeleteSubscriptionFilter
-
 * DeleteDeliveryDestination
-
+* DeleteDeliveryDestinationPolicy
+* DeleteDeliverySource
+* DeleteDestination
+* DeleteLogAnomalyDetector
 * DeleteLogGroup
-
-
+* DeleteLogStream
+* DeleteMetricFilter
+* DeleteQueryDefinition
+* DeleteResourcePolicy
+* DeleteRetentionPolicy
+* DeleteSubscriptionFilter
+* DescribeDeliveries
+* DescribeDeliveryDestinations
+* DescribeDeliverySources
+* DescribeDestinations
+* DescribeExportTasks
+* DescribeLogGroups
+* DescribeLogStreams
+* DescribeMetricFilters
+* DescribeQueries
+* DescribeQueryDefinitions
+* DescribeResourcePolicies
+* DescribeSubscriptionFilters
+* DisassociateKmsKey
+* FilterLogEvents
+* GetDataProtectionPolicy
+* GetDelivery
+* GetDeliveryDestination
+* GetDeliveryDestinationPolicy
+* GetDeliverySource
+* GetLogAnomalyDetector
+* GetLogEvents
+* GetLogGroupFields
+* GetQueryResults
+* ListAnomalies
+* ListLogAnomalyDetectors
+* ListTagsForResource
+* ListTagsLogGroup
+* PutAccountPolicy
+* PutDataProtectionPolicy
+* PutDeliveryDestination
+* PutDeliveryDestinationPolicy
+* PutDeliverySource
+* PutDestination
+* PutDestinationPolicy
+* PutLogEvents
+* PutMetricFilter
+* PutQueryDefinition
+* PutResourcePolicy
+* PutRetentionPolicy
+* PutSubscriptionFilter
+* StartLiveTail
+* StartQuery
+* TagLogGroup
+* TagResource
+* TestMetricFilter
+* UntagLogGroup
+* UntagResource
+* UpdateLogAnomalyDetector

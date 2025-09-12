@@ -24,54 +24,28 @@ The following table specifies whether additional considerations apply to a speci
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* StartDocumentAnalysis
-
-* StartDocumentTextDetection
-
-* StartExpenseAnalysis
-
-* StartLendingAnalysis
-
-* CreateAdapter
-
-* CreateAdapterVersion
-
-* TagResource
-
-* UpdateAdapter
-
-* ListAdapterVersions
-
-* ListAdapters
-
-* ListTagsForResource
-
-* GetAdapter
-
-* GetAdapterVersion
-
-* GetDocumentAnalysis
-
-* GetDocumentTextDetection
-
-* GetExpenseAnalysis
-
-* GetLendingAnalysis
-
-* GetLendingAnalysisSummary
-
-* UntagResource
-
-* AnalyzeID
-
 * AnalyzeDocument
-
-* DetectDocumentText
-
 * AnalyzeExpense
-
-* DeleteAdapterVersion
-
+* AnalyzeID
+* CreateAdapter
+* CreateAdapterVersion
 * DeleteAdapter
-
-
+* DeleteAdapterVersion
+* DetectDocumentText
+* GetAdapter
+* GetAdapterVersion
+* GetDocumentAnalysis
+* GetDocumentTextDetection
+* GetExpenseAnalysis
+* GetLendingAnalysis
+* GetLendingAnalysisSummary
+* ListAdapterVersions
+* ListAdapters
+* ListTagsForResource
+* StartDocumentAnalysis
+* StartDocumentTextDetection
+* StartExpenseAnalysis
+* StartLendingAnalysis
+* TagResource
+* UntagResource
+* UpdateAdapter

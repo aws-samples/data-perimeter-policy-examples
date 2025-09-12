@@ -80,81 +80,54 @@ If you want to restrict access to trusted identities and expected networks, cons
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateTopic](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html) API calls in your environment (specifically, the [Attributes.entry.N.key](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html#API_CreateTopic_RequestParameters) request parameter when set to "Policy"). If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/resource_based_policies/sns_topic_policy.json#L5) and [network perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/resource_based_policies/sns_topic_policy.json#L33) to the resource-based policy.
 
 
+**Additional consideration 5**
+
+Perimeter type applicability: resource perimeter applied on identity.
+
+Subscribe allows you to specify a resource, such as SQS queue and Lambda function, that does not belong to your organization as the value for the Endpoint and Protocol request parameters. Because the subsequent call against the resources is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+
+If you want to restrict access to trusted resources, consider implementing these additional controls:
+
+* **Preventative control example:** Consider implementing [sns:Protocol](https://docs.aws.amazon.com/sns/latest/dg/UsingIAMwithSNS.html#w2ab1c11c23c19) and [sns:Endpoint](https://docs.aws.amazon.com/sns/latest/dg/UsingIAMwithSNS.html#w2ab1c11c23c19) in an SCP to help prevent requests to untrusted resources. See [restrict_untrusted_endpoints_scp.json](../service_control_policies/service_specific_controls/restrict_untrusted_endpoints_scp.json) for an example policy.
+* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [Endpoint](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic-subscription.html#cfn-sns-topic-subscription-endpoint) and [Protocol](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic-subscription.html#cfn-sns-topic-subscription-protocol) properties that do not belong to your organization for the [AWS::SNS::Subscription](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-subscription.html) resource.
+* **Detective control example:** Consider using CloudTrail management events to monitor the [Subscribe](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html) API calls in your environment (specifically, the `Endpoint` and `Protocol` request parameters). If necessary, remediate with the responsive controls of your choice.
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* CreateTopic
-
-* Subscribe
-
-* SetTopicAttributes
-
-* TagResource
-
-* CreatePlatformApplication
-
-* CreatePlatformEndpoint
-
-* PutDataProtectionPolicy
-
-* SetEndpointAttributes
-
-* SetPlatformApplicationAttributes
-
-* SetSMSAttributes
-
-* SetSubscriptionAttributes
-
 * AddPermission
-
-* ListEndpointsByPlatformApplication
-
-* ListOriginationNumbers
-
-* ListPhoneNumbersOptedOut
-
-* ListPlatformApplications
-
-* ListSMSSandboxPhoneNumbers
-
-* ListSubscriptions
-
-* ListSubscriptionsByTopic
-
-* ListTagsForResource
-
-* ListTopics
-
-* GetDataProtectionPolicy
-
-* GetEndpointAttributes
-
-* GetPlatformApplicationAttributes
-
-* GetSMSAttributes
-
-* GetSMSSandboxAccountStatus
-
-* GetSubscriptionAttributes
-
-* GetTopicAttributes
-
-* UntagResource
-
-* OptInPhoneNumber
-
-* PublishBatch
-
 * CheckIfPhoneNumberIsOptedOut
-
-* RemovePermission
-
-* Publish
-
+* CreatePlatformApplication
+* CreatePlatformEndpoint
+* CreateTopic
 * DeleteEndpoint
-
 * DeletePlatformApplication
-
 * DeleteTopic
-
-
+* GetDataProtectionPolicy
+* GetEndpointAttributes
+* GetPlatformApplicationAttributes
+* GetSMSAttributes
+* GetSMSSandboxAccountStatus
+* GetSubscriptionAttributes
+* GetTopicAttributes
+* ListEndpointsByPlatformApplication
+* ListOriginationNumbers
+* ListPhoneNumbersOptedOut
+* ListPlatformApplications
+* ListSMSSandboxPhoneNumbers
+* ListSubscriptions
+* ListSubscriptionsByTopic
+* ListTagsForResource
+* ListTopics
+* OptInPhoneNumber
+* Publish
+* PublishBatch
+* PutDataProtectionPolicy
+* RemovePermission
+* SetEndpointAttributes
+* SetPlatformApplicationAttributes
+* SetSMSAttributes
+* SetSubscriptionAttributes
+* SetTopicAttributes
+* Subscribe
+* TagResource
+* UntagResource

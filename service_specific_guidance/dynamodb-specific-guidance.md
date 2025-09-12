@@ -53,116 +53,61 @@ If you want to restrict access to trusted identities and expected networks, cons
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* ImportTable
-
-* CreateTable
-
-* CreateGlobalTable
-
-* UpdateTable
-
-* DescribeGlobalTableSettings
-
-* DescribeGlobalTable
-
-* UpdateGlobalTableSettings
-
-* ListGlobalTables
-
-* PutItem
-
-* BatchGetItem
-
-* BatchWriteItem
-
-* TagResource
-
-* DescribeTable
-
-* ListTables
-
-* ListTagsOfResource
-
-* UntagResource
-
-* UpdateContinuousBackups
-
-* CreateBackup
-
-* Query
-
-* DescribeContinuousBackups
-
-* RestoreTableToPointInTime
-
-* PutResourcePolicy
-
-* RestoreTableFromBackup
-
-* ExportTableToPointInTime
-
-* EnableKinesisStreamingDestination
-
-* DescribeKinesisStreamingDestination
-
-* DisableKinesisStreamingDestination
-
-* DescribeExport
-
 * BatchExecuteStatement
-
-* DeleteItem
-
-* DescribeContributorInsights
-
-* DescribeEndpoints
-
-* DescribeImport
-
-* DescribeLimits
-
-* DescribeTableReplicaAutoScaling
-
-* DescribeTimeToLive
-
-* ExecuteStatement
-
-* ExecuteTransaction
-
-* GetItem
-
-* ListBackups
-
-* ListContributorInsights
-
-* ListExports
-
-* ListImports
-
-* Scan
-
-* TransactGetItems
-
-* TransactWriteItems
-
-* UpdateContributorInsights
-
-* UpdateGlobalTable
-
-* UpdateItem
-
-* UpdateTableReplicaAutoScaling
-
-* UpdateTimeToLive
-
-* DescribeBackup
-
+* BatchGetItem
+* BatchWriteItem
+* CreateBackup
+* CreateGlobalTable
+* CreateTable
 * DeleteBackup
-
-* DeleteTable
-
-* GetResourcePolicy
-
+* DeleteItem
 * DeleteResourcePolicy
+* DeleteTable
+* DescribeBackup
+* DescribeContinuousBackups
+* DescribeContributorInsights
+* DescribeEndpoints
+* DescribeExport
+* DescribeGlobalTable
+* DescribeGlobalTableSettings
+* DescribeImport
+* DescribeKinesisStreamingDestination
+* DescribeLimits
+* DescribeTable
+* DescribeTableReplicaAutoScaling
+* DescribeTimeToLive
+* DisableKinesisStreamingDestination
+* EnableKinesisStreamingDestination
+* ExecuteStatement
+* ExecuteTransaction
+* ExportTableToPointInTime
+* GetItem
+* GetResourcePolicy
+* ImportTable
+* ListBackups
+* ListContributorInsights
+* ListExports
+* ListGlobalTables
+* ListImports
+* ListTables
+* ListTagsOfResource
+* PutItem
+* PutResourcePolicy
+* Query
+* RestoreTableFromBackup
+* RestoreTableToPointInTime
+* Scan
+* TagResource
+* TransactGetItems
+* TransactWriteItems
+* UntagResource
+* UpdateContinuousBackups
+* UpdateContributorInsights
+* UpdateGlobalTable
+* UpdateGlobalTableSettings
+* UpdateItem
+* UpdateTable
+* UpdateTableReplicaAutoScaling
+* UpdateTimeToLive
 
 

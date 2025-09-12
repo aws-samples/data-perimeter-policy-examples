@@ -33,6 +33,7 @@ If you want to achieve data perimeter control objectives, consider implementing 
 
 * **Preventative control example:** Consider implementing `apprunner:VpcConnectorArn` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [NetworkConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-apprunner-service.html#cfn-apprunner-service-networkconfiguration) property of the [AWS::AppRunner::Service](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-apprunner-service.html) resource.
+* **Detective control example 1:** Consider implementing the AWS Config rule, [apprunner-service-in-vpc](https://docs.aws.amazon.com/config/latest/developerguide/apprunner-service-in-vpc.html), to help detect misconfigurations or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [UpdateService](https://docs.aws.amazon.com/apprunner/latest/api/API_UpdateService.html) API calls in your environment (specifically, the [NetworkConfiguration](https://docs.aws.amazon.com/apprunner/latest/api/API_UpdateService.html#apprunner-UpdateService-request-NetworkConfiguration) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 
@@ -46,6 +47,7 @@ If you want to achieve data perimeter control objectives, consider implementing 
 
 * **Preventative control example:** Consider implementing `apprunner:VpcConnectorArn` in an SCP to help restrict creation of resources to a customer managed VPC only. See [restrict_nonvpc_deployment_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_nonvpc_deployment_scp.json) for an example policy.
 * **Proactive control example:** Consider implementing CloudFormation Hooks to help ensure that developers specify the [NetworkConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-apprunner-service.html#cfn-apprunner-service-networkconfiguration) property of the [AWS::AppRunner::Service](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-apprunner-service.html) resource.
+* **Detective control example 1:** Consider implementing the AWS Config rule, [apprunner-service-in-vpc](https://docs.aws.amazon.com/config/latest/developerguide/apprunner-service-in-vpc.html), to help detect misconfigurations or use [advanced queries](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get a one-time view of incorrectly configured resources. If necessary, remediate with the responsive controls of your choice.
 * **Detective control example 2:** Consider using CloudTrail management events to monitor the [CreateService](https://docs.aws.amazon.com/apprunner/latest/api/API_CreateService.html) API calls in your environment (specifically, the [NetworkConfiguration](https://docs.aws.amazon.com/apprunner/latest/api/API_CreateService.html#apprunner-CreateService-request-NetworkConfiguration) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 
@@ -54,78 +56,40 @@ If you want to achieve data perimeter control objectives, consider implementing 
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* DisassociateCustomDomain
-
-* ListServices
-
-* ListVpcIngressConnections
-
-* ListAutoScalingConfigurations
-
-* CreateConnection
-
-* CreateAutoScalingConfiguration
-
-* CreateService
-
-* DescribeService
-
-* CreateVpcIngressConnection
-
-* UpdateService
-
-* PauseService
-
-* StartDeployment
-
-* ResumeService
-
-* CreateObservabilityConfiguration
-
-* CreateVpcConnector
-
 * AssociateCustomDomain
-
-* TagResource
-
-* UpdateDefaultAutoScalingConfiguration
-
-* UpdateVpcIngressConnection
-
-* ListConnections
-
-* ListObservabilityConfigurations
-
-* ListOperations
-
-* ListServicesForAutoScalingConfiguration
-
-* ListTagsForResource
-
-* ListVpcConnectors
-
-* DescribeAutoScalingConfiguration
-
-* DescribeCustomDomains
-
-* DescribeObservabilityConfiguration
-
-* DescribeVpcConnector
-
-* DescribeVpcIngressConnection
-
-* UntagResource
-
+* CreateAutoScalingConfiguration
+* CreateConnection
+* CreateObservabilityConfiguration
+* CreateService
+* CreateVpcConnector
+* CreateVpcIngressConnection
 * DeleteAutoScalingConfiguration
-
-* DeleteObservabilityConfiguration
-
-* DeleteVpcConnector
-
-* DeleteVpcIngressConnection
-
-* DeleteService
-
 * DeleteConnection
-
-
+* DeleteObservabilityConfiguration
+* DeleteService
+* DeleteVpcConnector
+* DeleteVpcIngressConnection
+* DescribeAutoScalingConfiguration
+* DescribeCustomDomains
+* DescribeObservabilityConfiguration
+* DescribeService
+* DescribeVpcConnector
+* DescribeVpcIngressConnection
+* DisassociateCustomDomain
+* ListAutoScalingConfigurations
+* ListConnections
+* ListObservabilityConfigurations
+* ListOperations
+* ListServices
+* ListServicesForAutoScalingConfiguration
+* ListTagsForResource
+* ListVpcConnectors
+* ListVpcIngressConnections
+* PauseService
+* ResumeService
+* StartDeployment
+* TagResource
+* UntagResource
+* UpdateDefaultAutoScalingConfiguration
+* UpdateService
+* UpdateVpcIngressConnection

@@ -24,48 +24,25 @@ The following table specifies whether additional considerations apply to a speci
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* CreateQueue
-
-* SendMessage
-
-* ReceiveMessage
-
-* ChangeMessageVisibility
-
-* SetQueueAttributes
-
 * AddPermission
-
-* StartMessageMoveTask
-
-* TagQueue
-
-* ListDeadLetterSourceQueues
-
-* ListMessageMoveTasks
-
-* ListQueueTags
-
-* ListQueues
-
-* GetQueueAttributes
-
-* GetQueueUrl
-
-* UntagQueue
-
-* RemovePermission
-
+* ChangeMessageVisibility
 * ChangeMessageVisibilityBatch
-
-* PurgeQueue
-
-* SendMessageBatch
-
+* CreateQueue
 * DeleteMessage
-
 * DeleteMessageBatch
-
 * DeleteQueue
-
-
+* GetQueueAttributes
+* GetQueueUrl
+* ListDeadLetterSourceQueues
+* ListMessageMoveTasks
+* ListQueueTags
+* ListQueues
+* PurgeQueue
+* ReceiveMessage
+* RemovePermission
+* SendMessage
+* SendMessageBatch
+* SetQueueAttributes
+* StartMessageMoveTask
+* TagQueue
+* UntagQueue

@@ -54,34 +54,18 @@ If you want to achieve data perimeter control objectives, consider implementing 
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* CreateApplication
-
-* UpdateApplication
-
-* StartApplication
-
-* StartJobRun
-
-* TagResource
-
-* ListApplications
-
-* ListJobRunAttempts
-
-* ListJobRuns
-
-* ListTagsForResource
-
-* GetApplication
-
-* GetJobRun
-
-* UntagResource
-
 * CancelJobRun
-
-* StopApplication
-
+* CreateApplication
 * DeleteApplication
-
-
+* GetApplication
+* GetJobRun
+* ListApplications
+* ListJobRunAttempts
+* ListJobRuns
+* ListTagsForResource
+* StartApplication
+* StartJobRun
+* StopApplication
+* TagResource
+* UntagResource
+* UpdateApplication

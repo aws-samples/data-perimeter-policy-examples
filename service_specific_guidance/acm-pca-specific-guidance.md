@@ -38,46 +38,24 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **List of service APIs reviewed against data perimeter control objectives**
 
-* CreateCertificateAuthorityAuditReport
-
 * CreateCertificateAuthority
-
+* CreateCertificateAuthorityAuditReport
 * CreatePermission
-
-* PutPolicy
-
-* TagCertificateAuthority
-
-* UpdateCertificateAuthority
-
-* ListCertificateAuthorities
-
-* ListPermissions
-
-* ListTags
-
-* GetCertificate
-
-* GetCertificateAuthorityCertificate
-
-* GetCertificateAuthorityCsr
-
-* GetPolicy
-
-* DescribeCertificateAuthority
-
-* DescribeCertificateAuthorityAuditReport
-
-* RestoreCertificateAuthority
-
-* UntagCertificateAuthority
-
-* IssueCertificate
-
-* DeletePermission
-
-* DeletePolicy
-
 * DeleteCertificateAuthority
-
-
+* DeletePermission
+* DeletePolicy
+* DescribeCertificateAuthority
+* DescribeCertificateAuthorityAuditReport
+* GetCertificate
+* GetCertificateAuthorityCertificate
+* GetCertificateAuthorityCsr
+* GetPolicy
+* IssueCertificate
+* ListCertificateAuthorities
+* ListPermissions
+* ListTags
+* PutPolicy
+* RestoreCertificateAuthority
+* TagCertificateAuthority
+* UntagCertificateAuthority
+* UpdateCertificateAuthority
