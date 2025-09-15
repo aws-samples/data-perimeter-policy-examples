@@ -9,6 +9,7 @@
         "codeartifact:PutDomainPermissionsPolicy",
         "codebuild:PutResourcePolicy",
         "dynamodb:PutResourcePolicy",
+        "events:PutPermission",
         "glacier:SetVaultAccessPolicy",
         "lambda:AddLayerVersionPermission",
         "lambda:AddPermission",

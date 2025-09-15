@@ -19,6 +19,38 @@
           "aws:PrincipalTag/dp:exclude:resource": "true"
         }
       }
+    },
+    {
+      "Sid": "PreventEventBridgeAPIDestinations",
+      "Effect": "Deny",
+      "Action": [
+        "events:PutTargets"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ForAnyValue:ArnLike": {
+          "events:TargetArn": "arn:aws:events:*:*:api-destination/*"
+        },
+        "StringNotEqualsIfExists": {
+          "aws:PrincipalTag/dp:exclude:resource": "true"
+        }
+      }
+    },
+    {
+      "Sid": "PreventUntrustedStepFunctionsHTTPSAPI",
+      "Effect": "Deny",
+      "Action": [
+        "states:InvokeHTTPEndpoint"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotLike": {
+          "states:HTTPEndpoint": "<trusted_https_endpoint>"
+        },
+        "StringNotEqualsIfExists": {
+          "aws:PrincipalTag/dp:exclude:resource": "true"
+        }
+      }
     }
   ]
 }

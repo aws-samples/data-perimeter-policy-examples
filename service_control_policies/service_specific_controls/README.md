@@ -92,11 +92,11 @@ Additional considerations:
 
 This statement is included in the [restrict_idp_configurations_scp](restrict_idp_configurations_scp.json) and prevents users from making configuration changes to the IAM SAML [identity providers](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_saml.html), IAM OIDC [identity providers](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html), and [AWS IAM Roles Anywhere](https://aws.amazon.com/iam/roles-anywhere/) [trust anchors](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/getting-started.html). It also prevents creation of an [account instance of IAM Identity Center]( https://docs.aws.amazon.com/singlesignon/latest/userguide/account-instances-identity-center.html).  
 
-###  "Sid":"PreventDeploymentCodeStarConnections"
+###  "Sid":"PreventDeploymentCodeStarConnections", "Sid": "PreventDeploymentSSMAutomationRunbook"
 
-This statement is included in the [restrict_nonvpc_deployment_scp](restrict_nonvpc_deployment_scp.json) and limits the use of [AWS CodeStar Connections](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/Welcome.html).
+These statements are included in the [restrict_nonvpc_deployment_scp](restrict_nonvpc_deployment_scp.json) and limit the use of [AWS CodeStar Connections](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/Welcome.html) and [AWS Systems Manager Automation](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html).
 
-AWS services such as AWS CodeStar Connections do not support deployment within a VPC and provide direct access to the internet that is not controlled by your VPC. You can block the use of such services by using SCPs or implementing your own proxy solution to inspect egress traffic.
+AWS services such as AWS Systems Manager Automation do not support deployment within a VPC and provide direct access to the internet that is not controlled by your VPC. You can block the use of such services by using SCPs or implementing your own proxy solution to inspect egress traffic.
 
 ### "Sid":"PreventNonVPCDeploymentSageMaker", "Sid":"PreventNonVPCDeploymentGlueJob", "Sid":"PreventNonVPCDeploymentCloudShell", "Sid":"PreventNonVPCDeploymentLambda", "Sid":"PreventNonVPCDeploymentAppRunner", and "Sid":"PreventNonVPCDeploymentCodeBuild"
 
@@ -120,10 +120,18 @@ For more details, see [Connect a Notebook Instance in a VPC to External Resource
 
 This statement is included in the [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) and prevents users from subscribing email addresses that belong to domains other than the one denoted by `<trusted_email_domain>` to an SNS topic. See [Amazon SNS policy keys](https://docs.aws.amazon.com/sns/latest/dg/sns-using-identity-based-policies.html#sns-policy-keys) for more details.
 
+### "Sid": "PreventEventBridgeAPIDestinations"
+
+This statement is included in the [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) and prevents users from using API destinations as the target for an event bus rule. See [Using IAM policy conditions in Amazon EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-use-conditions.html#limiting-access-to-targets) for more details.
+
+### "Sid": "PreventUntrustedStepFunctionsHTTPSAPI"
+
+This statement is included in the [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) and prevents Step Functions from invoking HTTPS APIs that don't belong to your organization. See [IAM permissions to run an HTTP Task](https://docs.aws.amazon.com/step-functions/latest/dg/call-https-apis.html#connect-http-task-permissions) for more details.
+
 ### "Sid": "PreventCreationOfServicePresignedURL"
 
 This statement is included in the [restrict_presignedURL_scp](restrict_presignedURL_scp.json) and prevents users from making API requests that return Amazon S3 presigned URLs that are presigned by a service principal.
 
 ### "Sid": "PreventResourcePolicyConfigurations"
 
-This statement is included in the [restrict_resource_policy_configurations_scp](restrict_resource_policy_configurations_scp.json) and prevents users from configuring resource-based policies for select services.
+This statement is included in the [restrict_resource_policy_configurations_scp](restrict_resource_policy_configurations_scp.json) and prevents users from configuring resource-based policies for services that are not yet supported by RCPs. See the AWS Organizations User Guide for the [List of AWS services that support RCPs](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html#rcp-supported-services).

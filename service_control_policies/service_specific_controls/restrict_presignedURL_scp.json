@@ -5,7 +5,9 @@
       "Sid": "PreventCreationOfServicePresignedURL",
       "Effect": "Deny",
       "Action": [
-        "lambda:GetFunction"
+        "ecr:GetDownloadUrlForLayer",
+        "lambda:GetFunction",
+        "ssm:GetDeployablePatchSnapshotForInstance"
       ],
       "Resource": "*",
       "Condition": {

@@ -2,6 +2,19 @@
    "Version": "2012-10-17",
    "Statement": [
       {
+         "Sid": "PreventDeploymentSSMAutomationRunbook",
+         "Effect": "Deny",
+         "Action": [
+            "ssm:StartAutomationExecution"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true"
+            }
+         }
+      },
+      {
          "Sid": "PreventDeploymentCodeStarConnections",
          "Effect": "Deny",
          "Action": [

@@ -49,6 +49,7 @@
             "workspaces:UpdateWorkspaceImagePermission",
             "oam:CreateLink",
             "servicecatalog:CreatePortfolioShare",
+            "servicecatalog:UpdatePortfolioShare",
             "config:PutConfigurationAggregator",
             "config:PutAggregationAuthorization",
             "fis:CreateTargetAccountConfiguration",
