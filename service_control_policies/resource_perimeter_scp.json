@@ -4,42 +4,38 @@
       {
          "Sid":"EnforceResourcePerimeterAWSResources",
          "Effect":"Deny",
-         "NotAction":[
-            "iam:GetPolicy",
-            "iam:GetPolicyVersion",
-            "iam:ListEntitiesForPolicy",
-            "iam:ListPolicyVersions",
-            "iam:GenerateServiceLastAccessedDetails",
-            "cloudformation:CreateChangeSet",
-            "s3:GetObject",
-            "s3:GetObjectVersion",
-            "s3:PutObject",
-            "s3:PutObjectAcl",
-            "s3:ListBucket",
-            "ssm:Describe*",
-            "ssm:List*",
-            "ssm:Get*",
-            "ssm:SendCommand",
-            "ssm:CreateAssociation",
-            "ssm:StartSession",
-            "ssm:StartChangeRequestExecution",
-            "ssm:StartAutomationExecution",
-            "imagebuilder:GetComponent",
-            "imagebuilder:GetImage",
-            "ecr:GetDownloadUrlForLayer",
-            "ecr:BatchGetImage",
-            "lambda:GetLayerVersion",
-            "ec2:CreateTags",
-            "ec2:DeleteTags",
-            "ec2:GetManagedPrefixListEntries",
-            "<action>"
-
+         "Action":"*",
+         "NotResource": [
+            "arn:aws:iam::aws:policy/*",
+            "arn:aws:ssm:*::document/*",
+            "arn:aws:ssm:*::parameter/*",
+            "arn:aws:ssm:*::automation-definition/*",
+            "arn:aws:imagebuilder:*:aws:component/*",
+            "arn:aws:imagebuilder:*:aws:image/*",
+            "arn:aws:ec2:*::image/*",
+            "arn:aws:ec2:*:aws:prefix-list/*",
+            "arn:aws:lambda:*:<service-account-id>:layer:*",
+            "arn:aws:ecr:*:<service-account-id>:repository/*",
+            "arn:aws:s3:::aws-glue-studio-transforms-<service-account-id>-prod-<region>/*",
+            "arn:aws:s3:::elasticbeanstalk-samples-<region>/*",
+            "arn:aws:s3:::elasticbeanstalk-platform-assets-<region>/*", 
+            "arn:aws:s3:::elasticbeanstalk-env-resources-<region>/*",
+            "arn:aws:s3:::elasticbeanstalk-<region>/*",
+            "arn:aws:s3:::jumpstart-cache-prod-<region>/*",
+            "arn:aws:s3:::jumpstart-cache-prod-<region>",
+            "arn:aws:cloudformation:*:aws:transform/*", 
+            "arn:aws:s3:::aws-synthetics-library-<unique-identifier>/*", 
+            "arn:aws:s3:::<unique-identifier>aws-data-exchange<unique-identifier>", 
+            "arn:aws:s3:::sc-<product-identifier>-<region>/*", 
+            "arn:aws:s3:::aws-neptune-notebook",
+            "arn:aws:s3:::aws-neptune-notebook/*",
+            "arn:aws:s3:::aws-neptune-notebook-<region>",
+            "arn:aws:s3:::aws-neptune-notebook-<region>/*",
+            "<third-party-resource>" 
          ],
-         "Resource":"*",
          "Condition":{
             "StringNotEqualsIfExists":{
                "aws:ResourceOrgID":"<my-org-id>",
-               "ec2:Owner":"amazon",
                "aws:PrincipalTag/dp:exclude:resource": "true"
             }
          }
@@ -47,20 +43,15 @@
       {
          "Sid":"EnforceResourcePerimeterAWSResourcesS3",
          "Effect":"Deny",
-         "Action":[
-            "s3:GetObject",
-            "s3:GetObjectVersion",
-            "s3:PutObject",
-            "s3:PutObjectAcl",
-            "s3:ListBucket"
+         "Action":"*",
+         "Resource":[
+            "arn:aws:s3:::<unique-identifier>aws-data-exchange<unique-identifier>",
+            "arn:aws:s3:::sc-<product-identifier>-<region>/*"
          ],
-         "Resource":"*",
          "Condition":{
             "StringNotEqualsIfExists":{
                "aws:ResourceOrgID":"<my-org-id>",
-               "aws:ResourceAccount": "<glue-account-id>",
-               "aws:PrincipalTag/dp:exclude:resource": "true",
-               "aws:PrincipalTag/dp:exclude:resource:s3": "true"
+               "aws:PrincipalTag/dp:exclude:resource": "true"
             },
             "ForAllValues:StringNotEquals":{
                "aws:CalledVia":[
@@ -71,97 +62,14 @@
          }
       },
       {
-         "Sid": "EnforceResourcePerimeterAWSResourcesSSM",
-         "Effect": "Deny",
-         "Action": [
-            "ssm:SendCommand",
-            "ssm:CreateAssociation",
-            "ssm:StartSession",
-            "ssm:Get*",
-            "ssm:StartChangeRequestExecution",
-            "ssm:StartAutomationExecution"
-         ],
-         "Resource": "*",
-         "Condition": {
-             "StringNotEqualsIfExists": {
-                 "aws:ResourceOrgID": "<my-org-id>",
-                 "aws:PrincipalTag/dp:exclude:resource:ssm": "true",
-                 "aws:PrincipalTag/dp:exclude:resource": "true"
-             }
-         }
-      },
-      {
-         "Sid": "EnforceResourcePerimeterAWSResourcesEC2ImageBuilder",
-         "Effect": "Deny",
-         "Action": [
-            "imagebuilder:GetComponent",
-            "imagebuilder:GetImage"
-         ],
-         "Resource": "*",
-         "Condition": {
-             "StringNotEqualsIfExists": {
-                 "aws:ResourceOrgID": "<my-org-id>",
-                 "aws:PrincipalTag/dp:exclude:resource:imagebuilder": "true",
-                 "aws:PrincipalTag/dp:exclude:resource": "true"
-             }
-         }
-      },
-      {
-         "Sid": "EnforceResourcePerimeterAWSResourcesECR",
-         "Effect": "Deny",
-         "Action": [
-           "ecr:GetDownloadUrlForLayer",
-           "ecr:BatchGetImage"
-         ],
-         "Resource": "*",
-         "Condition": {
-             "StringNotEqualsIfExists": {
-                 "aws:ResourceAccount": "<ecr-account-id>",
-                 "aws:ResourceOrgID": "<my-org-id>",
-                 "aws:PrincipalTag/dp:exclude:resource": "true"
-             }
-         }
-      },
-      {
-         "Sid": "EnforceResourcePerimeterAWSResourcesLambdaLayer",
-         "Effect": "Deny",
-         "Action": [
-            "lambda:GetLayerVersion"
-         ],
-         "Resource": "*",
-         "Condition": {
-             "StringNotEqualsIfExists": {
-                 "aws:ResourceAccount": "<lambdalayer-account-id>",
-                 "aws:ResourceOrgID": "<my-org-id>",
-                 "aws:PrincipalTag/dp:exclude:resource": "true"
-             }
-         }
-      },
-      {
-         "Sid": "EnforceResourcePerimeterAWSResourcesEC2PrefixList",
-         "Effect": "Deny",
-         "Action": [
-            "ec2:CreateTags",
-            "ec2:DeleteTags",
-            "ec2:GetManagedPrefixListEntries"
-         ],
-         "Resource": "*",
-         "Condition": {
-             "StringNotEqualsIfExists": {
-               "aws:ResourceOrgID": "<my-org-id>",
-               "aws:PrincipalTag/dp:exclude:resource:ec2": "true",
-               "aws:PrincipalTag/dp:exclude:resource": "true"
-             }
-         }
-      },
-      {
          "Sid":"EnforceResourcePerimeterThirdPartyResources",
          "Effect":"Deny",
-         "Action":"<action>",
-         "Resource":"*",
+         "Action":"*",
+         "Resource":[
+            "<third-party-resource>"
+         ],
          "Condition":{
             "StringNotEqualsIfExists":{
-               "aws:ResourceOrgID":"<my-org-id>",
                "aws:PrincipalTag/dp:exclude:resource": "true",
                "aws:ResourceAccount": [
                   "<third-party-account-a>",

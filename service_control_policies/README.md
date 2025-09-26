@@ -37,65 +37,22 @@ The following policy statements are included in the SCP examples, each statement
 This policy statement is included in the [resource_perimeter_scp](resource_perimeter_scp.json) and limits access to trusted resources that include [service_owned_resources](../service_owned_resources.md):
 
 * Resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
-* Resources owned by AWS services. To permit access to service-owned resources through the resource perimeter, two methods are used:
-    * Relevant service actions are listed in the `NotAction` element of the policy. Actions on resources that allow cross-account access are further restricted in other statements of the policy (`"Sid":"EnforceResourcePerimeterAWSResourcesS3"`, `"Sid":"EnforceResourcePerimeterAWSResourcesSSM"`, `"Sid":"EnforceResourcePerimeterAWSResourcesEC2ImageBuilder"`, `"EnforceResourcePerimeterAWSResourcesECR"`, `"EnforceResourcePerimeterAWSResourcesLambdaLayer"`,`"EnforceResourcePerimeterAWSResourcesEC2PrefixList"`).  
-    * `ec2:Owner` condition key:
-        * Key value set to `amazon` - Required for your users and applications to be able to perform operations against public images that are owned by [Amazon](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-runinstances-ami) or a [verified partner](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharing-amis.html#verified-ami-provider) (for example, copying or launching instances using these images).
-* Trusted resources that belong to an account outside of your Organizations organization. To permit access to a resource owned by an external account through the resource perimeter, relevant service actions have to be listed in the `NotAction` element of this statement (`<action>`). These actions are further restricted in the `"Sid":"EnforceResourcePerimeterThirdPartyResources"`. 
+* Resources owned by AWS services. To permit access to service-owned resources through the resource perimeter, relevant resources are listed in the `NotResource` element of the policy. See the [service_owned_resources](../service_owned_resources.md) for a list of resources owned by AWS services.
+* Trusted resources that belong to an account outside of your Organizations organization. To permit access to a resource owned by an external account through the resource perimeter, relevant service resources have to be listed in the `NotResource` element of this statement (`<third-party-resource>`). Access to these resources are further restricted in the `"Sid":"EnforceResourcePerimeterThirdPartyResources"`.
 
 ### "Sid":"EnforceResourcePerimeterAWSResourcesS3"
 
 This policy statement is included in the [resource_perimeter_scp](resource_perimeter_scp.json) and limits access to trusted [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) resources:
 
 * Amazon S3 resources that belong to your Organizations organization as specified by the organization ID (`<my-org-id>`) in the policy statement.
-
-* Amazon S3 resources owned by AWS services that might be accessed by your identities and applications directly by using your [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/) credentials. To account for this access pattern, the `s3:GetObject`, `s3:GetObjectVersion`, `s3:PutObject`, `s3:PutObjectAcl` and `s3:ListBucket` actions are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. The `"Sid":"EnforceResourcePerimeterAWSResourcesS3"` then uses the `aws:ResourceAccount` and `aws:PrincipalTag` condition keys to restrict these actions to resources owned by the AWS service accounts or to IAM principals that have the `dp:exclude:resource:s3` tag set to `true`. See the [service_owned_resources](../service_owned_resources.md) for a list of Amazon S3 resources owned by AWS services.
-
-* Amazon S3 resources owned by AWS services that might be accessed by your identities and applications via AWS services using [forward access sessions (FAS)](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html). To account for this access pattern, the `s3:GetObject`, `s3:GetObjectVersion`, `s3:PutObject`, and `s3:PutObjectAcl` actions are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. The `"Sid":"EnforceResourcePerimeterAWSResourcesS3"` then uses the aws:CalledVia condition key to restrict these actions to relevant AWS services only. See the [service_owned_resources](../service_owned_resources.md) for a list of Amazon S3 resources owned by AWS services.
-
-
-### "Sid":"EnforceResourcePerimeterAWSResourcesSSM"
-
-This policy statement is included in the [resource_perimeter_scp](resource_perimeter_scp.json) and limits access to trusted [AWS Systems Manager](https://aws.amazon.com/systems-manager/) resources:
- 
-* AWS Systems Manager resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
-* AWS Systems Manager resources owned by AWS services that might be accessed by your identities and applications directly by using your IAM credentials. To account for this access pattern, `ssm:Get*`, `ssm:SendCommand`, `ssm:CreateAssociation`, `ssm:StartSession`, `ssm:StartChangeRequestExecution`, `ssm:StartAutomationExecution` are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement.`"Sid":"EnforceResourcePerimeterAWSResourcesSSM"` then uses the `aws:PrincipalTag` condition key with the`dp:exclude:resource:ssm` tag set to `true` to restrict access to these actions to IAM principals tagged for access to resources that do not belong to your organization. See the [service_owned_resources](../service_owned_resources.md) for a list of AWS Systems Manager resources owned by AWS services.
-
-
-### "Sid":"EnforceResourcePerimeterAWSResourcesEC2ImageBuilder"
-
-This policy statement is included in the [resource_perimeter_scp](resource_perimeter_scp.json) and limits access to trusted [EC2 Image Builder](https://aws.amazon.com/image-builder/) resources:
- 
-* EC2 Image Builder resources that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
-* EC2 Image Builder resources owned by AWS services that might be accessed by your identities and applications directly by using your IAM credentials. To account for this access pattern, the `imagebuilder:GetComponent`, `imagebuilder:GetImage` are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. `"Sid":"EnforceResourcePerimeterAWSResourcesImageBuilder"` then uses the `aws:PrincipalTag` condition key with `dp:exclude:resource:imagebuilder` tag set to `true` to restrict access to these actions to IAM principals tagged for access to resources that do not belong to your organization. See the [service_owned_resources](../service_owned_resources.md) for a list of EC2 Image Builder resources owned by AWS services.
-
-### "Sid":"EnforceResourcePerimeterAWSResourcesECR"
-
-This policy statement is included in the [resource_perimeter_scp](resource_perimeter_scp.json) and limits access to trusted [Amazon Elastic Container Registry (Amazon ECR)](https://aws.amazon.com/ecr/) resources:
-
-* Amazon ECR repositories that belong to your Organizations organization as specified by the organization ID (`<my-org-id>`) in the policy statement.
-* Amazon ECR repositories owned by AWS services that might be accessed by your identities and applications directly by using your IAM credentials. To account for this access pattern, the `ecr:GetDownloadUrlForLayer`and`ecr:BatchGetImage` are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. `"Sid":"EnforceResourcePerimeterAWSResourcesECR"` then uses the `aws:ResourceAccount` condition key to restrict these actions to Amazon ECR repositories owned by the AWS service accounts. See the [service_owned_resources](../service_owned_resources.md) for a list of Amazon ECR repositories owned by AWS services.
-
-### "Sid":"EnforceResourcePerimeterAWSResourcesLambdaLayer"
-
-This policy statement is included in [resource_perimeter_scp](resource_perimeter_scp.json) and limits access to trusted [Lambda](https://aws.amazon.com/lambda/) layers:
-
-* Lambda layers that belong to your AWS Organizations organization as specified by the organization ID (`<my-org-id>`) in the policy statement.
-* Lambda layers owned by AWS services that might be accessed by your identities and applications directly by using your IAM credentials. To account for this access pattern, the `lambda:GetLayerVersion` is first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. `"Sid":"EnforceResourcePerimeterAWSResourcesLambdaLayer"` then uses the `aws:ResourceAccount` condition key to restrict these actions to Lambda layers owned by the AWS service accounts. See the [service_owned_resources](../service_owned_resources.md) for a list of Lambda resources owned by AWS services.
-
-### "Sid":"EnforceResourcePerimeterAWSResourcesEC2PrefixList"
-
-This policy statement is included in the [resource_perimeter_scp](resource_perimeter_scp.json) and limits access to trusted EC2 prefix lists:
-
-* EC2 managed prefix lists that belong to your Organizations organization specified by the organization ID (`<my-org-id>`) in the policy statement.
-* EC2 managed prefix lists owned by AWS services that might be accessed by your identities and applications directly by using your IAM credentials. To account for this access pattern, the `ec2:CreateTags`, `ec2:DeleteTags`, `ec2:GetManagedPrefixListEntries` are first listed in the `NotAction` element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. `"Sid":"EnforceResourcePerimeterAWSResourcesEC2PrefixList"` then uses the `aws:PrincipalTag` condition key with `dp:exclude:resource:ec2` tag set to `true` to restrict access to these actions to IAM principals tagged for access to resources that do not belong to your organization. See the [service_owned_resources](../service_owned_resources.md) for a list of Amazon EC2 resources owned by AWS services. 
+* Amazon S3 resources owned by AWS services that might be accessed by your identities and applications via AWS services using forward access sessions (FAS). To account for this access pattern, relevant S3 resources are first listed in the NotResource element of the `"Sid":"EnforceResourcePerimeterAWSResources"` statement. The `"Sid":"EnforceResourcePerimeterAWSResourcesS3"` then uses the aws:CalledVia condition key to restrict these access to relevant AWS services only. See the [service_owned_resources](../service_owned_resources.md) for a list of Amazon S3 resources owned by AWS services.
 
 ### "Sid":"EnforceResourcePerimeterThirdPartyResources"
 
 This policy statement is included in the [resource_perimeter_scp](resource_perimeter_scp.json) and limits access to trusted resources that include third party resources:
 
 * Resources that belong to your Organizations organization and are specified by the organization ID (`<my-org-id>`) in the policy statement.
-* Trusted resources that belong to an account outside of your Organizations organization are specified by account IDs of third parties (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement. Further restrict access by specifying allowed actions in the Action element of the policy statement. These actions also have to be listed in the `NotAction` element of `"Sid":"EnforceResourcePerimeterAWSResources"`.
+* Trusted resources that belong to an account outside of your Organizations organization are specified by account IDs of third parties (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement. Further restrict access by specifying allowed resources in the Resource element of the policy statement. These resources also have to be listed in the `NotResource` element of `"Sid":"EnforceResourcePerimeterAWSResources"`.
 
 ### "Sid":"EnforceNetworkPerimeter"
 
