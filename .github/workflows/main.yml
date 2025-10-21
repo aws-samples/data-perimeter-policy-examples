@@ -4,6 +4,9 @@ on:
     types: [opened]
   pull_request:
     types: [opened]
+permissions:
+  contents: read
+
 jobs:
   run:
     name: Notify IS team of github activity
