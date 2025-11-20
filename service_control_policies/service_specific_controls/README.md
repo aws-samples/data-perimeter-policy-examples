@@ -12,7 +12,6 @@ Use the following example SCPs individually or in combination:
 * [network_perimeter_iam_users_scp](network_perimeter_iam_users_scp.json) - Enforces network perimeter controls on IAM users with long-term access keys.
 * [network_perimeter_lambda_scp](network_perimeter_lambda_scp.json) - Enforces network perimeter controls on service roles used by AWS Lambda.
 * [network_perimeter_glue_scp](network_perimeter_glue_scp.json) - Enforces network perimeter controls on service roles used by AWS Glue jobs.
-* [network_perimeter_vpceorgid_scp](network_perimeter_vpceorgid_scp.json) - Enforces network perimeter controls using aws:VpceOrgID on [supported services](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-vpceorgid).
 * [restrict_nonvpc_deployment_scp](restrict_nonvpc_deployment_scp.json) - Enforces deployment of resources in a customer managed Amazon VPC.
 * [restrict_idp_configurations_scp](restrict_idp_configurations_scp.json) - Restricts the ability to make configuration changes to the IAM SAML identity providers.
 * [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) - Prevent untrusted non-AWS resources from being configured as targets for service operations.
@@ -47,6 +46,10 @@ This policy statement is included in the [network_perimeter_ec2_scp](network_per
 
 The `ec2:SourceInstanceARN` condition key is used to target role sessions that are created for applications running on your Amazon EC2 instances. 
 
+ Additional considerations:
+  
+* We recommend that you use [aws:SourceVpc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcevpc) with [aws:RequestedRegion](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requestedregion) as AWS VPC IDs are unique within a AWS Region, and same VPC ID can exist in different AWS Regions. Replace `<my-vpc-in-this-region>` with the VPC ID specified under `"Sid":"EnforceNetworkPerimeterOnEC2Roles"` and `<my-vpc-region>` with the VPC region.
+
 ### "Sid":"EnforceNetworkPerimeterOnIAMUsers"
 
 This policy statement is included in the [network_perimeter_iam_users_scp](/service_control_policies/service_specific_controls/network_perimeter_iam_users_scp.json) and limits access to expected networks for IAM users. Expected networks are defined as follows:
@@ -54,12 +57,16 @@ This policy statement is included in the [network_perimeter_iam_users_scp](/serv
 *	Your organization’s VPCs that are specified by VPC IDs (`<my-vpc>`) in the policy statement.
 *	Networks of AWS services that use [forward access sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) to access resources on your behalf as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service, and that service takes subsequent actions on your behalf by using your IAM credentials.
 
+ Additional considerations:
+  
+* We recommend that you use [aws:SourceVpc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcevpc) with [aws:RequestedRegion](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requestedregion) as AWS VPC IDs are unique within a AWS Region, and same VPC ID can exist in different AWS Regions. Replace `<my-vpc-in-this-region>` with the VPC ID specified under `"Sid":"EnforceNetworkPerimeterOnIAMUsers"` and `<my-vpc-region>` with the VPC region.
+
 
 ### "Sid":"EnforceNetworkPerimeterOnLambdaRoles"
 
 This policy statement is included in the [network_perimeter_lambda_scp](/service_control_policies/service_specific_controls/network_perimeter_lambda_scp.json) and limits access to expected networks for service roles used by AWS Lambda. Expected networks are defined as follows:
 *   Your on-premises data centers and static egress points in AWS such as a NAT gateway that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement.
-*   Your organization’s VPCs that are specified by VPC IDs (`<my-vpc>`) in the policy statement.
+*   Your organization’s VPCs that are specified by the organization ID (`<my-org-id>`) in the policy statement.
 *   Networks of AWS services that use [forward access sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) to access resources on your behalf as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service, and that service takes subsequent actions on your behalf by using your IAM credentials.
 *   AWS Lambda networks when the service interacts with [CloudWatch Logs]( https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html), [AWS X-Ray](https://aws.amazon.com/xray/), and [Amazon EFS]( https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html), as denoted by the `NotAction` element with the actions `xray:PutTraceSegments`,`logs:CreateLogGroup`,`logs:CreateLogStream`,`logs:PutLogEvents`, `elasticfilesystem:ClientMount`.
 
@@ -75,18 +82,9 @@ This policy statement is included in the [network_perimeter_glue_scp](/service_c
 
 The [`glue:CredentialIssuingService`](https://docs.aws.amazon.com/glue/latest/dg/security_iam_id-based-policy-examples.html#glue-identity-based-policy-context-key-glue) condition key is used to target role sessions that are created for your job's execution environment.
 
-### "Sid":"EnforceNetworkPerimeterVpceOrgID"
-
-This policy statement is included in the [network_perimeter_vpceorgid_scp](/service_control_policies/service_specific_controls/network_perimeter_vpceorgid_scp.json). It limits access to expected networks with the aws:VpceOrgID condition key for [supported services](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-vpceorgid) and for IAM principals tagged with the `dp:include:network` tag set to `true`. Expected networks are defined as follows:
-
-*   Your on-premises data centers and static egress points in AWS such as a NAT gateway that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement.
-*   Your organization’s VPCs that are specified by the organization ID (`<my-org-id>`) in the policy statement.
-*   Networks of AWS services that use [forward access sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) to access resources on your behalf as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service, and that service takes subsequent actions on your behalf by using your IAM credentials.
-*   Networks of AWS services when AWS services interact with [KMS](https://aws.amazon.com/kms/) encrypted AMIs, volumes, or snapshots as denoted by the `aws:PrincipalArn` condition key with a value of `arn:aws:iam:::role/aws:ec2-infrastructure`. 
-*   Networks of trusted third parties are specified by their account IDs (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement.
-
-Additional considerations:
-* We recommend that you use aws:VpceOrgID only if all of the services you want to restrict access to are currently supported. Using this condition key with unsupported services can lead to unintended authorization results. If you need to enforce the restriction on a wider range of services, consider using aws:SourceVpc as demonstrated in the [network_perimeter_scp](../network_perimeter_scp.json). See [Establishing a data perimeter on AWS: Allow access to company data only from expected networks](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-access-to-company-data-only-from-expected-networks/) for more details.
+ Additional considerations:
+  
+* We recommend that you use [aws:SourceVpc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcevpc) with [aws:RequestedRegion](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requestedregion) as AWS VPC IDs are unique within a AWS Region, and same VPC ID can exist in different AWS Regions. Replace `<my-vpc-in-this-region>` with the VPC ID specified under `"Sid":"EnforceNetworkPerimeterOnGlueRoles"` and `<my-vpc-region>` with the VPC region.
 
 ### "Sid":"PreventIdPTrustModifications"
 

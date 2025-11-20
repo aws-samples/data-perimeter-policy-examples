@@ -22,7 +22,7 @@ These examples do not represent a complete list of valid data access patterns, a
 
 Use the following RCP examples individually or in combination:
 * [identity_perimeter_rcp](identity_perimeter_rcp.json) – Enforces identity perimeter controls on resources within your Organizations organization.
-* [network_perimeter_rcp](network_perimeter_rcp.json) – Enforces network perimeter controls on resources within your Organizations organization.
+* [network_perimeter_vpceorgid_rcp](network_perimeter_vpceorgid_rcp.json), [network_perimeter_sourcevpc_rcp](network_perimeter_vpceorgid_rcp.json) – Enforces network perimeter controls on resources within your Organizations organization.
 * [data_perimeter_governance_rcp](data_perimeter_governance_rcp.json) – Includes controls for protecting data perimeter controls’ dependencies, such as session tags used to control their scope.
 
 [service_specific_controls](service_specific_controls) subfolder contains policy examples you can implement as resource-based policies for select services that are not supported by RCPs and other service-specific controls.
@@ -91,17 +91,32 @@ Example data access patterns:
 * *AWS services using AWS KMS grants.* Some services that use AWS KMS grants to encrypt/decrypt your resources don’t support `aws:SourceOrgID` enforcement on their calls against your AWS KMS keys. However, AWS KMS grants used by services include the encryption context that restricts the use of the grant so that it is only on behalf of a resource it was originally created for. The `Null` condition operator with the `aws:SourceAccount` condition key accounts for these service integrations.
 * *Elastic Load Balancing (ELB) access logging*. In some AWS Regions, [Classic Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html#attach-bucket-policy) and [Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions) use their service principals to publish logs to your Amazon S3 buckets but don’t populate the `aws:SourceOrgID` condition key. The `Null` condition operator with the `aws:SourceAccount` condition key accounts for this service integration. The name of the log file stored in your S3 bucket always contains the account ID of the account with the configured load balancer. When you grant access to your bucket for logging, you can scope it down to the specific path in your bucket that contains the account ID. 
 
+### "Sid":"EnforceNetworkPerimeterVpceOrgID"
 
-### "Sid":"EnforceNetworkPerimeter"
-
-This policy statement is included in the [network_perimeter_rcp](network_perimeter_rcp.json) and limits access to expected networks for IAM principals tagged with the `dp:include:network` tag set to `true` and federated users. Expected networks are defined as follows:
+This policy statement is included in the [network_perimeter_vpceorgid_rcp](network_perimeter_vpceorgid_rcp.json). This policy statement limits access to expected networks with the aws:VpceOrgID condition key for [supported services](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-vpceorgid) and for IAM principals tagged with the `dp:include:network` tag set to `true` and federated users.  If all of the services you use are supported by aws:VpceOrgID, you can disregard the `"Sid":"EnforceNetworkPerimeterSourceVPC"` and `"Sid":"SourceVPCRegion"`. Expected networks are defined as follows:
 
 * Your organization’s on-premises data centers and static egress points in AWS such as a NAT gateway that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement. 
-* Your organization’s VPCs that are specified by VPC IDs (`<my-vpc>`) in the policy statement.  
+* Your organization’s VPCs that are specified by the organization ID (`<my-org-id>`) in the policy statement.
+* Networks of AWS services that use your credentials to access resources using [forward access sessions (FAS)](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service, and that service takes subsequent actions on your behalf by using your IAM credentials. 
+* Networks of AWS services that use [service principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) to access resources on your behalf are denoted by `aws:PrincipalIsAWSService` in the policy statement. Use the `"Sid": "EnforceConfusedDeputyProtection"` in the [identity_perimeter_rcp](../identity_perimeter_rcp.json) to further restrict AWS service actions so that they can only interact with your resources when performing operations on behalf of accounts that you own.
+* Networks of AWS services that use [service roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to access resources on your behalf as denoted by `arn:aws:iam::*:role/aws:ec2-infrastructure` in the policy statement.
+* Networks of trusted third parties are specified by their account IDs (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement.
+
+### "Sid":"EnforceNetworkPerimeterSourceVPC"
+
+This policy statement is included in the [network_perimeter_sourcevpc_rcp](network_perimeter_sourcevpc_rcp.json). Use the `aws:SourceVpc` with `aws:RequestedRegion` for services not supported by [aws:VpceOrgID](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-vpceorgid)`.
+
+This policy statement limits access to expected networks for IAM principals tagged with the `dp:include:network` tag set to `true` and federated users. Expected networks are defined as follows:
+
 * Networks of AWS services that use your credentials to access resources using [forward access sessions (FAS)]( https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service, and that service takes subsequent actions on your behalf by using your IAM credentials. 
 * Networks of AWS services that use [service principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) to access resources on your behalf are denoted by `aws:PrincipalIsAWSService` in the policy statement. Use the `"Sid": "EnforceConfusedDeputyProtection"` in the [identity_perimeter_rcp](identity_perimeter_rcp.json) to further restrict AWS service actions so that they can only interact with your resources when performing operations on behalf of accounts that you own.
 * Networks of AWS services that use [service roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to access resources on your behalf as denoted by `arn:aws:iam::*:role/aws:ec2-infrastructure` in the policy statement.
 * Networks of trusted third parties are specified by their account IDs (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement.
+
+### "Sid":"SourceVPCRegion"
+This policy statement is included in the [network_perimeter_sourcevpc_rcp](network_perimeter_sourcevpc_rcp.json) and limits access to expected networks for IAM principals tagged with the dp:include:network tag set to true and federated users. Expected networks are defined as follows:
+
+* AWS VPC IDs are unique within a AWS Region, and same VPC ID can exist in different AWS Regions. [aws:RequestedRegion](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requestedregion) is used with [aws:SourceVpc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcevpc) to limit access to expected networks with the `aws:SourceVpc` condition along with the region from which the request originates. Replace `<my-vpc-in-this-region>` with the VPC ID specified under `"Sid":"EnforceNetworkPerimeterSourceVPC"` and `<my-vpc-region>` with the VPC region.
 
 Additional considerations:
 

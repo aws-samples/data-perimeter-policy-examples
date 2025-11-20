@@ -2,7 +2,7 @@
    "Version":"2012-10-17",
    "Statement":[
       {
-         "Sid":"EnforceNetworkPerimeterOnIAMUsers",
+         "Sid":"EnforceNetworkPerimeterSourceVPC",
          "Effect":"Deny",
          "NotAction":[
             "es:ES*",
@@ -31,14 +31,18 @@
                ]
             },
             "StringNotEqualsIfExists":{
+               "aws:PrincipalTag/dp:exclude:network":"true",
                "aws:SourceVpc":[
                   "<my-vpc>"
                ]
             },
-            "ArnLike":{
+            "ArnNotLikeIfExists":{
                "aws:PrincipalArn":[
-                  "arn:aws:iam::*:user/*"
+                  "arn:aws:iam::*:role/aws:ec2-infrastructure"
                ]
+            },
+            "StringEquals":{
+               "aws:PrincipalTag/dp:include:network":"true"
             }
          }
       },
@@ -53,6 +57,20 @@
             },
             "StringNotEqualsIfExists":{
                "aws:RequestedRegion":"<my-vpc-region>"
+            }
+         }
+      },
+      {
+         "Sid":"SourceVPCRegion2",
+         "Effect":"Deny",
+         "Action":"*",
+         "Resource":"*",
+         "Condition":{
+            "StringEquals":{
+               "aws:SourceVpc":"<my-vpc-in-this-region>"
+            },
+            "StringNotEqualsIfExists":{
+               "aws:RequestedRegion":"<my-vpc-region-2>"
             }
          }
       }

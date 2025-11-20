@@ -2,51 +2,22 @@
    "Version":"2012-10-17",
    "Statement":[
       {
-         "Sid":"EnforceIdentityPerimeter",
-         "Effect":"Deny",
-         "Principal":"*",
-         "Action":"*",
-         "Resource":"*",
-         "Condition":{
-            "StringNotEqualsIfExists":{
-               "aws:PrincipalOrgID":"<my-org-id>",
-               "aws:PrincipalAccount":[
-                  "<third-party-account-a>",
-                  "<third-party-account-b>"
-               ]
-            },
-            "BoolIfExists":{
-               "aws:PrincipalIsAWSService":"false"
-            }
-         }
-      },
-      {
-         "Sid":"EnforceConfusedDeputyProtection",
-         "Effect":"Deny",
-         "Principal":"*",
-         "Action":"*",
-         "Resource":"*",
-         "Condition":{
-            "StringNotEqualsIfExists":{
-               "aws:SourceOrgID":"<my-org-id>",
-               "aws:SourceAccount":[
-                  "<third-party-account-a>",
-                  "<third-party-account-b>"
-               ]
-            },
-            "Null":{
-               "aws:SourceAccount":"false"
-            },
-            "Bool":{
-               "aws:PrincipalIsAWSService":"true"
-            }
-         }
-      },
-      {
          "Sid":"EnforceNetworkPerimeterSourceVPC",
          "Effect":"Deny",
          "Principal":"*",
-         "Action":"*",
+         "Action":[
+            "sqs:*",
+            "secretsmanager:*",
+            "sts:AssumeRole",
+            "sts:DecodeAuthorizationMessage",
+            "sts:GetAccessKeyInfo",
+            "sts:GetFederationToken",
+            "sts:GetServiceBearerToken",
+            "sts:GetSessionToken",
+            "sts:SetContext",
+            "aoss:*",
+            "ecr:*"
+         ],
          "Resource":"*",
          "Condition":{
             "NotIpAddressIfExists":{
@@ -56,16 +27,21 @@
                "aws:SourceVpc":"<my-vpc>",
                "aws:PrincipalTag/dp:exclude:network":"true",
                "aws:PrincipalAccount":[
+                  "<load-balancing-account-id>",
+                  "<fin-space-account-id>",
                   "<third-party-account-a>",
                   "<third-party-account-b>"
-               ]
+               ],
+               "aws:ResourceTag/dp:exclude:network":"true"
             },
             "BoolIfExists":{
                "aws:PrincipalIsAWSService":"false",
                "aws:ViaAWSService":"false"
             },
             "ArnNotLikeIfExists":{
-               "aws:PrincipalArn":"arn:aws:iam::<my-account-id>:role/aws-service-role/*"
+               "aws:PrincipalArn":[
+                  "arn:aws:iam::*:role/aws:ec2-infrastructure"
+               ]
             },
             "StringEquals":{
                "aws:PrincipalTag/dp:include:network":"true"
@@ -83,6 +59,20 @@
             },
             "StringNotEqualsIfExists":{
                "aws:RequestedRegion":"<my-vpc-region>"
+            }
+         }
+      },
+      {
+         "Sid":"SourceVPCRegion2",
+         "Effect":"Deny",
+         "Action":"*",
+         "Resource":"*",
+         "Condition":{
+            "StringEquals":{
+               "aws:SourceVpc":"<my-vpc-in-this-region>"
+            },
+            "StringNotEqualsIfExists":{
+               "aws:RequestedRegion":"<my-vpc-region-2>"
             }
          }
       }

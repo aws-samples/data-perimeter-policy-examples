@@ -66,8 +66,8 @@ To achieve data perimeter objectives, you will primarily use three policy types:
 |Identity perimeter  | Only trusted identities are allowed from my network |Network |[default_endpoint_policy.json](vpc_endpoint_policies/default_endpoint_policy.json)|
 |Resource perimeter |My identities can access only trusted resources |Identity |[resource_perimeter_scp.json](service_control_policies/resource_perimeter_scp.json)|
 |Resource perimeter |Only trusted resources can be accessed from my network |Network |[default_endpoint_policy.json](vpc_endpoint_policies/default_endpoint_policy.json)|
-|Network perimeter |My identities can access resources only from expected networks |Identity |[network_perimeter_scp.json](service_control_policies/network_perimeter_scp.json)|
-|Network perimeter |My resources can only be accessed from expected networks |Resource |[network_perimeter_rcp.json](resource_control_policies/network_perimeter_rcp.json)|
+|Network perimeter |My identities can access resources only from expected networks |Identity |[network_perimeter_vpceorgid_scp.json](service_control_policies/network_perimeter_vpceorgid_scp.json), [network_perimeter_sourcevpc_scp.json](service_control_policies/network_perimeter_sourcevpc_scp.json)|
+|Network perimeter |My resources can only be accessed from expected networks |Resource |[network_perimeter_vpceorgid_rcp.json](resource_control_policies/network_perimeter_vpceorgid_rcp.json), [network_perimeter_sourcevpc_rcp.json](resource_control_policies/network_perimeter_sourcevpc_rcp.json)|
 
 See README.md in the [service_control_policies](service_control_policies/README.md), [resource_control_policies](resource_control_policies/README.md), and [vpc_endpoint_policies](vpc_endpoint_policies/README.md) folders for information about the exact controls included in the data perimeter policies linked in the preceding table.
 

@@ -19,7 +19,7 @@ This folder contains examples of SCPs that enforce resource and network perimete
 Use the following example SCPs individually or in combination:
 
 * [resource_perimeter_scp](resource_perimeter_scp.json) – Enforces resource perimeter controls on all principals within your Organizations organization.
-* [network_perimeter_scp](network_perimeter_scp.json) – Enforces network perimeter controls on IAM principals tagged with the `dp:include:network` tag set to `true`.
+* [network_perimeter_vpceorgid_scp](network_perimeter_vpceorgid_scp.json), [network_perimeter_sourcevpc_scp](network_perimeter_sourcevpc_scp.json) – Enforces network perimeter controls on IAM principals tagged with the `dp:include:network` tag set to `true`.
 * [data_perimeter_governance_scp](data_perimeter_governance_scp.json) – Include statements to secure tags that are used for authorization controls. This SCP also include statements that should be included in your data perimeter to account for specific data access patterns that are not covered by primary data perimeter controls. 
 
 [service_specific_controls](service_specific_controls) subfolder contains policy examples you might want to use when implementing a data perimeter for a service.
@@ -54,14 +54,31 @@ This policy statement is included in the [resource_perimeter_scp](resource_perim
 * Resources that belong to your Organizations organization and are specified by the organization ID (`<my-org-id>`) in the policy statement.
 * Trusted resources that belong to an account outside of your Organizations organization are specified by account IDs of third parties (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement. Further restrict access by specifying allowed resources in the Resource element of the policy statement. These resources also have to be listed in the `NotResource` element of `"Sid":"EnforceResourcePerimeterAWSResources"`.
 
-### "Sid":"EnforceNetworkPerimeter"
+### "Sid":"EnforceNetworkPerimeterVpceOrgID"
 
-This policy statement is included in the [network_perimeter_scp](network_perimeter_scp.json) and limits access to expected networks for IAM principals tagged with the `dp:include:network` tag set to `true`. Expected networks are defined as follows:
+This policy statement is included in the [network_perimeter_vpceorgid_scp](network_perimeter_vpceorgid_scp.json). This policy statement limits access to expected networks with the aws:VpceOrgID condition key for [supported services](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-vpceorgid) and for IAM principals tagged with the `dp:include:network` tag set to `true`. If all of the services you use are supported by aws:VpceOrgID, you can disregard the `Sid":"EnforceNetworkPerimeterSourceVPC` and `"Sid":"SourceVPCRegion"`. Expected networks are defined as follows:
 
-* Your organization’s on-premises data centers and static egress points in AWS such as NAT gateways that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement. 
-* Your organization’s VPCs specified by VPC IDs (`<my-vpc>`) in the policy statement.  
+*   Your on-premises data centers and static egress points in AWS such as a NAT gateway that are specified by IP ranges (`<my-corporate-cidr>`) in the policy statement.
+*   Your organization’s VPCs that are specified by the organization ID (`<my-org-id>`) in the policy statement.
+*   Networks of AWS services that use [forward access sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) to access resources on your behalf as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service, and that service takes subsequent actions on your behalf by using your IAM credentials.
+*   Networks of AWS services when AWS services interact with [KMS](https://aws.amazon.com/kms/) encrypted AMIs, volumes, or snapshots as denoted by the `aws:PrincipalArn` condition key with a value of `arn:aws:iam:::role/aws:ec2-infrastructure`. 
+*   Networks of trusted third parties are specified by their account IDs (`<third-party-account-a>` and `<third-party-account-b>`) in the policy statement. 
+
+### "Sid":"EnforceNetworkPerimeterSourceVPC"
+
+This policy statement is included in the [network_perimeter_sourcevpc_scp](network_perimeter_sourcevpc_scp.json). Use the `aws:SourceVpc` with `aws:RequestedRegion` for services not supported by [aws:VpceOrgID](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-vpceorgid). See [Establishing a data perimeter on AWS: Allow access to company data only from expected networks](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws-allow-access-to-company-data-only-from-expected-networks/) for more details. This policy statement limits access to expected networks for IAM principals tagged with the `dp:include:network` tag set to `true`. Expected networks are defined as follows:
+
+* Your organization’s on-premises data centers and static egress points in AWS such as NAT gateways that are specified by IP ranges (<my-corporate-cidr>) in the policy statement.
+* Your organization’s VPCs specified by VPC IDs (<my-vpc>) in the policy statement.
 * Networks of AWS services that use [forward access sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html) to access resources on your behalf as denoted by `aws:ViaAWSService` in the policy statement. This access pattern applies when you access data via an AWS service and that service takes subsequent actions on your behalf by using your IAM identity credentials.
-* Networks of AWS services when AWS services interact with [KMS](https://aws.amazon.com/kms/) encrypted AMIs, volumes, or snapshots as denoted by the `aws:PrincipalArn` condition key with a value of `arn:aws:iam:::role/aws:ec2-infrastructure`. 
+* Networks of AWS services when AWS services interact with [KMS](https://aws.amazon.com/kms/) encrypted AMIs, volumes, or snapshots as denoted by the `aws:PrincipalArn` condition key with a value of `arn:aws:iam:::role/aws:ec2-infrastructure`.
+
+### "Sid":"SourceVPCRegion"
+
+This policy statement is included in the [network_perimeter_sourcevpc_scp](network_perimeter_sourcevpc_scp.json) and limits access to expected networks for IAM principals tagged with the `dp:include:network` tag set to `true`. Expected networks are defined as follows:
+
+* AWS VPC IDs are unique within a AWS Region, and same VPC ID can exist in different AWS Regions.[aws:RequestedRegion](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requestedregion) is used with [aws:SourceVpc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcevpc) to limit access to expected networks with the `aws:SourceVpc` condition along with the region from which the request originates. Replace `<my-vpc-in-this-region>` with the VPC ID specified under `"Sid":"EnforceNetworkPerimeterSourceVPC"` and `<my-vpc-region>` with the VPC region.
+
 
 #### Services and actions that require an exception to the network perimeter.
 * Some AWS services have resources that are accessible from within your VPC through network interfaces or run inside your VPC, and use IAM for authentication. To account for this access pattern, you should list relevant actions in the `NotAction` element of this statement and use network security controls such as [security groups](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html), [access control lists](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html), and firewalls such as [AWS Network Firewall](https://aws.amazon.com/network-firewall/) to control the networks and IP addresses that can access these resources.

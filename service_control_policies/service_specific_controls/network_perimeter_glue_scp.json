@@ -1,44 +1,58 @@
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "EnforceNetworkPerimeterOnGlueRoles",
-            "Effect": "Deny",
-            "NotAction": [
-                "es:ES*", 
-                "dax:GetItem", 
-                "dax:BatchGetItem",
-                "dax:Query",
-                "dax:Scan",
-                "dax:PutItem",
-                "dax:UpdateItem",
-                "dax:DeleteItem",
-                "dax:BatchWriteItem",
-                "dax:ConditionCheckItem",
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "BoolIfExists": {
-                    "aws:ViaAWSService": "false"
-                },
-                "NotIpAddressIfExists": {
-                    "aws:SourceIp": [
-                        "<my-corporate-cidr>"
-                    ]
-                },
-                "StringNotEqualsIfExists": {
-                    "aws:PrincipalTag/dp:exclude:network": "true",
-                    "aws:SourceVpc": [
-                        "<my-vpc>"
-                    ]
-                },
-                "Null": {
-                    "glue:CredentialIssuingService": "false"
-                }
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Sid":"EnforceNetworkPerimeterOnGlueRoles",
+         "Effect":"Deny",
+         "NotAction":[
+            "es:ES*",
+            "dax:GetItem",
+            "dax:BatchGetItem",
+            "dax:Query",
+            "dax:Scan",
+            "dax:PutItem",
+            "dax:UpdateItem",
+            "dax:DeleteItem",
+            "dax:BatchWriteItem",
+            "dax:ConditionCheckItem",
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+         ],
+         "Resource":"*",
+         "Condition":{
+            "BoolIfExists":{
+               "aws:ViaAWSService":"false"
+            },
+            "NotIpAddressIfExists":{
+               "aws:SourceIp":[
+                  "<my-corporate-cidr>"
+               ]
+            },
+            "StringNotEqualsIfExists":{
+               "aws:PrincipalTag/dp:exclude:network":"true",
+               "aws:SourceVpc":[
+                  "<my-vpc>"
+               ]
+            },
+            "Null":{
+               "glue:CredentialIssuingService":"false"
             }
-        }
-    ]
+         }
+      },
+      {
+         "Sid":"SourceVPCRegion",
+         "Effect":"Deny",
+         "Action":"*",
+         "Resource":"*",
+         "Condition":{
+            "StringEquals":{
+               "aws:SourceVpc":"<my-vpc-in-this-region>"
+            },
+            "StringNotEqualsIfExists":{
+               "aws:RequestedRegion":"<my-vpc-region>"
+            }
+         }
+      }
+   ]
 }
