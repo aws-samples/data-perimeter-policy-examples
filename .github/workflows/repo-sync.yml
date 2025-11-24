@@ -3,6 +3,9 @@ name: Repo Sync
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   repo-sync:
     name: Repo Sync
