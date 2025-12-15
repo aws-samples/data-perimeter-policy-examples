@@ -18,7 +18,8 @@
             "neptune-db:*",
             "kafka-cluster:*",
             "elasticfilesystem:client*",
-            "rds-db:connect"
+            "rds-db:connect",
+            "s3-outposts:*"
          ],
          "Resource":"*",
          "Condition":{
