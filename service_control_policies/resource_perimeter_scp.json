@@ -35,7 +35,7 @@
          "Condition":{
             "StringNotEqualsIfExists":{
                "aws:ResourceOrgID":"<my-org-id>",
-               "ec2:Owner": "amazon",
+               "ec2:Owner":"amazon",
                "aws:PrincipalTag/dp:exclude:resource": "true"
             }
          }
