@@ -1,56 +1,114 @@
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "PreventUntrustedSNSEmailSubscriptions",
-      "Effect": "Deny",
-      "Action": [
-        "sns:Subscribe"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringEquals": {
-          "sns:Protocol": "email"
-        },
-        "StringNotLike": {
-          "sns:Endpoint": "*@<trusted_email_domain>"
-        },
-        "StringNotEqualsIfExists": {
-          "aws:PrincipalTag/dp:exclude:resource": "true"
-        }
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "PreventUntrustedSNSEmailSubscriptions",
+         "Effect": "Deny",
+         "Action": [
+            "sns:Subscribe"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringEquals": {
+               "sns:Protocol": "email"
+            },
+            "StringNotLike": {
+               "sns:Endpoint": "*@<trusted_email_domain>"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventEventBridgeAPIDestinations",
+         "Effect": "Deny",
+         "Action": [
+            "events:PutTargets"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "ForAnyValue:ArnLike": {
+               "events:TargetArn": "arn:aws:events:*:*:api-destination/*"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventUntrustedStepFunctionsHTTPSAPI",
+         "Effect": "Deny",
+         "Action": [
+            "states:InvokeHTTPEndpoint"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotLike": {
+               "states:HTTPEndpoint": "<trusted_https_endpoint>"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventUntrustedSESv1Emails",
+         "Effect": "Deny",
+         "Action": [
+            "ses:SendBulkTemplatedEmail",
+            "ses:SendEmail",
+            "ses:SendRawEmail",
+            "ses:SendTemplatedEmail"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "ForAnyValue:StringNotLike": {
+               "ses:Recipients": [
+                  "*@<trusted_email_domain>"
+               ]
+            },
+            "StringEquals": {
+               "ses:ApiVersion": "1"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventUntrustedSESv2Emails",
+         "Effect": "Deny",
+         "Action": [
+            "ses:SendEmail"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "ForAnyValue:StringNotLike": {
+               "ses:Recipients": [
+                  "*@<trusted_email_domain>"
+               ]
+            },
+            "StringEquals": {
+               "ses:ApiVersion": "2"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventUntrustedSESVerificationEmails",
+         "Effect": "Deny",
+         "Action": [
+            "ses:SendCustomVerificationEmail"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
       }
-    },
-    {
-      "Sid": "PreventEventBridgeAPIDestinations",
-      "Effect": "Deny",
-      "Action": [
-        "events:PutTargets"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "ForAnyValue:ArnLike": {
-          "events:TargetArn": "arn:aws:events:*:*:api-destination/*"
-        },
-        "StringNotEqualsIfExists": {
-          "aws:PrincipalTag/dp:exclude:resource": "true"
-        }
-      }
-    },
-    {
-      "Sid": "PreventUntrustedStepFunctionsHTTPSAPI",
-      "Effect": "Deny",
-      "Action": [
-        "states:InvokeHTTPEndpoint"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringNotLike": {
-          "states:HTTPEndpoint": "<trusted_https_endpoint>"
-        },
-        "StringNotEqualsIfExists": {
-          "aws:PrincipalTag/dp:exclude:resource": "true"
-        }
-      }
-    }
-  ]
+   ]
 }

@@ -15,7 +15,11 @@
         "lambda:AddPermission",
         "logs:PutResourcePolicy",
         "logs:PutDestinationPolicy",
-        "sns:AddPermission"
+        "sns:AddPermission",
+        "lex:CreateResourcePolicy",
+        "lex:UpdateResourcePolicy",
+        "schemas:PutResourcePolicy",
+        "serverlessrepo:PutApplicationPolicy"
       ],
       "Resource": "*",
       "Condition": {

@@ -7,7 +7,12 @@
       "Action": [
         "ecr:GetDownloadUrlForLayer",
         "lambda:GetFunction",
-        "ssm:GetDeployablePatchSnapshotForInstance"
+        "ssm:GetDeployablePatchSnapshotForInstance",
+        "lex:CreateUploadUrl",
+        "lex:DescribeExport",
+        "serverlessrepo:CreateCloudFormationTemplate",
+        "serverlessrepo:GetApplication",
+        "serverlessrepo:GetCloudFormationTemplate"
       ],
       "Resource": "*",
       "Condition": {

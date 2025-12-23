@@ -126,6 +126,15 @@ This statement is included in the [restrict_untrusted_endpoints_scp](restrict_un
 
 This statement is included in the [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) and prevents Step Functions from invoking HTTPS APIs that don't belong to your organization. See [IAM permissions to run an HTTP Task](https://docs.aws.amazon.com/step-functions/latest/dg/call-https-apis.html#connect-http-task-permissions) for more details.
 
+### "Sid": "PreventUntrustedSESv1Emails"
+This statement is included in the [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) to restrict Simple Email Service from sending emails to addresses external to your organization. See [Conditions specific to sending authorization](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-policy-examples.html#sending-authorization-policy-conditions) for more details.
+
+### "Sid": "PreventUntrustedSESv2Emails"
+This statement is included in the [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) to restrict Simple Email Service API V2 (sesv2) from sending emails to addresses external to your organization. See [Conditions specific to sending authorization](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization-policy-examples.html#sending-authorization-policy-conditions) for more details.
+
+### "Sid": "PreventUntrustedSESVerificationEmails"
+This statement is included in the [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) to restrict access to ses:SendCustomVerificationEmail using aws:PrincipalTag condition key as ses:Recipients condition doesnt apply to ses:SendCustomVerificationEmail
+
 ### "Sid": "PreventCreationOfServicePresignedURL"
 
 This statement is included in the [restrict_presignedURL_scp](restrict_presignedURL_scp.json) and prevents users from making API requests that return Amazon S3 presigned URLs that are presigned by a service principal.
