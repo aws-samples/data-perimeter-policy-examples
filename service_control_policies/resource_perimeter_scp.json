@@ -30,6 +30,16 @@
             "arn:aws:s3:::aws-neptune-notebook/*",
             "arn:aws:s3:::aws-neptune-notebook-<region>",
             "arn:aws:s3:::aws-neptune-notebook-<region>/*",
+            "arn:aws:s3:::athena-examples-<region>/*",
+            "arn:aws:s3:::athena-examples-<region>",
+            "arn:aws:s3:::cloudformation-examples/*",
+            "arn:aws:s3:::awssupportdatasvcs.com/*",
+            "arn:aws:s3:::redshift-downloads/*",
+            "arn:aws:s3:::session-manager-downloads/*",
+            "arn:aws:s3:::ssm-document-categories/*",
+            "arn:aws:s3:::aws-sap-data-provider/*",
+            "arn:aws:s3:::aws-sap-dataprovider-<region>/*",
+            "arn:aws:s3:::awssap-backint-agent/*",
             "<third-party-resource>" 
          ],
          "Condition":{
