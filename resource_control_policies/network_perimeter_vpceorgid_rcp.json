@@ -6,8 +6,11 @@
             "Effect": "Deny",
             "Principal": "*",
             "Action": [
+                "cognito-identity:*",
+                "ecr:*",
+                "kms:*",
                 "s3:*",
-                "kms:*"
+                "sqs:*"
             ],
             "Resource": "*",
             "Condition": {
