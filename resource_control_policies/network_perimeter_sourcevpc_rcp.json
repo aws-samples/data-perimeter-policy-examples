@@ -6,7 +6,11 @@
       "Effect": "Deny",
       "Principal": "*",
       "Action": [
-        "sqs:*",
+        "aoss:*",
+        "cognito-idp:*",
+        "cognito-sync:*",
+        "dynamodb:*",
+        "logs:*",
         "secretsmanager:*",
         "sts:AssumeRole",
         "sts:DecodeAuthorizationMessage",
@@ -14,9 +18,7 @@
         "sts:GetFederationToken",
         "sts:GetServiceBearerToken",
         "sts:GetSessionToken",
-        "sts:SetContext",
-        "aoss:*",
-        "ecr:*"
+        "sts:SetContext"
       ],
       "Resource": "*",
       "Condition": {
@@ -53,7 +55,11 @@
       "Effect": "Deny",
       "Principal": "*",
       "Action": [
-        "sqs:*",
+        "aoss:*",
+        "cognito-idp:*",
+        "cognito-sync:*",
+        "dynamodb:*",
+        "logs:*",
         "secretsmanager:*",
         "sts:AssumeRole",
         "sts:DecodeAuthorizationMessage",
@@ -61,9 +67,7 @@
         "sts:GetFederationToken",
         "sts:GetServiceBearerToken",
         "sts:GetSessionToken",
-        "sts:SetContext",
-        "aoss:*",
-        "ecr:*"
+        "sts:SetContext"
       ],
       "Resource": "*",
       "Condition": {
@@ -80,7 +84,11 @@
       "Effect": "Deny",
       "Principal": "*",
       "Action": [
-        "sqs:*",
+        "aoss:*",
+        "cognito-idp:*",
+        "cognito-sync:*",
+        "dynamodb:*",
+        "logs:*",
         "secretsmanager:*",
         "sts:AssumeRole",
         "sts:DecodeAuthorizationMessage",
@@ -88,9 +96,7 @@
         "sts:GetFederationToken",
         "sts:GetServiceBearerToken",
         "sts:GetSessionToken",
-        "sts:SetContext",
-        "aoss:*",
-        "ecr:*"
+        "sts:SetContext"
       ],
       "Resource": "*",
       "Condition": {
