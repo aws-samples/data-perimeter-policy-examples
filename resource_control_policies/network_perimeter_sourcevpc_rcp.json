@@ -8,7 +8,6 @@
       "Action": [
         "aoss:*",
         "cognito-idp:*",
-        "cognito-sync:*",
         "dynamodb:*",
         "logs:*",
         "secretsmanager:*",
@@ -57,7 +56,6 @@
       "Action": [
         "aoss:*",
         "cognito-idp:*",
-        "cognito-sync:*",
         "dynamodb:*",
         "logs:*",
         "secretsmanager:*",
@@ -86,7 +84,6 @@
       "Action": [
         "aoss:*",
         "cognito-idp:*",
-        "cognito-sync:*",
         "dynamodb:*",
         "logs:*",
         "secretsmanager:*",
