@@ -32,7 +32,7 @@
             "Principal": "*",
             "Action": "*",
             "Resource": [
-              "arn:aws:iot:*::jobtemplate/*"
+             "arn:aws:iot:*:*:jobtemplate/*"
             ],
             "Condition": {
                 "StringEquals": {

@@ -71,6 +71,7 @@
       {
          "Sid":"SourceVPCRegion",
          "Effect":"Deny",
+         "Principal":"*",
          "Action":"*",
          "Resource":"*",
          "Condition":{
