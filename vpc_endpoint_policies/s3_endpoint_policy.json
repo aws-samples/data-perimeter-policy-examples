@@ -107,7 +107,8 @@
                 "arn:aws:s3:::ssm-document-categories/*",
                 "arn:aws:s3:::aws-sap-data-provider/*",
                 "arn:aws:s3:::aws-sap-dataprovider-<region>/*",
-                "arn:aws:s3:::awssap-backint-agent/*"
+                "arn:aws:s3:::awssap-backint-agent/*",
+                "arn:aws:s3:::aws-cli/*"
             ]
         },
         {
