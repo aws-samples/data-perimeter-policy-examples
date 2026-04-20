@@ -17,7 +17,6 @@
                 "kms:*",
                 "sqs:*",
                 "secretsmanager:*",
-                "cognito-identity:*",
                 "cognito-idp:*",
                 "logs:*",
                 "dynamodb:*",
