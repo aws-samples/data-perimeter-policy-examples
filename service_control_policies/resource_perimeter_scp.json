@@ -40,6 +40,16 @@
             "arn:aws:s3:::aws-sap-data-provider/*",
             "arn:aws:s3:::aws-sap-dataprovider-<region>/*",
             "arn:aws:s3:::awssap-backint-agent/*",
+            "arn:aws:s3:::solutions-<region>/*",
+            "arn:aws:s3:::<region>.managedblockchain/*",
+            "arn:aws:s3:::aws-glue-ml-data-quality-assets-<region>/*",
+            "arn:aws:s3:::crawler-public-<region>",
+            "arn:aws:s3:::crawler-public-<region>/*",
+            "arn:aws:s3:::textract-public-assets-<region>",
+            "arn:aws:s3:::textract-public-assets-<region>/*",
+            "arn:aws:ecr-public::<service-account-id>:repository/*",
+            "arn:aws:ssm:*:<service-account-id>:patchbaseline/*",
+            "arn:aws:iot:*::jobtemplate/*",
             "<third-party-resource>" 
          ],
          "Condition":{

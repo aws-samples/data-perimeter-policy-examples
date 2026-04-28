@@ -41,9 +41,10 @@
             ],
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:ssm:<region>::parameter/aws/*",
-                "arn:aws:ssm:<region>::document/*",
-                "arn:aws:ssm:*::automation-definition/*"
+                "arn:aws:ssm:*::parameter/aws/*",
+                "arn:aws:ssm:*::document/*",
+                "arn:aws:ssm:*::automation-definition/*",
+                "arn:aws:ssm:*:<service-account-id>:patchbaseline/*"
             ],
             "Condition": {
                 "StringEquals": {

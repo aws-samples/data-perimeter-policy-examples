@@ -30,11 +30,30 @@
             "Sid": "AllowRequestsByOrgsIdentitiesToAWSResources",
             "Effect": "Allow",
             "Principal": "*",
-            "Action": "s3:GetObject",
-            "Resource": "*",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::aws-glue-studio-transforms-<service-account-id>-prod-<region>/*",
+                "arn:aws:s3:::aws-neptune-notebook",
+                "arn:aws:s3:::aws-neptune-notebook/*",
+                "arn:aws:s3:::aws-neptune-notebook-<region>",
+                "arn:aws:s3:::aws-neptune-notebook-<region>/*",
+                "arn:aws:s3:::athena-examples-<region>/*",
+                "arn:aws:s3:::athena-examples-<region>",
+                "arn:aws:s3:::cloudformation-examples/*",
+                "arn:aws:s3:::awssupportdatasvcs.com/*",
+                "arn:aws:s3:::redshift-downloads/*",
+                "arn:aws:s3:::session-manager-downloads/*",
+                "arn:aws:s3:::ssm-document-categories/*",
+                "arn:aws:s3:::aws-sap-data-provider/*",
+                "arn:aws:s3:::aws-sap-dataprovider-<region>/*",
+                "arn:aws:s3:::awssap-backint-agent/*",
+                "arn:aws:s3:::solutions-<region>/*"
+            ],
             "Condition": {
                 "StringEquals": {
-                    "aws:ResourceAccount": "<glue-account-id>",
                     "aws:PrincipalOrgID": "<my-org-id>"
                 }
             }
@@ -94,21 +113,23 @@
                 "arn:aws:s3:::jumpstart-cache-prod-<region>/*",
                 "arn:aws:s3:::jumpstart-cache-prod-<region>",
                 "arn:aws:s3:::static-<region>-prod-static-<string>/content/dependencies/*",
-                "arn:aws:s3:::aws-neptune-notebook",
-                "arn:aws:s3:::aws-neptune-notebook/*",
-                "arn:aws:s3:::aws-neptune-notebook-<region>",
-                "arn:aws:s3:::aws-neptune-notebook-<region>/*",
-                "arn:aws:s3:::athena-examples-<region>/*",
-                "arn:aws:s3:::athena-examples-<region>",
-                "arn:aws:s3:::cloudformation-examples/*",
-                "arn:aws:s3:::awssupportdatasvcs.com/*",
-                "arn:aws:s3:::redshift-downloads/*",
-                "arn:aws:s3:::session-manager-downloads/*",
-                "arn:aws:s3:::ssm-document-categories/*",
-                "arn:aws:s3:::aws-sap-data-provider/*",
-                "arn:aws:s3:::aws-sap-dataprovider-<region>/*",
-                "arn:aws:s3:::awssap-backint-agent/*",
-                "arn:aws:s3:::aws-cli/*"
+                "arn:aws:s3:::aws-cli/*",
+                "arn:aws:s3:::<region>.managedblockchain/*",
+                "arn:aws:s3:::amazon-eks",
+                "arn:aws:s3:::amazon-eks/*",
+                "arn:aws:s3:::gamelift-session-logs-prod-<region>/*",
+                "arn:aws:s3:::gamelift-event-logs-prod-<region>/*"
+            ]
+        },
+        {
+            "Sid": "AllowEMRSystemLogUploads",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": [
+                "arn:aws:s3:::aws157-logs-prod-<region>/*",
+                "arn:aws:s3:::aws157-logs-prod/*",
+                "arn:aws:s3:::prod.<region>.appinfo.src/*"
             ]
         },
         {

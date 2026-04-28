@@ -12,7 +12,9 @@
         "lex:DescribeExport",
         "serverlessrepo:CreateCloudFormationTemplate",
         "serverlessrepo:GetApplication",
-        "serverlessrepo:GetCloudFormationTemplate"
+        "serverlessrepo:GetCloudFormationTemplate",
+        "gamelift:GetGameSessionLogUrl",
+        "gamelift:DescribeFleetEvents"
       ],
       "Resource": "*",
       "Condition": {
