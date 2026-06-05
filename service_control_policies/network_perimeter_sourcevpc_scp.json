@@ -19,7 +19,8 @@
             "kafka-cluster:*",
             "elasticfilesystem:client*",
             "rds-db:connect",
-            "s3-outposts:*"
+            "s3-outposts:*",
+            "iam:PassRole"
          ],
          "Resource":"*",
          "Condition":{
