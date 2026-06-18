@@ -1,0 +1,53 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EnforceNetworkPerimeterSourceVPC",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": [
+        "signin:Authenticate",
+        "signin:CreateOAuth2Token",
+        "signin:AuthorizeOAuth2Access"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEqualsIfExists": {
+          "aws:SourceVpc": "<my-vpc>"
+        },
+        "NotIpAddressIfExists": {
+          "aws:SourceIp": "<my-corporate-cidr>"
+        },
+        "ArnNotEquals": {
+          "signin:PrincipalArn": [
+            "<excluded-principal-arn-a>",
+            "<excluded-principal-arn-b>"
+          ],
+          "aws:PrincipalArn": [
+            "<excluded-principal-arn-a>",
+            "<excluded-principal-arn-b>"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "SourceVPCRegion",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": [
+        "signin:Authenticate",
+        "signin:CreateOAuth2Token",
+        "signin:AuthorizeOAuth2Access"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:SourceVpc": "<my-vpc-in-this-region>"
+        },
+        "StringNotEqualsIfExists": {
+          "aws:RequestedRegion": "<my-vpc-region>"
+        }
+      }
+    }
+  ]
+}

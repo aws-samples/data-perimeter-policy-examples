@@ -125,8 +125,10 @@ To effectively use the example policies in this repository, follow these steps:
             * Remove `<third-party-account-a>` and `<third-party-account-b>` from the `aws:PrincipalAccount` condition key in the resource control policy (RCP) examples.
             * Remove `"Sid": “AllowRequestsByOrgsIdentitiesToThirdPartyResources"` and `"Sid": "AllowRequestsByThirdPartyIdentitiesToThirdPartyResources"` statements from the VPC endpoint policy examples.
             * Remove the `"Sid":"EnforceResourcePerimeterThirdPartyResources"` statement from the `resource_perimeter_scp` SCP example.
-    * Replace `<OIDC_provider_name_1>`, `<OIDC_provider_name_2>`, and `<my-tenant-value>` with the names of your trusted OIDC providers and tenant.        
+    * Replace `<OIDC_provider_name_1>`, `<OIDC_provider_name_2>`, and `<my-tenant-value>` with the names of your trusted OIDC providers and tenant. 
+    * Replace `<excluded-principal-arn-a>` and `<excluded-principal-arn-b>` with the ARNs of IAM principals that should be exempted from network restrictions for break-glass console access to AWS.     
     * Tag IAM identities and resources in your accounts in accordance with the tagging conventions for applying data perimeter controls (see the [Tagging conventions and governance](#tagging-conventions-and-governance) earlier in this document).
+    
 3. Deploy policies by using the AWS Management Console or AWS CLI. You can also automate the deployment by using your Infrastructure as Code and CI/CD solutions.
     * Implement SCPs and RCPs: 
         * To use the AWS Management Console, [create](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_create.html) and [attach](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_attach.html) an SCP and RCP to an account or an organizational unit (OU).
