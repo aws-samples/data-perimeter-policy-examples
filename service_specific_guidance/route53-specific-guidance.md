@@ -1,6 +1,4 @@
-
-# Data perimeter accelerator
-
+# Service-specific guidance: Amazon Route 53
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon Route 53. 
 

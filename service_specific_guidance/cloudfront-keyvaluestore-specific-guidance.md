@@ -1,6 +1,5 @@
 
-# Data perimeter accelerator
-
+# Service-specific guidance: Amazon CloudFront KeyValueStore
 
 This document outlines service-specific guidance for implementing a data perimeter for Amazon CloudFront KeyValue Store.
  

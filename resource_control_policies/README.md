@@ -22,7 +22,7 @@ These examples do not represent a complete list of valid data access patterns, a
 
 Use the following RCP examples individually or in combination:
 * [identity_perimeter_rcp](identity_perimeter_rcp.json) – Enforces identity perimeter controls on resources within your Organizations organization.
-* [network_perimeter_vpceorgid_rcp](network_perimeter_vpceorgid_rcp.json), [network_perimeter_sourcevpc_rcp](network_perimeter_vpceorgid_rcp.json) – Enforces network perimeter controls on resources within your Organizations organization.
+* [network_perimeter_vpceorgid_rcp](network_perimeter_vpceorgid_rcp.json), [network_perimeter_sourcevpc_rcp](network_perimeter_sourcevpc_rcp.json) – Enforces network perimeter controls on resources within your Organizations organization.
 * [data_perimeter_governance_rcp](data_perimeter_governance_rcp.json) – Includes controls for protecting data perimeter controls’ dependencies, such as session tags used to control their scope.
 
 [service_specific_controls](service_specific_controls) subfolder contains policy examples you can implement as resource-based policies for select services that are not supported by RCPs and other service-specific controls. It also contains  service-specific RCPs.
