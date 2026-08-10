@@ -1,81 +1,100 @@
 # Service-specific guidance: AWS Identity and Access Management
 
 
-This document outlines service-specific guidance for implementing a data perimeter for AWS Identity and Access Management. 
+This document outlines service-specific guidance for implementing a data perimeter for AWS Identity and Access Management.
 
-
-AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources. It enables you to manage users, groups, and permissions, allowing you to specify who can access which services and resources, and under what conditions. IAM provides fine-grained access control and supports multi-factor authentication for enhanced security.
-
+AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources. With IAM, you can manage permissions that control which AWS resources users can access.
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.
 
-| Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
-|----------------|-------------------|------------|-------------|------------------------|
-| Identity perimeter | Only trusted identities can access my resources | Resource | RCP | N |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | N |
-| Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
-| Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
+| Perimeter type     | Security objective                                             | Applied on | Policy type         | Additional considerations |
+|--------------------|----------------------------------------------------------------|------------|---------------------|---------------------------|
+| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | N |
+| Identity perimeter | Only trusted identities are allowed from my network            | Network    | VPC endpoint policy | N |
+| Resource perimeter | My identities can access only trusted resources                | Identity   | SCP                 | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network         | Network    | VPC endpoint policy | Y |
+| Network perimeter  | My identities can access resources only from expected networks | Identity   | SCP                 | N |
+| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | N |
 
-*Y – Additional considerations apply. N – No additional considerations apply.
- 
+*Y - Additional considerations apply. N - No additional considerations apply.
 
+## GenerateServiceLastAccessedDetails
+### Access to service-owned resources
 
-**Additional consideration 1**
+**Perimeter type applicability**: resource perimeter.
 
-Perimeter type applicability: resource perimeter.
-        
-GenerateServiceLastAccessedDetails might require access to service-owned policies, which are policies that are managed in service accounts.
+**Description**: [GenerateServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateServiceLastAccessedDetails.html) might require access to service-owned policies, which are policies that are managed in service accounts.
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json) to enforce the resource perimeter on your network.
+**Additional controls**:
 
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned policies in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
-**Additional consideration 2**
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json), which lists service-owned policies in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
-Perimeter type applicability: resource perimeter.
-        
-GetPolicy might require access to service-owned policies, which are policies that are managed in service accounts.
+## GetPolicy
+### Access to service-owned resources
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json) to enforce the resource perimeter on your network.
+**Perimeter type applicability**: resource perimeter.
 
+**Description**: [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html) might require access to service-owned policies, which are policies that are managed in service accounts.
 
-**Additional consideration 3**
+**Additional controls**:
 
-Perimeter type applicability: resource perimeter.
-        
-ListPolicyVersions might require access to service-owned policies, which are policies that are managed in service accounts.
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned policies in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json) to enforce the resource perimeter on your network.
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json), which lists service-owned policies in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
+## GetPolicyVersion
+### Access to service-owned resources
 
-**Additional consideration 4**
+**Perimeter type applicability**: resource perimeter.
 
-Perimeter type applicability: resource perimeter.
-        
-ListEntitiesForPolicy might require access to service-owned policies, which are policies that are managed in service accounts.
+**Description**: [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html) might require access to service-owned policies, which are policies that are managed in service accounts.
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json) to enforce the resource perimeter on your network.
+**Additional controls**:
 
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned policies in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
-**Additional consideration 5**
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json), which lists service-owned policies in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
-Perimeter type applicability: resource perimeter.
-        
-GetPolicyVersion might require access to service-owned policies, which are policies that are managed in service accounts.
+## ListEntitiesForPolicy
+### Access to service-owned resources
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json) to enforce the resource perimeter on your network.
+**Perimeter type applicability**: resource perimeter.
 
+**Description**: [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html) might require access to service-owned policies, which are policies that are managed in service accounts.
 
+**Additional controls**:
 
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned policies in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json), which lists service-owned policies in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
-**List of service APIs reviewed against data perimeter control objectives**
+## ListPolicyVersions
+### Access to service-owned resources
+
+**Perimeter type applicability**: resource perimeter.
+
+**Description**: [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html) might require access to service-owned policies, which are policies that are managed in service accounts.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned policies in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
+
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [iam_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iam_endpoint_policy.json), which lists service-owned policies in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
+
+## List of service APIs reviewed against data perimeter control objectives
+
 * AddClientIDToOpenIDConnectProvider
 * AddRoleToInstanceProfile
 * AddUserToGroup
@@ -118,6 +137,8 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * DetachGroupPolicy
 * DetachRolePolicy
 * DetachUserPolicy
+* DisableOrganizationsRootCredentialsManagement
+* DisableOrganizationsRootSessions
 * GenerateCredentialReport
 * GenerateServiceLastAccessedDetails
 * GetAccessKeyLastUsed
@@ -159,6 +180,7 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * ListMFADevices
 * ListOpenIDConnectProviderTags
 * ListOpenIDConnectProviders
+* ListOrganizationsFeatures
 * ListPolicies
 * ListPoliciesGrantingServiceAccess
 * ListPolicyTags

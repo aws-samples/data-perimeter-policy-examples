@@ -111,7 +111,8 @@
          "Effect": "Deny",
          "Action": [
             "glue:CreateJob",
-            "glue:UpdateJob"
+            "glue:UpdateJob",
+            "glue:CreateSession"
          ],
          "Resource": "*",
          "Condition": {
@@ -157,11 +158,27 @@
          }
       },
       {
-         "Sid": "PreventNonVPCDeploymentCodeBuild",
+         "Sid": "PreventNonVPCDeploymentCodeBuildProject",
          "Effect": "Deny",
          "Action": [
             "codebuild:CreateProject",
-            "codebuild:UpdateProject",
+            "codebuild:UpdateProject"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true"
+            },
+            "Null": {
+               "codebuild:vpcConfig.vpcId": "true",
+               "codebuild:environment.fleet.fleetArn": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventNonVPCDeploymentCodeBuildFleet",
+         "Effect": "Deny",
+         "Action": [
             "codebuild:CreateFleet",
             "codebuild:UpdateFleet"
          ],

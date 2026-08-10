@@ -1,55 +1,55 @@
 # Service-specific guidance: AWS IoT Core
 
 
-This document outlines service-specific guidance for implementing a data perimeter for AWS IoT Core. 
+This document outlines service-specific guidance for implementing a data perimeter for AWS IoT.
 
-
-AWS IoT Core is a managed cloud service that enables secure communication between Internet of Things (IoT) devices and cloud applications. It provides a scalable platform for connecting and managing billions of devices, processing and routing IoT data, and facilitating interactions between devices and cloud services. AWS IoT Core supports various protocols and offers features like device authentication, data encryption, and rules engine for data processing and integration with other AWS services.
-
+AWS IoT provides the cloud services that connect your IoT devices to other devices and AWS cloud services. AWS IoT provides device software that can help you integrate your IoT devices into AWS IoT-based solutions.
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.
 
-| Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
-|----------------|-------------------|------------|-------------|------------------------|
-| Identity perimeter | Only trusted identities can access my resources | Resource | RCP | N |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | N |
-| Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
-| Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
+| Perimeter type     | Security objective                                             | Applied on | Policy type         | Additional considerations |
+|--------------------|----------------------------------------------------------------|------------|---------------------|---------------------------|
+| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | N |
+| Identity perimeter | Only trusted identities are allowed from my network            | Network    | VPC endpoint policy | N |
+| Resource perimeter | My identities can access only trusted resources                | Identity   | SCP                 | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network         | Network    | VPC endpoint policy | Y |
+| Network perimeter  | My identities can access resources only from expected networks | Identity   | SCP                 | N |
+| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | N |
 
-*Y – Additional considerations apply. N – No additional considerations apply.
- 
+*Y - Additional considerations apply. N - No additional considerations apply.
 
+## DescribeManagedJobTemplate
+### Access to service-owned resources
 
+**Perimeter type applicability**: resource perimeter.
 
+**Description**: [DescribeManagedJobTemplate](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeManagedJobTemplate.html) might require access to service-owned job templates, which are job templates that are managed in service accounts.
 
+**Additional controls**:
 
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned job templates in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
-**Additional consideration 1**
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [iot_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iot_endpoint_policy.json), which lists service-owned job templates in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
-Perimeter type applicability: resource perimeter.
-        
-ListManagedJobTemplates might require access to service-owned job templates, which are job templates managed in service accounts.
+## ListManagedJobTemplates
+### Access to service-owned resources
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [iot_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iot_endpoint_policy.json) to enforce the resource perimeter on your network.
+**Perimeter type applicability**: resource perimeter.
 
+**Description**: [ListManagedJobTemplates](https://docs.aws.amazon.com/iot/latest/apireference/API_ListManagedJobTemplates.html) might require access to service-owned job templates, which are job templates that are managed in service accounts.
 
-**Additional consideration 2**
+**Additional controls**:
 
-Perimeter type applicability: resource perimeter.
-        
-DescribeManagedJobTemplate might require access to service-owned job templates, which are job templates managed in service accounts
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned job templates in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [iot_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iot_endpoint_policy.json) to enforce the resource perimeter on your network.
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [iot_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/iot_endpoint_policy.json), which lists service-owned job templates in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
+## List of service APIs reviewed against data perimeter control objectives
 
-
-
-
-**List of service APIs reviewed against data perimeter control objectives**
 * AddThingToBillingGroup
 * AddThingToThingGroup
 * AssociateTargetsWithJob
@@ -67,6 +67,7 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * CreateBillingGroup
 * CreateCertificateFromCsr
 * CreateCertificateProvider
+* CreateCommand
 * CreateCustomMetric
 * CreateDimension
 * CreateDomainConfiguration
@@ -99,6 +100,8 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * DeleteCACertificate
 * DeleteCertificate
 * DeleteCertificateProvider
+* DeleteCommand
+* DeleteCommandExecution
 * DeleteCustomMetric
 * DeleteDimension
 * DeleteDomainConfiguration
@@ -141,6 +144,7 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * DescribeDefaultAuthorizer
 * DescribeDimension
 * DescribeDomainConfiguration
+* DescribeEncryptionConfiguration
 * DescribeEndpoint
 * DescribeEventConfigurations
 * DescribeFleetMetric
@@ -168,6 +172,7 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * GetBehaviorModelTrainingSummaries
 * GetBucketsAggregation
 * GetCardinality
+* GetCommand
 * GetEffectivePolicies
 * GetIndexingConfiguration
 * GetJobDocument
@@ -181,6 +186,7 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * GetPolicyVersion
 * GetRegistrationCode
 * GetStatistics
+* GetThingConnectivityData
 * GetTopicRule
 * GetTopicRuleDestination
 * GetV2LoggingOptions
@@ -196,6 +202,8 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * ListCertificateProviders
 * ListCertificates
 * ListCertificatesByCA
+* ListCommandExecutions
+* ListCommands
 * ListCustomMetrics
 * ListDetectMitigationActionsExecutions
 * ListDetectMitigationActionsTasks
@@ -219,6 +227,7 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * ListPolicyVersions
 * ListPrincipalPolicies
 * ListPrincipalThings
+* ListPrincipalThingsV2
 * ListProvisioningTemplateVersions
 * ListProvisioningTemplates
 * ListRelatedResourcesForAuditFinding
@@ -233,6 +242,7 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * ListThingGroups
 * ListThingGroupsForThing
 * ListThingPrincipals
+* ListThingPrincipalsV2
 * ListThingRegistrationTaskReports
 * ListThingRegistrationTasks
 * ListThingTypes
@@ -262,7 +272,6 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * StopThingRegistrationTask
 * TagResource
 * TestAuthorization
-* TestInvokeAuthorizer
 * TransferCertificate
 * UntagResource
 * UpdateAccountAuditConfiguration
@@ -272,10 +281,12 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * UpdateCACertificate
 * UpdateCertificate
 * UpdateCertificateProvider
+* UpdateCommand
 * UpdateCustomMetric
 * UpdateDimension
 * UpdateDomainConfiguration
 * UpdateDynamicThingGroup
+* UpdateEncryptionConfiguration
 * UpdateEventConfigurations
 * UpdateFleetMetric
 * UpdateIndexingConfiguration
@@ -292,5 +303,6 @@ If you want to restrict access to trusted resources, see [resource_perimeter_scp
 * UpdateThing
 * UpdateThingGroup
 * UpdateThingGroupsForThing
+* UpdateThingType
 * UpdateTopicRuleDestination
 * ValidateSecurityProfileBehaviors

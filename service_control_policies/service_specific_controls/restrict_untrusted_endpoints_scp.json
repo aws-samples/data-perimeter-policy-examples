@@ -109,6 +109,21 @@
                "aws:PrincipalTag/dp:exclude:resource": "true"
             }
          }
+      },
+      {
+         "Sid": "PreventUntrustedBedrockGatewayIdP",
+         "Effect": "Deny",
+         "Action": [
+            "bedrock-agentcore:CreateGateway",
+            "bedrock-agentcore:UpdateGateway"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "bedrock-agentcore:DiscoveryUrl": "<trusted_idp_discovery_url>",
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
       }
    ]
 }

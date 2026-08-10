@@ -1,9 +1,9 @@
-# Service-specific guidance: Amazon CloudWatch
+# Service-specific guidance: Amazon Bedrock AgentCore
 
 
-This document outlines service-specific guidance for implementing a data perimeter for Amazon CloudWatch.
+This document outlines service-specific guidance for implementing a data perimeter for Amazon Bedrock AgentCore.
 
-Amazon CloudWatch is a monitoring and observability service that provides real-time insights into AWS resources, applications, and services. It collects and tracks metrics, logs, and events, allowing users to set alarms, visualize data with automated dashboards, and take automated actions based on predefined thresholds. CloudWatch enables AWS customers to gain system-wide visibility, optimize resource utilization, and respond quickly to operational issues.
+Amazon Bedrock AgentCore is an agentic platform for building, deploying, and operating highly effective agents securely at scale using any framework and foundation model. AgentCore services work together or independently with any open-source framework such as CrewAI, LangGraph, LlamaIndex, and Strands Agents and with any foundation model.
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.
 
@@ -20,41 +20,31 @@ The following table specifies whether additional considerations apply to a speci
 
 ## List of service APIs reviewed against data perimeter control objectives
 
-* DeleteAlarms
-* DeleteAnomalyDetector
-* DeleteDashboards
-* DeleteInsightRules
-* DeleteMetricStream
-* DescribeAlarmHistory
-* DescribeAlarms
-* DescribeAlarmsForMetric
-* DescribeAnomalyDetectors
-* DescribeInsightRules
-* DisableAlarmActions
-* DisableInsightRules
-* EnableAlarmActions
-* EnableInsightRules
-* GetDashboard
-* GetInsightRuleReport
-* GetMetricData
-* GetMetricStatistics
-* GetMetricStream
-* GetMetricWidgetImage
-* ListDashboards
-* ListManagedInsightRules
-* ListMetrics
-* ListMetricStreams
-* ListTagsForResource
-* PutAnomalyDetector
-* PutCompositeAlarm
-* PutDashboard
-* PutInsightRule
-* PutManagedInsightRules
-* PutMetricAlarm
-* PutMetricData
-* PutMetricStream
-* SetAlarmState
-* StartMetricStreams
-* StopMetricStreams
-* TagResource
-* UntagResource
+* BatchCreateMemoryRecords
+* BatchDeleteMemoryRecords
+* BatchUpdateMemoryRecords
+* CreateEvent
+* DeleteEvent
+* DeleteMemoryRecord
+* GetAgentCard
+* GetBrowserSession
+* GetCodeInterpreterSession
+* GetEvent
+* GetMemoryRecord
+* GetWorkloadAccessToken
+* GetWorkloadAccessTokenForUserId
+* InvokeAgentRuntime
+* InvokeCodeInterpreter
+* ListActors
+* ListBrowserSessions
+* ListCodeInterpreterSessions
+* ListEvents
+* ListMemoryRecords
+* ListSessions
+* RetrieveMemoryRecords
+* StartBrowserSession
+* StartCodeInterpreterSession
+* StopBrowserSession
+* StopCodeInterpreterSession
+* StopRuntimeSession
+* UpdateBrowserStream

@@ -31,7 +31,6 @@
             "ssm:ModifyDocumentPermission",
             "rds:ModifyDBSnapshotAttribute",
             "rds:ModifyDBClusterSnapshotAttribute",
-            "redshift:AuthorizeDataShare",
             "redshift:AuthorizeSnapshotAccess",
             "redshift:AuthorizeEndpointAccess",
             "ds:ShareDirectory",
@@ -81,32 +80,48 @@
          }
       },
       {
+         "Sid": "RestrictRedshiftDataSharesToTrustedAccounts",
+         "Effect": "Deny",
+         "Action": "redshift:AuthorizeDataShare",
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "redshift:ConsumerIdentifier": "<trusted-account>",
+               "aws:PrincipalTag/dp:exclude:identity": "true"
+            }
+         }
+      },
+      {
+         "Sid": "RestrictCodeBuildProjectVisibilityToPrivate",
+         "Effect": "Deny",
+         "Action": "codebuild:UpdateProjectVisibility",
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:identity": "true",
+               "codebuild:projectVisibility": "PRIVATE"
+            }
+         }
+      },
+      {
          "Sid": "ProtectActionsNotSupportedByPrimaryDPControls",
          "Effect": "Deny",
          "Action": [
             "ec2:CreateTransitGatewayPeeringAttachment",
             "ec2:AcceptTransitGatewayPeeringAttachment",
-            "ec2:RejectTransitGatewayPeeringAttachment",
-            "ec2:DeleteTransitGatewayPeeringAttachment",
             "ec2:CreateVpcPeeringConnection",
             "ec2:AcceptVpcPeeringConnection",
-            "ec2:RejectVpcPeeringConnection",
-            "ec2:DeleteVpcPeeringConnection",
             "ec2:CreateVpcEndpoint",
             "ec2:AcceptVpcEndpointConnections",
-            "ec2:RejectVpcEndpointConnections",
-            "ec2:CopySnapshot",
             "route53:CreateVPCAssociationAuthorization",
             "route53:AssociateVPCWithHostedZone",
-            "route53:DisassociateVPCFromHostedZone",
-            "route53:ListHostedZonesByVPC",
-            "route53:DeleteVPCAssociationAuthorization",
             "macie2:AcceptInvitation",
             "securityhub:AcceptAdministratorInvitation",
             "guardduty:AcceptAdministratorInvitation",
             "auditmanager:UpdateAssessmentFrameworkShare",
             "es:AcceptInboundConnection",
-            "ds:AcceptSharedDirectory"
+            "ds:AcceptSharedDirectory",
+            "detective:AcceptInvitation"
          ],
          "Resource": "*",
          "Condition": {

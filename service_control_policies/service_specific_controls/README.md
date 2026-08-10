@@ -14,9 +14,10 @@ Use the following example SCPs individually or in combination:
 * [network_perimeter_glue_scp](network_perimeter_glue_scp.json) - Enforces network perimeter controls on service roles used by AWS Glue jobs.
 * [restrict_nonvpc_deployment_scp](restrict_nonvpc_deployment_scp.json) - Enforces deployment of resources in a customer managed Amazon VPC.
 * [restrict_idp_configurations_scp](restrict_idp_configurations_scp.json) - Restricts the ability to make configuration changes to the IAM SAML identity providers.
-* [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) - Prevent untrusted non-AWS resources from being configured as targets for service operations.
+* [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) - Prevent untrusted non-AWS resources from being configured or used as targets for service operations.
 * [restrict_presignedURL_scp](restrict_presignedURL_scp.json) - Restricts actions that create Amazon S3 presigned URLs that are presigned by a service principal.
 * [restrict_resource_policy_configurations_scp](restrict_resource_policy_configurations_scp.json) - Restricts the ability to configure resource-based policies.
+* [restrict_untrusted_resources_scp](restrict_untrusted_resources_scp.json) - Prevent untrusted resources from being configured or used as targets for service operations.
 
 Note that the SCP examples in this repository use a [deny list strategy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_strategies.html), which means that you also need a FullAWSAccess policy or other policy attached to your AWS Organizations organization entities to allow actions. You still also need to grant appropriate permissions to your principals by using identity-based or resource-based policies.
 
@@ -96,7 +97,7 @@ These statements are included in the [restrict_nonvpc_deployment_scp](restrict_n
 
 AWS services such as AWS Systems Manager Automation do not support deployment within a VPC and provide direct access to the internet that is not controlled by your VPC. You can block the use of such services by using SCPs or implementing your own proxy solution to inspect egress traffic.
 
-### "Sid":"PreventNonVPCDeploymentSageMaker", "Sid":"PreventNonVPCDeploymentGlueJob", "Sid":"PreventNonVPCDeploymentCloudShell", "Sid":"PreventNonVPCDeploymentLambda", "Sid":"PreventNonVPCDeploymentAppRunner", "Sid":"PreventNonVPCDeploymentCodeBuild", and "Sid":"PreventNonVPCDeploymentBedrockAgentCore"
+### "Sid":"PreventNonVPCDeploymentSageMaker", "Sid":"PreventNonVPCDeploymentGlueJob", "Sid":"PreventNonVPCDeploymentCloudShell", "Sid":"PreventNonVPCDeploymentLambda", "Sid":"PreventNonVPCDeploymentAppRunner", "Sid":"PreventNonVPCDeploymentCodeBuildProject", "Sid": "PreventNonVPCDeploymentCodeBuildFleet", and "Sid":"PreventNonVPCDeploymentBedrockAgentCore"
 
 These statements are included in the [restrict_nonvpc_deployment_scp](restrict_nonvpc_deployment_scp.json) and explicitly deny relevant [Amazon SageMaker](https://aws.amazon.com/sagemaker/), [AWS Glue](https://aws.amazon.com/glue/), [AWS CloudShell](https://aws.amazon.com/cloudshell/), [AWS Lambda](https://aws.amazon.com/lambda/), [AWS AppRunner](https://aws.amazon.com/apprunner/), [AWS CodeBuild](https://aws.amazon.com/codebuild/), and [Amazon Bedrock AgentCore](https://aws.amazon.com/bedrock/agentcore/) operations unless they have VPC configurations specified in the requests. Use these statements to enforce deployment in a VPC for these services.
 
@@ -142,3 +143,23 @@ This statement is included in the [restrict_presignedURL_scp](restrict_presigned
 ### "Sid": "PreventResourcePolicyConfigurations"
 
 This statement is included in the [restrict_resource_policy_configurations_scp](restrict_resource_policy_configurations_scp.json) and prevents users from configuring resource-based policies for services that are not yet supported by RCPs. See the AWS Organizations User Guide for the [List of AWS services that support RCPs](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html#rcp-supported-services).
+
+### "Sid": "PreventUntrustedAPIGatewayAuthorizers"
+
+This statement is included in the [restrict_untrusted_resources_scp](restrict_untrusted_resources_scp.json) and prevents users from configuring untrusted Lambda authorizers for an Amazon API Gateway REST API. The statement uses the full Lambda function URI as the value of the `apigateway:Request/AuthorizerUri` condition key. Alternatively, you can use `${aws:ResourceAccount}` in the account portion of the function ARN to restrict configurations to functions within a specific account (i.e., `"apigateway:Request/AuthorizerUri": "arn:aws:apigateway:*:lambda:path/2015-03-31/functions/arn:aws:lambda:*:${aws:ResourceAccount}:function:*/invocations"`).
+
+### "Sid": "PreventUntrustedAPIGatewayProviders"
+
+This statement is included in the [restrict_untrusted_resources_scp](restrict_untrusted_resources_scp.json) and prevents users from configuring Amazon Cognito user pools as authorizers for an API Gateway REST API.
+
+### "Sid": "PreventUntrustedImageBuildTopics"
+
+This statement is included in the [restrict_untrusted_resources_scp](restrict_untrusted_resources_scp.json) and prevents users from configuring untrusted SNS topics for the EC2 Image Builder image build event notifications. The statement uses the full SNS topic ARN as the value of the `imagebuilder:StatusTopicArn` condition key. Alternatively, you can use `${aws:ResourceAccount}` in the account portion of the topic ARN to restrict configurations to topics within a specific account (i.e., `"imagebuilder:StatusTopicArn": "arn:aws:sns:*:${aws:ResourceAccount}:*"`).
+
+### "Sid": "PreventUntrustedRoute53VPCAssociations"
+
+This statement is included in the [restrict_untrusted_resources_scp](restrict_untrusted_resources_scp.json) and prevents users from creating VPC association authorizations for untrusted VPCs. 
+
+### "Sid": "PreventUntrustedBedrockGatewayIdP"
+
+This statement is included in the [restrict_untrusted_endpoints_scp](restrict_untrusted_endpoints_scp.json) and prevents users from configuring untrusted identity provider discovery URLs for the Amazon Bedrock AgentCore Gateway. 

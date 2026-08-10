@@ -31,10 +31,9 @@
             "Effect": "Allow",
             "Principal": "*",
             "Action": "*",
-            "Resource": "*",
+            "Resource": "arn:aws:ecr:*:<service-account-id>:repository/*",
             "Condition": {
                 "StringEquals": {
-                    "aws:ResourceAccount": "<ecr-account-id>",
                     "aws:PrincipalOrgID": "<my-org-id>"
                 }
             }

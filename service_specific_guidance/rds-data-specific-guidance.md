@@ -1,9 +1,9 @@
-# Service-specific guidance: Amazon CloudWatch
+# Service-specific guidance: Amazon RDS Data API
 
 
-This document outlines service-specific guidance for implementing a data perimeter for Amazon CloudWatch.
+This document outlines service-specific guidance for implementing a data perimeter for Amazon RDS Data API.
 
-Amazon CloudWatch is a monitoring and observability service that provides real-time insights into AWS resources, applications, and services. It collects and tracks metrics, logs, and events, allowing users to set alarms, visualize data with automated dashboards, and take automated actions based on predefined thresholds. CloudWatch enables AWS customers to gain system-wide visibility, optimize resource utilization, and respond quickly to operational issues.
+Amazon RDS Data API (Data API) provides a secure HTTP endpoint and AWS SDK integration for running SQL statements against an Amazon Aurora DB cluster without managing a persistent database connection. Credentials are supplied through AWS Secrets Manager rather than being passed directly with each call.
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.
 
@@ -20,41 +20,8 @@ The following table specifies whether additional considerations apply to a speci
 
 ## List of service APIs reviewed against data perimeter control objectives
 
-* DeleteAlarms
-* DeleteAnomalyDetector
-* DeleteDashboards
-* DeleteInsightRules
-* DeleteMetricStream
-* DescribeAlarmHistory
-* DescribeAlarms
-* DescribeAlarmsForMetric
-* DescribeAnomalyDetectors
-* DescribeInsightRules
-* DisableAlarmActions
-* DisableInsightRules
-* EnableAlarmActions
-* EnableInsightRules
-* GetDashboard
-* GetInsightRuleReport
-* GetMetricData
-* GetMetricStatistics
-* GetMetricStream
-* GetMetricWidgetImage
-* ListDashboards
-* ListManagedInsightRules
-* ListMetrics
-* ListMetricStreams
-* ListTagsForResource
-* PutAnomalyDetector
-* PutCompositeAlarm
-* PutDashboard
-* PutInsightRule
-* PutManagedInsightRules
-* PutMetricAlarm
-* PutMetricData
-* PutMetricStream
-* SetAlarmState
-* StartMetricStreams
-* StopMetricStreams
-* TagResource
-* UntagResource
+* BatchExecuteStatement
+* BeginTransaction
+* CommitTransaction
+* ExecuteSql
+* RollbackTransaction

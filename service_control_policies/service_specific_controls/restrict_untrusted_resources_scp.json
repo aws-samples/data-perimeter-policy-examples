@@ -1,0 +1,90 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "PreventUntrustedAPIGatewayAuthorizers",
+         "Effect": "Deny",
+         "Action": [
+            "apigateway:PATCH",
+            "apigateway:POST",
+            "apigateway:PUT"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "Null": {
+               "apigateway:Request/AuthorizerUri": "false"
+            },
+            "ForAnyValue:StringNotLike": {
+               "apigateway:Request/AuthorizerUri": "arn:aws:apigateway:*:lambda:path/2015-03-31/functions/<trusted-lambda-function-arn>/invocations"
+            },
+            "ForAnyValue:StringEquals": {
+               "apigateway:Request/AuthorizerType": [
+                  "TOKEN",
+                  "REQUEST"
+               ]
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventUntrustedAPIGatewayProviders",
+         "Effect": "Deny",
+         "Action": [
+            "apigateway:PATCH",
+            "apigateway:POST",
+            "apigateway:PUT"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "Null": {
+               "apigateway:Request/AuthorizerType": "false"
+            },
+            "ForAnyValue:StringEquals": {
+               "apigateway:Request/AuthorizerType": [
+                  "COGNITO_USER_POOLS"
+               ]
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventUntrustedImageBuildTopics",
+         "Effect": "Deny",
+         "Action": [
+            "imagebuilder:CreateInfrastructureConfiguration",
+            "imagebuilder:UpdateInfrastructureConfiguration"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotLike": {
+               "imagebuilder:StatusTopicArn": "<trusted-sns-topic-arn>"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      },
+      {
+         "Sid": "PreventUntrustedRoute53VPCAssociations",
+         "Effect": "Deny",
+         "Action": [
+            "route53:CreateVPCAssociationAuthorization"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotLikeIfExists": {
+               "route53:VPCs": [
+                  "VPCId=<trusted-vpc-id>,VPCRegion=<trusted-vpc-region>"
+               ]
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
+      }
+   ]
+}

@@ -122,7 +122,7 @@ Example data access patterns:
 * [VPC endpoint connections](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html): You can grant permissions to another account to connect to your VPC endpoint service with the `ModifyVpcEndpointServicePermissions` API.
 * [Systems Manager documents (SSM documents)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-ssm-docs.html): You can share SSM documents with other accounts or make them public with the `ModifyDocumentPermission` API.
 * [Amazon RDS snapshots](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html): You can share RDS and RDS cluster snapshots with other accounts or make them public with the `ModifyDBSnapshotAttribute` and `ModifyDBClusterSnapshotAttribute` APIs.
-* [Amazon Redshift datashare](https://docs.aws.amazon.com/redshift/latest/dg/authorize-datashare-console.html): You can authorize the sharing of a datashare with other accounts with the `AuthorizeDataShare` API. You can also share a snapshot with other accounts with `AuthorizeSnapshotAccess` API.
+* [Amazon Redshift snapshot](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshot-share-snapshot.html): You can share a snapshot with other accounts with `AuthorizeSnapshotAccess` API.
 * [Amazon Redshift cluster](https://docs.aws.amazon.com/redshift/latest/APIReference/API_AuthorizeEndpointAccess.html): You can grant access to an Amazon Redshift cluster to other accounts with the `AuthorizeEndpointAccess` API. 
 * [AWS Directory Service directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_directory_sharing.html): You can share a directory with other accounts with the `ShareDirectory` API.
 * [AWS Direct Connect gateway](https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html): You can associate a Direct Connect gateway with a virtual private gateway that is owned by another AWS account with the `CreateDirectConnectGatewayAssociationProposal` API.
@@ -149,23 +149,33 @@ This statement is included in the [data_perimeter_governance_scp](data_perimeter
 
 The `CreateGrant` API allows you to add a grant for another account to use your KMS key. Use this statement to help ensure that only trusted identities can view information about your keys.
 
+### "Sid": "RestrictRedshiftDataSharesToTrustedAccounts"
+This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts Amazon Redshift data sharing to trusted accounts. See [Managing access to data sharing API operations with IAM policies](https://docs.aws.amazon.com/redshift/latest/dg/iam-policy.html) for more details.
+
+You can [authorize the sharing of a datashare with other accounts](https://docs.aws.amazon.com/redshift/latest/dg/authorize-datashare-console.html) with the `AuthorizeDataShare` API.
+
+### "Sid": "RestrictCodeBuildProjectVisibilityToPrivate"
+This statement is included in the [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and prevents making AWS CodeBuild project's builds available to the public.
+
+You can make build results, logs, and artifacts [available to the general public](https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html?icmpid=docs_acb_console) using `UpdateProjectVisibility` API.
+
 ### "Sid":"ProtectActionsNotSupportedByPrimaryDPControls"
 
 This statement is included in [data_perimeter_governance_scp](data_perimeter_governance_scp.json) and restricts actions that are not supported by primary data perimeter controls, such as those listed in the [ResourceOrgID condition key page](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourceorgid). 
 
 Example data access patterns:
 
-* [Transit gateway peering connections](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-peering.html): You can create and manage a TGW peering connection with another account with the  `CreateTransitGatewayPeeringAttachment`,  `AcceptTransitGatewayPeeringAttachment`, `RejectTransitGatewayPeeringAttachment`, and `DeleteTransitGatewayPeeringAttachment` APIs. 
-* [VPC peering connections](https://docs.aws.amazon.com/vpc/latest/peering/create-vpc-peering-connection.html): You can create and manage a VPC peering connection with another account with the `CreateVpcPeeringConnection`,  `AcceptVpcPeeringConnection`, `RejectVpcPeeringConnection`, and `DeleteVpcPeeringConnection` APIs.
-* [VPC endpoint connections](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html): You can create and manage an endpoint service connection with another account with the `CreateVpcEndpoint`, `AcceptVpcEndpointConnections`, and   `RejectVpcEndpointConnections` APIs. 
-* [Amazon EBS snapshots](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html): You can copy a snapshot shared from a different account with the `CopySnapshot` API.
-* [Amazon Route 53 private hosted zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zone-private-associate-vpcs-different-accounts.html): You can associate and manage a VPC with a private hosted zone in a different account with the `CreateVPCAssociationAuthorization`,  `AssociateVPCWithHostedZone`, `DisassociateVPCFromHostedZone`, `ListHostedZonesByVPC`, and `DeleteVPCAssociationAuthorization`  APIs.
+* [Transit gateway peering connections](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-peering.html): You can create and manage a TGW peering connection with another account with the  `CreateTransitGatewayPeeringAttachment` and  `AcceptTransitGatewayPeeringAttachment` APIs. 
+* [VPC peering connections](https://docs.aws.amazon.com/vpc/latest/peering/create-vpc-peering-connection.html): You can create and manage a VPC peering connection with another account with the `CreateVpcPeeringConnection` and `AcceptVpcPeeringConnection` APIs.
+* [VPC endpoint connections](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html): You can create and manage an endpoint service connection with another account with the `CreateVpcEndpoint` and `AcceptVpcEndpointConnections` APIs. 
+* [Amazon Route 53 private hosted zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zone-private-associate-vpcs-different-accounts.html): You can associate a VPC with a private hosted zone in a different account with the `CreateVPCAssociationAuthorization` and  `AssociateVPCWithHostedZone` APIs.
 * [Amazon Macie member accounts](https://docs.aws.amazon.com/macie/latest/user/accounts-mgmt-invitations-administer.html): You can accept a Macie membership invitation that was received from a different account with the `AcceptInvitation` API.
 * [AWS Security Hub member accounts](https://docs.aws.amazon.com/securityhub/latest/userguide/account-management-manual.html): You can accept a Security Hub membership invitation that was received from a different account with the `AcceptAdministratorInvitation` API.
 * [Amazon GuardDuty member accounts](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html): You can accept a GuardDuty membership invitation that was received from a different account with the `AcceptAdministratorInvitation`API.
 * [AWS Audit Manager assessment framework shares](https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework.html): You can accept a share request for a custom framework from a different account with the `UpdateAssessmentFrameworkShare` API.
 * [Amazon OpenSearch cross-cluster search connections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html): You can accept a cross-cluster search connection request from a different account with the `AcceptInboundConnection` API.
 * [AWS Directory Service directory sharing](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_directory_sharing.html): You can accept a directory sharing request that was sent from a different account with the `AcceptSharedDirectory` API.
+* [Amazon Detective member accounts](https://docs.aws.amazon.com/detective/latest/userguide/accounts-invited-members.html): You can accept a Detective membership invitation that was received from a different account with the `AcceptInvitation`API.
 
 You can also consider using service-specific condition keys such as `ec2:AccepterVpc` and `ec2:RequesterVpc` to restrict actions that are not supported by primary data perimeter controls (See [Work within a specific account](https://docs.aws.amazon.com/vpc/latest/peering/security-iam.html#vpc-peering-iam-account)).
 

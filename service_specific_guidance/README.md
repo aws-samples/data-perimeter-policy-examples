@@ -4,7 +4,11 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License-
 
 ## Description
 
-This folder contains service-specific documents with additional considerations that you might want to review and consider when implementing a data perimeter for a service. Each service-specific document contains a list of service APIs reviewed against data perimeter control objectives to assess whether additional considerations apply to a service within the scope of current analysis.
+This folder contains service-specific documents with additional considerations that you might want to review and consider when implementing a data perimeter for a service. 
+
+The service-specific documents are organized by [botocore](https://github.com/boto/botocore) service name. A single botocore service can map to multiple services in the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html), each with its own set of IAM actions, resource types, and condition keys. For example, [rds-specific-guidance.md](rds-specific-guidance.md) covers IAM actions for both `rds` and `rds-db`. Conversely, a single Service Authorization Reference entry can span multiple botocore services. For example, to review coverage for `bedrock-agentcore` IAM actions, consult both [bedrock-agentcore-specific-guidance.md](bedrock-agentcore-specific-guidance.md) (data-plane operations) and [bedrock-agentcore-control-specific-guidance.md](bedrock-agentcore-control-specific-guidance.md) (control-plane operations). 
+
+Each service-specific document contains a list of service APIs reviewed against data perimeter control objectives to assess whether additional considerations apply to a service within the scope of current analysis. The reviewed operations are based on botocore version **1.40.61**. When botocore is updated, deprecated operations are removed from the client and will no longer appear in these lists, while newly introduced operations may be added. Additional considerations and controls may also cover permission-only actions — IAM actions that do not directly correspond to an API operation.
 
 For each consideration, we provide prescriptive guidance about controls you might want to implement in addition to the [general data perimeter guidance and default policies](../#General-data-perimeter-guidance). 
 

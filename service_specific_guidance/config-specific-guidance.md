@@ -1,136 +1,137 @@
-
 # Service-specific guidance: AWS Config
 
 
-This document outlines service-specific guidance for implementing a data perimeter for AWS Config. 
+This document outlines service-specific guidance for implementing a data perimeter for AWS Config.
 
-AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. It provides a detailed view of the configuration of AWS resources in your account, including how they are related to one another and how they have changed over time. This helps you simplify compliance auditing, security analysis, change management, and operational troubleshooting.
-
+AWS Config provides a detailed view of the configuration of AWS resources in your AWS account. This includes how the resources are related to one another and how they were configured in the past so that you can see how the configurations and relationships change over time.
 
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.
 
-| Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
-|----------------|-------------------|------------|-------------|------------------------|
-| Identity perimeter | Only trusted identities can access my resources | Resource | RCP | Y |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | N |
-| Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | N |
-| Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
+| Perimeter type     | Security objective                                             | Applied on | Policy type         | Additional considerations |
+|--------------------|----------------------------------------------------------------|------------|---------------------|---------------------------|
+| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | Y |
+| Identity perimeter | Only trusted identities are allowed from my network            | Network    | VPC endpoint policy | N |
+| Resource perimeter | My identities can access only trusted resources                | Identity   | SCP                 | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network         | Network    | VPC endpoint policy | N |
+| Network perimeter  | My identities can access resources only from expected networks | Identity   | SCP                 | N |
+| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | N |
 
-*Y – Additional considerations apply. N – No additional considerations apply.
- 
+*Y - Additional considerations apply. N - No additional considerations apply.
 
+## PutAggregationAuthorization
+### Service sharing mechanism
 
+**Perimeter type applicability**: identity perimeter applied on resource; resource perimeter applied on identity.
 
-**Additional consideration 1**
+**Description**: [PutAggregationAuthorization](https://docs.aws.amazon.com/config/latest/APIReference/API_PutAggregationAuthorization.html) allows you to authorize another account to collect data from your account.
 
-Perimeter type applicability: identity perimeter applied on resource; resource perimeter applied on identity.
-        
-PutConfigurationAggregator allows you to add another account to your aggregator.
+**Additional controls**:
 
-See ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare) for a list of resources that can be granted cross-account access.
-
-If you want to restrict access so that only trusted identities can take actions against your resources, consider implementing these additional controls:
-
-* **Preventative control example:** Consider restricting [PutConfigurationAggregator](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationAggregator.html) permissions to administrators only using an SCP. See [data_perimeter_governance_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/data_perimeter_governance_scp.json) for an example policy.
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [AccountAggregationSources](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-configurationaggregator.html#cfn-config-configurationaggregator-accountaggregationsources) property that grants permissions to untrusted identities for the [AWS::Config::ConfigurationAggregator](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-configurationaggregator.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutConfigurationAggregator](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationAggregator.html) API calls in your environment (specifically, the [AccountAggregationSources](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationAggregator.html#config-PutConfigurationAggregator-request-AccountAggregationSources) request parameter). If necessary, remediate with the responsive controls of your choice.
+If you want to restrict access so that only trusted identities can view information about your resources, consider implementing these additional controls:
+* Preventative control example: Consider restricting [PutAggregationAuthorization](https://docs.aws.amazon.com/config/latest/APIReference/API_PutAggregationAuthorization.html) permissions to select principals using an SCP. See [data_perimeter_governance_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/data_perimeter_governance_scp.json) for an example policy and ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare) for a list of resources that can be granted cross-account access.
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [AuthorizedAccountId](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-aggregationauthorization.html#cfn-config-aggregationauthorization-authorizedaccountid) property that grants permissions to untrusted identities for the [AWS::Config::AggregationAuthorization](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-aggregationauthorization.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutAggregationAuthorization](https://docs.aws.amazon.com/config/latest/APIReference/API_PutAggregationAuthorization.html) API calls in your environment (specifically, the [AuthorizedAccountId](https://docs.aws.amazon.com/config/latest/APIReference/API_PutAggregationAuthorization.html#config-PutAggregationAuthorization-request-AuthorizedAccountId) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 If you want to restrict access so that your identities cannot view resources that were shared with your accounts by untrusted entities, consider implementing this additional control:
+* Detective control example: Consider using [DescribeConfigurationAggregators](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationAggregators.html) to monitor the list of source accounts configured for your aggregators (specifically, the [AccountAggregationSources](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationAggregator.html#config-Type-ConfigurationAggregator-AccountAggregationSources) response parameter). If necessary, remediate with the responsive controls of your choice.
 
-* **Detective control example:** Consider using [DescribeConfigurationAggregators](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationAggregators.html) to monitor the list of source accounts configurated for your aggregators (specifically, the [AccountAggregationSources](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationAggregators.html#API_DescribeConfigurationAggregators_ResponseSyntax) response parameter). If necessary, remediate with the responsive controls of your choice.
+## PutConfigRule
+### Configuration of an external resource
 
+**Perimeter type applicability**: resource perimeter applied on identity.
 
-**Additional consideration 2**
+**Description**: [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html) allows you to specify a Lambda function that does not belong to your organization as the value for the `SourceIdentifier` request parameter. Because the subsequent call against the Lambda function is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutDeliveryChannel allows you to specify an S3 bucket and SNS topic that do not belong to your organization as the values for the S3BucketName and snsTopicARN request parameters. Because the subsequent call against S3 bucket and SNS topic is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
-
-If you want to restrict access to trusted resources, consider implementing these additional controls:
-
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [S3BucketName](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-deliverychannel.html#cfn-config-deliverychannel-s3bucketname) and [SnsTopicARN](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-deliverychannel.html#cfn-config-deliverychannel-snstopicarn) properties that do not belong to your organization for the [AWS::Config::DeliveryChannel](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-deliverychannel.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html) API calls in your environment (specifically, the [s3BucketName](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html#API_PutDeliveryChannel_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your  choice.
-
-
-**Additional consideration 3**
-
-Perimeter type applicability: resource perimeter applied on identity.
-        
-StartResourceEvaluation allows you to specify an S3 bucket that does not belong to your organization as the value for the ResourceId request parameter. Because the subsequent call against the bucket is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+**Additional controls**:
 
 If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [SourceIdentifier](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-config-configrule-source.html#cfn-config-configrule-source-sourceidentifier) property that does not belong to your organization for the [AWS::Config::ConfigRule](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-configrule.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html) API calls in your environment (specifically, the [SourceIdentifier](https://docs.aws.amazon.com/config/latest/APIReference/API_Source.html#config-Type-Source-SourceIdentifier) request parameter). If necessary, remediate with the responsive controls of your choice.
 
-* **Detective control example:** Consider using CloudTrail management events to monitor the [StartResourceEvaluation](https://docs.aws.amazon.com/config/latest/APIReference/API_StartResourceEvaluation.html) API calls in your environment (specifically, the [ResourceId](https://docs.aws.amazon.com/config/latest/APIReference/API_ResourceDetails.html#config-Type-ResourceDetails-ResourceId) request parameter). If necessary, remediate with the responsive controls of your  choice.
+## PutConfigurationAggregator
+### Service sharing mechanism
 
+**Perimeter type applicability**: identity perimeter applied on resource; resource perimeter applied on identity.
 
-**Additional consideration 4**
+**Description**: [PutConfigurationAggregator](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationAggregator.html) allows you to add another account to your aggregator.
 
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutOrganizationConfigRule allows you to specify a Lambda function that does not belong to your organization as the value for the LambdaFunctionArn request parameter. Because the subsequent Invoke call against the function is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+**Additional controls**:
 
-If you want to restrict access to trusted resources, consider implementing these additional controls:
-
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [LambdaFunctionArn](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-lambdafunctionarn) property that does not belong to your organization for the [AWS::Config::OrganizationConfigRule](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconfigrule.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html) API calls in your environment (specifically, the [LambdaFunctionArn](https://docs.aws.amazon.com/config/latest/APIReference/API_OrganizationCustomRuleMetadata.html#config-Type-OrganizationCustomRuleMetadata-LambdaFunctionArn) request parameter). If necessary, remediate with the responsive controls of your  choice.
-
-
-**Additional consideration 5**
-
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutConfigRule allows you to specify a Lambda function that does not belong to your organization as the value for the SourceIdentifier request parameter. Because the subsequent Invoke call against the function is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
-
-If you want to restrict access to trusted resources, consider implementing these additional controls:
-
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [SourceIdentifier](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-config-configrule-source.html#cfn-config-configrule-source-sourceidentifier) property that does not belong to your organization for the [AWS::Config::ConfigRule](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html) API calls in your environment (specifically, the [SourceIdentifier](https://docs.aws.amazon.com/config/latest/APIReference/API_Source.html#config-Type-Source-SourceIdentifier) request parameter). If necessary, remediate with the responsive controls of your  choice.
-
-
-**Additional consideration 6**
-
-Perimeter type applicability: identity perimeter applied on resource; resource perimeter applied on identity.
-        
-PutAggregationAuthorization allows you to authorize another account to collect data from your account.
-
-See ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare) for a list of resources that can be granted cross-account access.
-
-If you want to restrict access so that only trusted identities can take actions against your resources, consider implementing these additional controls:
-
-* **Preventative control example:** Consider restricting [PutAggregationAuthorization](https://docs.aws.amazon.com/config/latest/APIReference/API_PutAggregationAuthorization.html) permissions to administrators only using an SCP. See [data_perimeter_governance_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/data_perimeter_governance_scp.json) for an example policy.
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [AuthorizedAccountId](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-aggregationauthorization.html#cfn-config-aggregationauthorization-authorizedaccountid) property that grants permissions to untrusted identities for the [AWS::Config::AggregationAuthorization](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-aggregationauthorization.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutAggregationAuthorization](https://docs.aws.amazon.com/config/latest/APIReference/API_PutAggregationAuthorization.html) API calls in your environment (specifically, the [AuthorizedAccountId](https://docs.aws.amazon.com/config/latest/APIReference/API_PutAggregationAuthorization.html#config-PutAggregationAuthorization-request-AuthorizedAccountId) request parameter). If necessary, remediate with the responsive controls of your choice.
+If you want to restrict access so that only trusted identities can view information about your resources, consider implementing these additional controls:
+* Preventative control example: Consider restricting [PutConfigurationAggregator](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationAggregator.html) permissions to select principals using an SCP. See [data_perimeter_governance_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/data_perimeter_governance_scp.json) for an example policy and ["Sid":"PreventExternalResourceShare"](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#sidpreventexternalresourceshare) for a list of resources that can be granted cross-account access.
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [AccountAggregationSources](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-configurationaggregator.html#cfn-config-configurationaggregator-accountaggregationsources) property that grants permissions to untrusted identities for the [AWS::Config::ConfigurationAggregator](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-configurationaggregator.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutConfigurationAggregator](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationAggregator.html) API calls in your environment (specifically, the [AccountAggregationSources](https://docs.aws.amazon.com/config/latest/APIReference/API_AccountAggregationSource.html) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 If you want to restrict access so that your identities cannot view resources that were shared with your accounts by untrusted entities, consider implementing this additional control:
+* Detective control example: Consider using [DescribeConfigurationAggregators](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationAggregators.html) to monitor the list of source accounts configured for your aggregators (specifically, the [AccountAggregationSources](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationAggregator.html#config-Type-ConfigurationAggregator-AccountAggregationSources) response parameter). If necessary, remediate with the responsive controls of your choice.
 
-* **Detective control example:** Consider using [DescribeConfigurationAggregators](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationAggregators.html) to monitor the list of source accounts configurated for your aggregators (specifically, the [AccountAggregationSources](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationAggregators.html#API_DescribeConfigurationAggregators_ResponseSyntax) response parameter). If necessary, remediate with the responsive controls of your choice.
+## PutConformancePack
+### Configuration of an external resource
 
-**Additional consideration 7**
+**Perimeter type applicability**: resource perimeter applied on identity.
 
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutConformancePack allows you to specify an S3 bucket that does not belong to your organization as the value for the TemplateS3Uri request parameter. Because the subsequent call against the bucket is performed by the service-linked role (SLR), it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+**Description**: [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) allows you to specify an S3 bucket that does not belong to your organization as the value for the `TemplateS3Uri` request parameter. Because the subsequent call against the S3 bucket is performed by the service-linked role (SLR), it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
-If you want to restrict access to trusted resources, consider implementing these additional controls:
-
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [TemplateS3Uri](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-conformancepack.html#cfn-config-conformancepack-templates3uri) property that does not belong to your organization for the [AWS::Config::ConformancePack](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-conformancepack.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) API calls in your environment (specifically, the [TemplateS3Uri](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html#config-PutConformancePack-request-TemplateS3Uri) request parameter). If necessary, remediate with the responsive controls of your  choice.
-
-**Additional consideration 8**
-
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutOrganizationConformancePack allows you to specify an S3 bucket that does not belong to your organization as the value for theTemplateS3Uri request parameter. Because the subsequent call against the bucket is performed by the service-linked role (SLR), it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+**Additional controls**:
 
 If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Preventative control example: Consider implementing `aws:ResourceOrgID` in an SCP to restrict service API calls so that your identities can only access trusted resources. See [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for an example policy. The service uses forward access sessions to validate that the calling principal has permission to access the S3 bucket as part of the API call.
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [TemplateS3Uri](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-conformancepack.html#cfn-config-conformancepack-templates3uri) property that does not belong to your organization for the [AWS::Config::ConformancePack](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-conformancepack.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) API calls in your environment (specifically, the [TemplateS3Uri](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html#config-PutConformancePack-request-TemplateS3Uri) request parameter). If necessary, remediate with the responsive controls of your choice.
 
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [TemplateS3Uri](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-organizationconformancepack.html#cfn-config-organizationconformancepack-templates3uri) property that does not belong to your organization for the [AWS::Config::OrganizationConformancePack](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-organizationconformancepack.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html) API calls in your environment (specifically, the [TemplateS3Uri](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html#config-PutOrganizationConformancePack-request-TemplateS3Uri) request parameter). If necessary, remediate with the responsive controls of your  choice.
+## PutDeliveryChannel
+### Configuration of an external resource
 
+**Perimeter type applicability**: resource perimeter applied on identity.
 
-**List of service APIs reviewed against data perimeter control objectives**
+**Description**: [PutDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html) allows you to specify an S3 bucket and SNS topic that do not belong to your organization as the values for the `s3BucketName` and `snsTopicARN` request parameters. Because the subsequent call against the S3 bucket and SNS topic is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [S3BucketName](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-deliverychannel.html#cfn-config-deliverychannel-s3bucketname) or [SnsTopicARN](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-deliverychannel.html#cfn-config-deliverychannel-snstopicarn) property that does not belong to your organization for the [AWS::Config::DeliveryChannel](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-deliverychannel.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html) API calls in your environment (specifically, the [s3BucketName](https://docs.aws.amazon.com/config/latest/APIReference/API_DeliveryChannel.html#config-Type-DeliveryChannel-s3BucketName) and [snsTopicARN](https://docs.aws.amazon.com/config/latest/APIReference/API_DeliveryChannel.html#config-Type-DeliveryChannel-snsTopicARN) request parameters). If necessary, remediate with the responsive controls of your choice.
+
+## PutOrganizationConfigRule
+### Configuration of an external resource
+
+**Perimeter type applicability**: resource perimeter applied on identity.
+
+**Description**: [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html) allows you to specify a Lambda function that does not belong to your organization as the value for the `LambdaFunctionArn` request parameter. Because the subsequent call against the Lambda function is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [LambdaFunctionArn](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-lambdafunctionarn) property that does not belong to your organization for the [AWS::Config::OrganizationConfigRule](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-organizationconfigrule.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html) API calls in your environment (specifically, the [LambdaFunctionArn](https://docs.aws.amazon.com/config/latest/APIReference/API_OrganizationCustomRuleMetadata.html#config-Type-OrganizationCustomRuleMetadata-LambdaFunctionArn) request parameter). If necessary, remediate with the responsive controls of your choice.
+
+## PutOrganizationConformancePack
+### Configuration of an external resource
+
+**Perimeter type applicability**: resource perimeter applied on identity.
+
+**Description**: [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html) allows you to specify an S3 bucket that does not belong to your organization as the value for the `TemplateS3Uri` request parameter. Because the subsequent call against the S3 bucket is performed by the service-linked role (SLR), it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Preventative control example: Consider implementing `aws:ResourceOrgID` in an SCP to restrict service API calls so that your identities can only access trusted resources. See [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for an example policy. The service uses forward access sessions to validate that the calling principal has permission to access the S3 bucket as part of the API call.
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [TemplateS3Uri](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-organizationconformancepack.html#cfn-config-organizationconformancepack-templates3uri) property that does not belong to your organization for the [AWS::Config::OrganizationConformancePack](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-config-organizationconformancepack.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html) API calls in your environment (specifically, the [TemplateS3Uri](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html#config-PutOrganizationConformancePack-request-TemplateS3Uri) request parameter). If necessary, remediate with the responsive controls of your choice.
+
+## StartResourceEvaluation
+### Configuration of an external resource
+
+**Perimeter type applicability**: resource perimeter applied on identity.
+
+**Description**: [StartResourceEvaluation](https://docs.aws.amazon.com/config/latest/APIReference/API_StartResourceEvaluation.html) allows you to specify an S3 bucket that does not belong to your organization as the value for the `ResourceDetails` request parameter. Because the subsequent call against the bucket is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources, consider implementing this additional control:
+* Detective control example: Consider using CloudTrail management events to monitor the [StartResourceEvaluation](https://docs.aws.amazon.com/config/latest/APIReference/API_StartResourceEvaluation.html) API calls in your environment (specifically, the [ResourceDetails](https://docs.aws.amazon.com/config/latest/APIReference/API_ResourceDetails.html) request parameter). If necessary, remediate with the responsive controls of your choice.
+
+## List of service APIs reviewed against data perimeter control objectives
 
 * BatchGetAggregateResourceConfig
 * BatchGetResourceConfig
@@ -144,6 +145,7 @@ If you want to restrict access to trusted resources, consider implementing these
 * DeletePendingAggregationRequest
 * DeleteRemediationConfiguration
 * DeleteRetentionConfiguration
+* DeleteServiceLinkedConfigurationRecorder
 * DeliverConfigSnapshot
 * DescribeAggregateComplianceByConfigRules
 * DescribeAggregateComplianceByConformancePacks
@@ -188,6 +190,7 @@ If you want to restrict access to trusted resources, consider implementing these
 * GetResourceEvaluationSummary
 * GetStoredQuery
 * ListAggregateDiscoveredResources
+* ListConfigurationRecorders
 * ListConformancePackComplianceScores
 * ListDiscoveredResources
 * ListResourceEvaluations
@@ -197,10 +200,12 @@ If you want to restrict access to trusted resources, consider implementing these
 * PutConfigRule
 * PutConfigurationAggregator
 * PutConformancePack
+* PutDeliveryChannel
 * PutOrganizationConfigRule
 * PutOrganizationConformancePack
 * PutRemediationConfigurations
 * PutRetentionConfiguration
+* PutServiceLinkedConfigurationRecorder
 * PutStoredQuery
 * SelectAggregateResourceConfig
 * SelectResourceConfig
@@ -211,5 +216,3 @@ If you want to restrict access to trusted resources, consider implementing these
 * StopConfigurationRecorder
 * TagResource
 * UntagResource
-
-

@@ -1,127 +1,172 @@
-
 # Service-specific guidance: Amazon Simple Storage Service
 
 
-This document outlines service-specific guidance for implementing a data perimeter for Amazon Simple Storage Service. 
+This document outlines service-specific guidance for implementing a data perimeter for Amazon Simple Storage Service.
 
 Amazon Simple Storage Service (Amazon S3) is a scalable object storage service that offers industry-leading durability, availability, and performance. It allows you to store and retrieve any amount of data from anywhere on the web, making it ideal for a wide range of use cases such as data lakes, websites, mobile applications, backup and restore, archive, and big data analytics.
 
-
 The following table specifies whether additional considerations apply to a specific data perimeter control objective, followed by the list of considerations and recommended controls, if any.
 
-| Perimeter type | Security objective | Applied on | Policy type | Additional considerations |
-|----------------|-------------------|------------|-------------|------------------------|
-| Identity perimeter | Only trusted identities can access my resources | Resource | RCP | N |
-| Identity perimeter | Only trusted identities are allowed from my network | Network | VPC endpoint policy | N |
-| Resource perimeter | My identities can access only trusted resources | Identity | SCP | Y |
-| Resource perimeter | Only trusted resources can be accessed from my network | Network | VPC endpoint policy | Y |
-| Network perimeter | My identities can access resources only from expected networks | Identity | SCP | N |
-| Network perimeter | My resources can be accessed only from expected networks | Resource | RCP | N |
+| Perimeter type     | Security objective                                             | Applied on | Policy type         | Additional considerations |
+|--------------------|----------------------------------------------------------------|------------|---------------------|---------------------------|
+| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | N |
+| Identity perimeter | Only trusted identities are allowed from my network            | Network    | VPC endpoint policy | N |
+| Resource perimeter | My identities can access only trusted resources                | Identity   | SCP                 | Y |
+| Resource perimeter | Only trusted resources can be accessed from my network         | Network    | VPC endpoint policy | Y |
+| Network perimeter  | My identities can access resources only from expected networks | Identity   | SCP                 | N |
+| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | N |
 
-*Y – Additional considerations apply. N – No additional considerations apply.
- 
+*Y - Additional considerations apply. N - No additional considerations apply.
 
+## GetObject
+### Access to service-owned resources
 
+**Perimeter type applicability**: resource perimeter.
 
-**Additional consideration 1**
+**Description**: [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html) might require access to service-owned buckets, which are buckets that are managed in service accounts.
 
-Perimeter type applicability: resource perimeter.
-        
-HeadBucket might require access to service-owned buckets, which are buckets that are managed in service accounts.
+**Additional controls**:
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json) to enforce the resource perimeter on your network.
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned buckets in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json), which lists service-owned buckets in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
-**Additional consideration 2**
+## GetObjectVersion
+### Access to service-owned resources
 
-Perimeter type applicability: resource perimeter.
-        
-GetObject might require access to service-owned buckets, which are buckets that are managed in service accounts.
+**Perimeter type applicability**: resource perimeter.
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json) to enforce the resource perimeter on your network.
+**Description**: [GetObjectVersion](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html) might require access to service-owned buckets, which are buckets that are managed in service accounts.
 
+**Additional controls**:
 
-**Additional consideration 3**
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned buckets in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
-Perimeter type applicability: resource perimeter.
-        
-PutObjectAcl might require access to service-owned buckets, which are buckets that are managed in service accounts.
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json), which lists service-owned buckets in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json) to enforce the resource perimeter on your network.
+## HeadBucket
+### Access to service-owned resources
 
+**Perimeter type applicability**: resource perimeter.
 
-**Additional consideration 4**
+**Description**: [HeadBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadBucket.html) might require access to service-owned buckets, which are buckets that are managed in service accounts.
 
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutBucketNotificationConfiguration allows you to specify a resource, such as SNS topic, SQS queue, and Lambda function, that does not belong to your organization as the value for the NotificationConfiguration parameter. Because the subsequent call against the resource is performed by the s3 service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+**Additional controls**:
 
-If you want to restrict access to trusted resources, consider implementing these additional controls:
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned buckets in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [NotificationConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfig.html) property that does not belong to your organization for the [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotificationConfiguration.html) API calls in your environment (specifically, the [NotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotificationConfiguration.html#API_PutBucketNotificationConfiguration_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your  choice.
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json), which lists service-owned buckets in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
+## ListBucket
+### Access to service-owned resources
 
-**Additional consideration 5**
+**Perimeter type applicability**: resource perimeter.
 
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutBucketInventoryConfiguration allows you to specify an S3 bucket that does not belong to your organization as the value for the Destination parameter. Because the subsequent PutObject call against the S3 bucket is performed by the s3 service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+**Description**: [ListBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html) might require access to service-owned buckets, which are buckets that are managed in service accounts.
 
-If you want to restrict access to trusted resources, consider implementing these additional controls:
+**Additional controls**:
 
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [Destination](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-inventoryconfiguration.html#cfn-s3-bucket-inventoryconfiguration-destination) property that does not belong to your organization for the [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html) API calls in your environment (specifically, the [Destination](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html#AmazonS3-PutBucketInventoryConfiguration-request-Destination) request parameter). If necessary, remediate with the responsive controls of your  choice.
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned buckets in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
 
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json), which lists service-owned buckets in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
 
-**Additional consideration 6**
+## PutBucketInventoryConfiguration
+### Configuration of an external resource
 
-Perimeter type applicability: resource perimeter.
-        
-PutObject might require access to service-owned buckets, which are buckets that are managed in service accounts.
+**Perimeter type applicability**: resource perimeter applied on identity.
 
+**Description**: [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html) allows you to specify an S3 bucket that does not belong to your organization as the value for the `Destination` request parameter. Because the subsequent call against the S3 bucket is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
-See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access. 
-If you want to restrict access to trusted resources, see [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for information about how the default resource perimeter SCP accounts for such an access pattern. Use the service-specific policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json)
-
-
-
-**Additional consideration 7**
-
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutBucketNotification allows you to specify a resource, such as SNS topic, SQS queue, and Lambda function, that does not belong to your organization as the value for the NotificationConfiguration parameter. Because the subsequent call against the resource is performed by the S3 service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+**Additional controls**:
 
 If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [BucketArn](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-s3-bucket-destination.html#cfn-s3-bucket-destination-bucketarn) property that does not belong to your organization for the [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html) API calls in your environment (specifically, the [Destination](https://docs.aws.amazon.com/AmazonS3/latest/API/API_InventoryDestination.html) request body parameter). If necessary, remediate with the responsive controls of your choice.
 
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [NotificationConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfig.html) property that does not belong to your organization for the [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutBucketNotification](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html) API calls in your environment (specifically, the [NotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html#API_PutBucketNotification_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your  choice.
+## PutBucketLogging
+### Configuration of an external resource
 
+**Perimeter type applicability**: resource perimeter applied on identity.
 
-**Additional consideration 8**
+**Description**: [PutBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html) allows you to specify an S3 bucket that does not belong to your organization as the value for the `TargetBucket` request parameter. Because the subsequent call against the S3 bucket is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
-Perimeter type applicability: resource perimeter applied on identity.
-        
-PutBucketLogging allows you to specify an S3 bucket that does not belong to your organization as the value for the TargetBucket parameter. Because the subsequent PutObject call against the S3 bucket is performed by the s3 service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+**Additional controls**:
 
 If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [DestinationBucketName](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-s3-bucket-loggingconfiguration.html#cfn-s3-bucket-loggingconfiguration-destinationbucketname) property that does not belong to your organization for the [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-s3-bucket.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html) API calls in your environment (specifically, the [TargetBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_LoggingEnabled.html) request parameter). If necessary, remediate with the responsive controls of your choice.
 
-* **Proactive control example:** Consider implementing CloudFormation Hooks to help prevent developers from specifying the [DestinationBucketName](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-s3-bucket-loggingconfiguration.html#cfn-s3-bucket-loggingconfiguration-destinationbucketname) property that does not belong to your organization for the [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource.
-* **Detective control example:** Consider using CloudTrail management events to monitor the [PutBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html) API calls in your environment (specifically, the [TargetBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html#API_PutBucketLogging_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your  choice.
+## PutBucketNotification
+### Configuration of an external resource
 
+**Perimeter type applicability**: resource perimeter applied on identity.
 
+**Description**: [PutBucketNotification](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html) allows you to specify a resource, such as an SNS topic, an SQS queue, or a Lambda function that does not belong to your organization as the value for the `NotificationConfiguration` request parameter. Because the subsequent call against the resource is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
+**Additional controls**:
 
+If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [NotificationConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-notificationconfiguration) property that does not belong to your organization for the [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutBucketNotification](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html) API calls in your environment (specifically, the [NotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html#API_PutBucketNotification_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your choice.
 
-**List of service APIs reviewed against data perimeter control objectives**
+## PutBucketNotificationConfiguration
+### Configuration of an external resource
+
+**Perimeter type applicability**: resource perimeter applied on identity.
+
+**Description**: [PutBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotificationConfiguration.html) allows you to specify a resource, such as an SNS topic, SQS queue, or Lambda function, that does not belong to your organization as the value for the `NotificationConfiguration` request parameter. Because the subsequent call against the resource is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [NotificationConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-notificationconfiguration) property that does not belong to your organization for the [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [PutBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotificationConfiguration.html) API calls in your environment (specifically, the [NotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotificationConfiguration.html#API_PutBucketNotificationConfiguration_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your choice.
+
+## PutObject
+### Access to service-owned resources
+
+**Perimeter type applicability**: resource perimeter.
+
+**Description**: [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html) might require access to service-owned buckets, which are buckets that are managed in service accounts.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned buckets in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
+
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json), which lists service-owned buckets in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
+
+## PutObjectAcl
+### Access to service-owned resources
+
+**Perimeter type applicability**: resource perimeter.
+
+**Description**: [PutObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAcl.html) might require access to service-owned buckets, which are buckets that are managed in service accounts.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources for your identities, consider implementing this control:
+* Preventative control example: Consider implementing the default resource perimeter SCP, [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json), which lists service-owned buckets in the `NotResource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that your identities might access.
+
+If you want to restrict access to your networks to trusted resources, consider implementing this control:
+* Preventative control example: Consider implementing the service-specific VPC endpoint policy, [s3_endpoint_policy.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/vpc_endpoint_policies/s3_endpoint_policy.json), which lists service-owned buckets in the `Resource` element. See [Service-owned resources](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_owned_resources.md) for a list of resources that AWS services own and that might be accessed from your networks.
+
+## List of service APIs reviewed against data perimeter control objectives
 
 * AbortMultipartUpload
 * CompleteMultipartUpload
 * CopyObject
 * CreateBucket
+* CreateBucketMetadataConfiguration
 * CreateMultipartUpload
 * CreateSession
 * DeleteBucketAnalyticsConfiguration
@@ -130,6 +175,7 @@ If you want to restrict access to trusted resources, consider implementing these
 * DeleteBucketIntelligentTieringConfiguration
 * DeleteBucketInventoryConfiguration
 * DeleteBucketLifecycle
+* DeleteBucketMetadataConfiguration
 * DeleteBucketMetricsConfiguration
 * DeleteBucketOwnershipControls
 * DeleteBucketPolicy
@@ -151,6 +197,7 @@ If you want to restrict access to trusted resources, consider implementing these
 * GetBucketLifecycleConfiguration
 * GetBucketLocation
 * GetBucketLogging
+* GetBucketMetadataConfiguration
 * GetBucketMetricsConfiguration
 * GetBucketNotification
 * GetBucketNotificationConfiguration
@@ -211,5 +258,7 @@ If you want to restrict access to trusted resources, consider implementing these
 * PutObjectTagging
 * PutPublicAccessBlock
 * SelectObjectContent
+* UpdateBucketMetadataInventoryTableConfiguration
+* UpdateBucketMetadataJournalTableConfiguration
 * UploadPart
 * UploadPartCopy
