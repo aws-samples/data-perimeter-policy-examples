@@ -160,7 +160,25 @@
             "ForAnyValue:StringLike": {
                "aws:TagKeys": [
                   "dp:*",
-                  "team"
+                  "dP:*",
+                  "Dp:*",
+                  "DP:*",
+                  "team",
+                  "teaM",
+                  "teAm",
+                  "teAM",
+                  "tEam",
+                  "tEaM",
+                  "tEAm",
+                  "tEAM",
+                  "Team",
+                  "TeaM",
+                  "TeAm",
+                  "TeAM",
+                  "TEam",
+                  "TEaM",
+                  "TEAm",
+                  "TEAM"
                ]
             }
          }
