@@ -159,8 +159,38 @@
             },
             "ForAnyValue:StringLike": {
                "aws:TagKeys": [
-                  "dp:*",
+                  "dp:*"
+               ]
+            }
+         }
+      },
+      {
+         "Sid": "ProtectDataPerimeterTags2",
+         "Effect": "Deny",
+         "Action": "*",
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/team": "admin"
+            },
+            "ForAnyValue:StringEqualsIgnoreCase": {
+               "aws:TagKeys": [
                   "team"
+               ]
+            }
+         }
+      },
+      {
+         "Sid": "EnforceDataPerimeterTagKeyCase",
+         "Effect": "Deny",
+         "Action": "*",
+         "Resource": "*",
+         "Condition": {
+            "ForAnyValue:StringLike": {
+               "aws:TagKeys": [
+                  "dP:*",
+                  "Dp:*",
+                  "DP:*"
                ]
             }
          }
