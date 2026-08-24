@@ -17,30 +17,52 @@
                "aws:PrincipalTag/team": "admin",
                "aws:PrincipalOrgID" : "<my-org-id>"
            },
-           "ForAnyValue:StringLike": {
+           "ForAnyValue:StringEqualsIgnoreCase": {
                "aws:TagKeys": [
-                  "dp:*",
-                  "dP:*",
-                  "Dp:*",
-                  "DP:*",
-                  "team",
-                  "teaM",
-                  "teAm",
-                  "teAM",
-                  "tEam",
-                  "tEaM",
-                  "tEAm",
-                  "tEAM",
-                  "Team",
-                  "TeaM",
-                  "TeAm",
-                  "TeAM",
-                  "TEam",
-                  "TEaM",
-                  "TEAm",
-                  "TEAM"
+                  "team"
                ]
            }
+         }
+      },
+      {
+         "Sid": "ProtectDataPerimeterSessionTags2",
+         "Effect": "Deny",
+         "Principal": "*",
+         "Action": [
+            "sts:TagSession"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "Null": {
+               "SAML:aud": "true"
+           },
+           "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/team": "admin",
+               "aws:PrincipalOrgID" : "<my-org-id>"
+           },
+           "ForAnyValue:StringLike": {
+               "aws:TagKeys": [
+                  "dp:*"
+               ]
+           }
+         }
+      },
+      {
+         "Sid": "EnforceDataPerimeterSessionTagKeyCase",
+         "Effect": "Deny",
+         "Principal": "*",
+         "Action": [
+            "sts:TagSession"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "ForAnyValue:StringLike": {
+               "aws:TagKeys": [
+                  "dP:*",
+                  "Dp:*",
+                  "DP:*"
+               ]
+            }
          }
       }
    ]
