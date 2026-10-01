@@ -40,7 +40,7 @@
             }
         },
                 {
-            "Sid": "AllowRequestsByOrgsIdentitiesToOrgsResourcesByFederatedPrinciples",
+            "Sid": "AllowRequestsToOrgRolesByFederatedPrinciples",
             "Effect": "Allow",
             "Principal": "*",
             "Action": ["sts:AssumeRoleWithWebIdentity","sts:AssumeRoleWithSAML"],          
