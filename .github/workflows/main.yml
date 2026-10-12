@@ -2,8 +2,12 @@ name: Issue or PR notifier
 on:
   issues:
     types: [opened]
-  pull_request:
+  # Keep this workflow limited to notifications; never run code from the PR.
+  pull_request_target:
     types: [opened]
+
+permissions: {}
+
 jobs:
   run:
     name: Notify IS team of github activity
