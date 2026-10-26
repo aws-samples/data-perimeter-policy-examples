@@ -20,7 +20,8 @@
             "elasticfilesystem:client*",
             "rds-db:connect",
             "s3-outposts:*",
-            "iam:PassRole"
+            "iam:PassRole",
+            "elasticache:Connect"
          ],
          "Resource":"*",
          "Condition":{

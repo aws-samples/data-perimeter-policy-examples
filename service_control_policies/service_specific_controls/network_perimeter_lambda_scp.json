@@ -24,7 +24,8 @@
             "logs:CreateLogStream",
             "logs:PutLogEvents",
             "xray:PutTraceSegments",
-            "iam:PassRole"
+            "iam:PassRole",
+            "elasticache:Connect"
          ],
          "Resource":"*",
          "Condition":{

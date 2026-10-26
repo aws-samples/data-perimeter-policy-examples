@@ -23,7 +23,8 @@
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
             "logs:PutLogEvents",
-            "iam:PassRole"
+            "iam:PassRole",
+            "elasticache:Connect"
          ],
          "Resource":"*",
          "Condition":{
