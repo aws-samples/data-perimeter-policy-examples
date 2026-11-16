@@ -9,69 +9,39 @@ The following table specifies whether additional considerations apply to a speci
 
 | Perimeter type     | Security objective                                             | Applied on | Policy type         | Additional considerations |
 |--------------------|----------------------------------------------------------------|------------|---------------------|---------------------------|
-| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | Y |
+| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | N |
 | Identity perimeter | Only trusted identities are allowed from my network            | Network    | VPC endpoint policy | N |
 | Resource perimeter | My identities can access only trusted resources                | Identity   | SCP                 | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network         | Network    | VPC endpoint policy | N |
 | Network perimeter  | My identities can access resources only from expected networks | Identity   | SCP                 | N |
-| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | Y |
+| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | N |
 
 *Y - Additional considerations apply. N - No additional considerations apply.
 
-## AddPermission
-### No RCP support
+## CreateSMSSandboxPhoneNumber
+### Configuration of a non-AWS resource
 
-**Perimeter type applicability**: identity and network perimeter applied on resource.
+**Perimeter type applicability**: resource perimeter applied on identity.
 
-**Description**: [AddPermission](https://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html) allows you to apply a resource-based policy to grant access to a topic. The service currently does not support RCPs.
-
-**Additional controls**:
-
-If you want to restrict access to trusted identities, consider implementing these additional controls:
-* Preventative control example: Consider restricting [AddPermission](https://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html) permissions to select principals using an SCP. See [restrict_resource_policy_configurations_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [PolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html#cfn-sns-topicpolicy-policydocument) property for the [AWS::SNS::TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html) and [AWS::SNS::TopicInlinePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicinlinepolicy.html) resources that grants permissions to untrusted identities. You can also enforce the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) in the resource-based policies.
-* Detective control example: Consider using [AWS Identity and Access Management Access Analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html) external access analyzers to help identify topics in your accounts that are shared with untrusted identities. If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) to the resource-based policy.
-* Detective control example: Consider using CloudTrail management events to monitor the [AddPermission](https://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html) API calls in your environment (specifically, the [AWSAccountId.member.N](https://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html#API_AddPermission_RequestParameters) request parameter). If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) to the resource-based policy.
-
-If you want to restrict access to expected networks, consider implementing these additional controls:
-* Preventative control example: Consider restricting [AddPermission](https://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html) permissions to select principals using an SCP. See [restrict_resource_policy_configurations_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [PolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html#cfn-sns-topicpolicy-policydocument) property for the [AWS::SNS::TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html) and [AWS::SNS::TopicInlinePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicinlinepolicy.html) resources that grants permissions to unexpected networks. You can also enforce the standard [network perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L33) in the resource-based policies.
-
-## CreateTopic
-### No RCP support
-
-**Perimeter type applicability**: identity and network perimeter applied on resource.
-
-**Description**: [CreateTopic](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html) allows you to apply a resource-based policy to grant access to a topic. The service currently does not support RCPs.
+**Description**: [CreateSMSSandboxPhoneNumber](https://docs.aws.amazon.com/sns/latest/api/API_CreateSMSSandboxPhoneNumber.html) allows you to specify an SMS phone number as the value for the `PhoneNumber` request parameter. Because the subsequent requests against the SMS phone number are not governed by IAM, they are not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
 **Additional controls**:
 
-If you want to restrict access to trusted identities, consider implementing these additional controls:
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [PolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html#cfn-sns-topicpolicy-policydocument) property for the [AWS::SNS::TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html) and [AWS::SNS::TopicInlinePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicinlinepolicy.html) resources that grants permissions to untrusted identities. You can also enforce the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) in the resource-based policies.
-* Detective control example: Consider using [AWS Identity and Access Management Access Analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html) external access analyzers to help identify topics in your accounts that are shared with untrusted identities. If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) to the resource-based policy.
-* Detective control example: Consider using CloudTrail management events to monitor the [CreateTopic](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html) API calls in your environment (specifically, the [Attributes](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html#API_CreateTopic_RequestParameters) request parameter, which carries the topic's `Policy` attribute). If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) to the resource-based policy.
+If you want to restrict access to trusted resources, consider implementing this additional control:
+* Detective control example: Consider using CloudTrail management events to monitor the [CreateSMSSandboxPhoneNumber](https://docs.aws.amazon.com/sns/latest/api/API_CreateSMSSandboxPhoneNumber.html) API calls in your environment (specifically, the [PhoneNumber](https://docs.aws.amazon.com/sns/latest/api/API_CreateSMSSandboxPhoneNumber.html#API_CreateSMSSandboxPhoneNumber_RequestParameters) request parameter). If necessary, remediate with the responsive controls of your choice.
 
-If you want to restrict access to expected networks, consider implementing these additional controls:
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [PolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html#cfn-sns-topicpolicy-policydocument) property for the [AWS::SNS::TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html) and [AWS::SNS::TopicInlinePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicinlinepolicy.html) resources that grants permissions to unexpected networks. You can also enforce the standard [network perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L33) in these resource-based policies.
-* Detective control example: Consider using CloudTrail management events to monitor the [CreateTopic](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html) API calls in your environment (specifically, the [Attributes](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html#API_CreateTopic_RequestParameters) request parameter, which carries the topic's `Policy` attribute). If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [network perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L33) to the resource-based policy.
+## Publish
+### Configuration of a non-AWS resource
 
-## SetTopicAttributes
-### No RCP support
+**Perimeter type applicability**: resource perimeter applied on identity.
 
-**Perimeter type applicability**: identity and network perimeter applied on resource.
-
-**Description**: [SetTopicAttributes](https://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html) allows you to apply a resource-based policy to grant access to a topic. The service currently does not support RCPs.
+**Description**: [Publish](https://docs.aws.amazon.com/sns/latest/api/API_Publish.html) allows you to specify an SMS phone number as the value for the `PhoneNumber` request parameter. Because the subsequent requests against the SMS phone number are not governed by IAM, they are not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
 **Additional controls**:
 
-If you want to restrict access to trusted identities, consider implementing these additional controls:
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [PolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html#cfn-sns-topicpolicy-policydocument) property for the [AWS::SNS::TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicpolicy.html) and [AWS::SNS::TopicInlinePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topicinlinepolicy.html) resources that grants permissions to untrusted identities. You can also enforce the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) in the resource-based policies.
-* Detective control example: Consider using [AWS Identity and Access Management Access Analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html) external access analyzers to help identify topics in your accounts that are shared with untrusted identities. If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) to the resource-based policy.
-* Detective control example: Consider using CloudTrail management events to monitor the [SetTopicAttributes](https://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html) API calls in your environment (specifically, the [AttributeName](https://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html#API_SetTopicAttributes_RequestParameters) and [AttributeValue](https://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html#API_SetTopicAttributes_RequestParameters) request parameters). If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [identity perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L5) to the resource-based policy.
+If you want to restrict access to trusted resources, consider implementing this additional control:
 
-If you want to restrict access to expected networks, consider implementing these additional controls:
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [PolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topicpolicy.html#cfn-sns-topicpolicy-policydocument) property for the [AWS::SNS::TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topicpolicy.html) and [AWS::SNS::TopicInlinePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topicinlinepolicy.html) resources that grants permissions to unexpected networks. You can also enforce the standard [network perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L33) in the resource-based policies.
-* Detective control example: Consider using CloudTrail management events to monitor the [SetTopicAttributes](https://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html) API calls in your environment (specifically, the [AttributeName](https://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html#API_SetTopicAttributes_RequestParameters) and [AttributeValue](https://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html#API_SetTopicAttributes_RequestParameters) request parameters). If necessary, remediate with the responsive controls of your choice. For example, you can add the standard [network perimeter statement](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/resource_control_policies/service_specific_controls/sns_topic_policy.json#L33) to the resource-based policy.
+* Preventative control example: Consider restricting [Publish](https://docs.aws.amazon.com/sns/latest/api/API_Publish.html) permissions to select principals using an SCP. See [restrict_untrusted_endpoints_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_untrusted_endpoints_scp.json) for an example policy.
 
 ## Subscribe
 ### Configuration of a non-AWS resource
@@ -97,15 +67,18 @@ If you want to restrict access to trusted resources, consider implementing these
 
 If you want to restrict access to trusted resources, consider implementing these additional controls:
 * Preventative control example: Consider implementing `sns:Protocol` and `sns:Endpoint` in an SCP to help prevent requests to untrusted resources. See [restrict_untrusted_endpoints_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_untrusted_endpoints_scp.json) for an example policy.
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [Endpoint](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-subscription.html#cfn-sns-subscription-endpoint) and [Protocol](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-subscription.html#cfn-sns-subscription-protocol) properties that do not belong to your organization for the [AWS::SNS::Subscription](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-subscription.html) resource.
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [Endpoint](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-subscription.html#cfn-sns-subscription-endpoint) and [Protocol](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-subscription.html#cfn-sns-subscription-protocol) properties that do not belong to your organization for the [AWS::SNS::Subscription](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-subscription.html) resource or the [Subscription](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topic.html#cfn-sns-topic-subscription) property of the [AWS::SNS::Topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-sns-topic.html) resource.
 * Detective control example: Consider using CloudTrail management events to monitor the [Subscribe](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html) API calls in your environment (specifically, the [Endpoint](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html#API_Subscribe_RequestParameters) and [Protocol](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html#API_Subscribe_RequestParameters) request parameters). If necessary, remediate with the responsive controls of your choice.
 
 ## List of service APIs reviewed against data perimeter control objectives
+
+The service APIs covered in this review are based on botocore version [1.43.29](https://github.com/boto/botocore/tree/1.43.29/botocore).
 
 * AddPermission
 * CheckIfPhoneNumberIsOptedOut
 * CreatePlatformApplication
 * CreatePlatformEndpoint
+* CreateSMSSandboxPhoneNumber
 * CreateTopic
 * DeleteEndpoint
 * DeletePlatformApplication

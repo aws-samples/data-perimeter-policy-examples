@@ -17,7 +17,14 @@
         "sts:GetFederationToken",
         "sts:GetServiceBearerToken",
         "sts:GetSessionToken",
-        "sts:SetContext"
+        "sts:SetContext",
+        "codeartifact:*",
+        "dsql:*",
+        "events:*",
+        "schemas:*",
+        "signer:*",
+        "sns:*",
+        "ssm-incidents:*"
       ],
       "Resource": "*",
       "Condition": {
@@ -65,7 +72,14 @@
         "sts:GetFederationToken",
         "sts:GetServiceBearerToken",
         "sts:GetSessionToken",
-        "sts:SetContext"
+        "sts:SetContext",
+        "codeartifact:*",
+        "dsql:*",
+        "events:*",
+        "schemas:*",
+        "signer:*",
+        "sns:*",
+        "ssm-incidents:*"
       ],
       "Resource": "*",
       "Condition": {
@@ -93,7 +107,14 @@
         "sts:GetFederationToken",
         "sts:GetServiceBearerToken",
         "sts:GetSessionToken",
-        "sts:SetContext"
+        "sts:SetContext",
+        "codeartifact:*",
+        "dsql:*",
+        "events:*",
+        "schemas:*",
+        "signer:*",
+        "sns:*",
+        "ssm-incidents:*"
       ],
       "Resource": "*",
       "Condition": {

@@ -9,7 +9,7 @@ The following table specifies whether additional considerations apply to a speci
 
 | Perimeter type     | Security objective                                             | Applied on | Policy type         | Additional considerations |
 |--------------------|----------------------------------------------------------------|------------|---------------------|---------------------------|
-| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | Y |
+| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | N |
 | Identity perimeter | Only trusted identities are allowed from my network            | Network    | VPC endpoint policy | N |
 | Resource perimeter | My identities can access only trusted resources                | Identity   | SCP                 | N |
 | Resource perimeter | Only trusted resources can be accessed from my network         | Network    | VPC endpoint policy | N |
@@ -23,12 +23,12 @@ The following table specifies whether additional considerations apply to a speci
 
 **Perimeter type applicability**: network perimeter.
 
-**Description**: [ClientMount](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-actions-as-permissions) is used to access file systems in your VPCs with IAM authentication.
+**Description**: [ClientMount](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-permission-only-actions) is used to access file systems in your VPCs with IAM authentication.
 
 **Additional controls**:
 
 If you want to restrict access to expected networks for your identities:
-* Preventative control example: Consider implementing the default network perimeter SCP, [network_perimeter_sourcevpc_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/network_perimeter_sourcevpc_scp.json), which lists [ClientMount](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-actions-as-permissions) in the `NotAction` element. See [Services and actions that require an exception to the network perimeter](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#services-and-actions-that-require-an-exception-to-the-network-perimeter) for other IAM actions that should be listed in the `NotAction` when enforcing network perimeter controls across a broad set of services.
+* Preventative control example: Consider implementing the default network perimeter SCP, [network_perimeter_sourcevpc_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/network_perimeter_sourcevpc_scp.json), which lists [ClientMount](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-permission-only-actions) in the `NotAction` element. See [Services and actions that require an exception to the network perimeter](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#services-and-actions-that-require-an-exception-to-the-network-perimeter) for other IAM actions that should be listed in the `NotAction` when enforcing network perimeter controls across a broad set of services.
 
 If you want to restrict access to your resources to expected networks, consider implementing this additional control:
 * Preventative control example: Consider implementing standard infrastructure security controls to restrict which networks and IP addresses can access file systems. These controls include [security groups](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html), [network access control lists](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html), and firewalls such as [AWS Network Firewall](https://aws.amazon.com/network-firewall/). Use the `elasticfilesystem:AccessedViaMountTarget` condition key to help ensure that file systems are accessed via mount targets so that infrastructure security controls remain effective.
@@ -38,12 +38,12 @@ If you want to restrict access to your resources to expected networks, consider 
 
 **Perimeter type applicability**: network perimeter.
 
-**Description**: [ClientRootAccess](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-actions-as-permissions) is used to access file systems in your VPCs with IAM authentication.
+**Description**: [ClientRootAccess](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-permission-only-actions) is used to access file systems in your VPCs with IAM authentication.
 
 **Additional controls**:
 
 If you want to restrict access to expected networks for your identities:
-* Preventative control example: Consider implementing the default network perimeter SCP, [network_perimeter_sourcevpc_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/network_perimeter_sourcevpc_scp.json), which lists [ClientRootAccess](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-actions-as-permissions) in the `NotAction` element. See [Services and actions that require an exception to the network perimeter](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#services-and-actions-that-require-an-exception-to-the-network-perimeter) for other IAM actions that should be listed in the `NotAction` when enforcing network perimeter controls across a broad set of services.
+* Preventative control example: Consider implementing the default network perimeter SCP, [network_perimeter_sourcevpc_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/network_perimeter_sourcevpc_scp.json), which lists [ClientRootAccess](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-permission-only-actions) in the `NotAction` element. See [Services and actions that require an exception to the network perimeter](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#services-and-actions-that-require-an-exception-to-the-network-perimeter) for other IAM actions that should be listed in the `NotAction` when enforcing network perimeter controls across a broad set of services.
 
 If you want to restrict access to your resources to expected networks, consider implementing this additional control:
 * Preventative control example: Consider implementing standard infrastructure security controls to restrict which networks and IP addresses can access file systems. These controls include [security groups](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html), [network access control lists](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html), and firewalls such as [AWS Network Firewall](https://aws.amazon.com/network-firewall/). Use the `elasticfilesystem:AccessedViaMountTarget` condition key to help ensure that file systems are accessed via mount targets so that infrastructure security controls remain effective.
@@ -53,37 +53,19 @@ If you want to restrict access to your resources to expected networks, consider 
 
 **Perimeter type applicability**: network perimeter.
 
-**Description**: [ClientWrite](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-actions-as-permissions) is used to access file systems in your VPCs with IAM authentication.
+**Description**: [ClientWrite](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-permission-only-actions) is used to access file systems in your VPCs with IAM authentication.
 
 **Additional controls**:
 
 If you want to restrict access to expected networks for your identities:
-* Preventative control example: Consider implementing the default network perimeter SCP, [network_perimeter_sourcevpc_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/network_perimeter_sourcevpc_scp.json), which lists [ClientWrite](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-actions-as-permissions) in the `NotAction` element. See [Services and actions that require an exception to the network perimeter](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#services-and-actions-that-require-an-exception-to-the-network-perimeter) for other IAM actions that should be listed in the `NotAction` when enforcing network perimeter controls across a broad set of services.
+* Preventative control example: Consider implementing the default network perimeter SCP, [network_perimeter_sourcevpc_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/network_perimeter_sourcevpc_scp.json), which lists [ClientWrite](https://docs.aws.amazon.com/service-authorization/latest/reference/list_efs.html#list_efs-permission-only-actions) in the `NotAction` element. See [Services and actions that require an exception to the network perimeter](https://github.com/aws-samples/data-perimeter-policy-examples/tree/main/service_control_policies#services-and-actions-that-require-an-exception-to-the-network-perimeter) for other IAM actions that should be listed in the `NotAction` when enforcing network perimeter controls across a broad set of services.
 
 If you want to restrict access to your resources to expected networks, consider implementing this additional control:
 * Preventative control example: Consider implementing standard infrastructure security controls to restrict which networks and IP addresses can access file systems. These controls include [security groups](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html), [network access control lists](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html), and firewalls such as [AWS Network Firewall](https://aws.amazon.com/network-firewall/). Use the `elasticfilesystem:AccessedViaMountTarget` condition key to help ensure that file systems are accessed via mount targets so that infrastructure security controls remain effective.
 
-## PutFileSystemPolicy
-### No RCP support
-
-**Perimeter type applicability**: identity and network perimeter applied on resource.
-
-**Description**: [PutFileSystemPolicy](https://docs.aws.amazon.com/efs/latest/APIReference/API_PutFileSystemPolicy.html) allows you to apply a resource-based policy to grant access to a file system. The service currently does not support RCPs.
-
-**Additional controls**:
-
-If you want to restrict access to trusted identities, consider implementing these additional controls:
-* Preventative control example: Consider restricting [PutFileSystemPolicy](https://docs.aws.amazon.com/efs/latest/APIReference/API_PutFileSystemPolicy.html) permissions to select principals using an SCP. See [restrict_resource_policy_configurations_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [FileSystemPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html#cfn-efs-filesystem-filesystempolicy) property for the [AWS::EFS::FileSystem](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html) resource that grants permissions to untrusted identities.
-* Detective control example: Consider using [AWS Identity and Access Management Access Analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html) external access analyzers to help identify file systems in your accounts that are shared with untrusted identities. If necessary, remediate with the responsive controls of your choice.
-* Detective control example: Consider using CloudTrail management events to monitor the [PutFileSystemPolicy](https://docs.aws.amazon.com/efs/latest/APIReference/API_PutFileSystemPolicy.html) API calls in your environment (specifically, the [Policy](https://docs.aws.amazon.com/efs/latest/APIReference/API_PutFileSystemPolicy.html#API_PutFileSystemPolicy_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your choice.
-
-If you want to restrict access to expected networks, consider implementing these additional controls:
-* Preventative control example: Consider restricting [PutFileSystemPolicy](https://docs.aws.amazon.com/efs/latest/APIReference/API_PutFileSystemPolicy.html) permissions to select principals using an SCP. See [restrict_resource_policy_configurations_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
-* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [FileSystemPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html#cfn-efs-filesystem-filesystempolicy) property for the [AWS::EFS::FileSystem](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html) resource that grants permissions to unexpected networks.
-* Detective control example: Consider using CloudTrail management events to monitor the [PutFileSystemPolicy](https://docs.aws.amazon.com/efs/latest/APIReference/API_PutFileSystemPolicy.html) API calls in your environment (specifically, the [Policy](https://docs.aws.amazon.com/efs/latest/APIReference/API_PutFileSystemPolicy.html#API_PutFileSystemPolicy_RequestSyntax) request parameter). If necessary, remediate with the responsive controls of your choice.
-
 ## List of service APIs reviewed against data perimeter control objectives
+
+The service APIs covered in this review are based on botocore version [1.43.29](https://github.com/boto/botocore/tree/1.43.29/botocore).
 
 * CreateAccessPoint
 * CreateFileSystem

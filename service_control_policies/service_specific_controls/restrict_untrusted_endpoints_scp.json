@@ -124,6 +124,19 @@
                "aws:PrincipalTag/dp:exclude:resource": "true"
             }
          }
+      },
+      {
+         "Sid": "PreventUntrustedSNSPhonenumber",
+         "Effect": "Deny",
+         "Action": [
+            "sns:Publish"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
       }
    ]
 }

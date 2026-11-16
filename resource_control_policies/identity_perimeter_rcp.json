@@ -21,7 +21,15 @@
                 "logs:*",
                 "dynamodb:*",
                 "ecr:*",
-                "aoss:*"
+                "aoss:*",
+                "codeartifact:*",
+                "dsql:*",
+                "events:*",
+                "elasticfilesystem:*",
+                "schemas:*",
+                "signer:*",
+                "sns:*",
+                "ssm-incidents:*"
             ],
             "Resource": "*",
             "Condition": {
@@ -84,7 +92,15 @@
                 "logs:*",
                 "dynamodb:*",
                 "ecr:*",
-                "aoss:*"
+                "aoss:*",
+                "codeartifact:*",
+                "dsql:*",
+                "events:*",
+                "elasticfilesystem:*",
+                "schemas:*",
+                "signer:*",
+                "sns:*",
+                "ssm-incidents:*"
             ],
             "Resource": "*",
             "Condition": {

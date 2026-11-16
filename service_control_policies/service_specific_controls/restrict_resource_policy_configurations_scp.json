@@ -10,7 +10,6 @@
         "apigateway:UpdateRestApiPolicy",
         "aps:PutResourcePolicy",
         "cloudtrail:PutResourcePolicy",
-        "elasticfilesystem:PutFileSystemPolicy",
         "glacier:SetVaultAccessPolicy",
         "glue:PutResourcePolicy",
         "imagebuilder:PutComponentPolicy",
@@ -24,15 +23,12 @@
         "lex:CreateResourcePolicy",
         "lex:UpdateResourcePolicy",
         "redshift:PutResourcePolicy",
-        "schemas:PutResourcePolicy",
         "serverlessrepo:PutApplicationPolicy",
         "ses:CreateEmailIdentityPolicy",
         "ses:UpdateEmailIdentityPolicy",
         "ses:PutIdentityPolicy",
         "ssm:PutResourcePolicy",
-        "ssm-contacts:PutContactPolicy",
-        "ssm-incidents:PutResourcePolicy",
-        "sns:AddPermission"
+        "ssm-contacts:PutContactPolicy"
       ],
       "Resource": "*",
       "Condition": {
