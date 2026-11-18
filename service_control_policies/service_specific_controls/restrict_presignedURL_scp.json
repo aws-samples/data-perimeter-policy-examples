@@ -14,7 +14,8 @@
         "serverlessrepo:GetApplication",
         "serverlessrepo:GetCloudFormationTemplate",
         "gamelift:GetGameSessionLogUrl",
-        "gamelift:DescribeFleetEvents"
+        "gamelift:DescribeFleetEvents",
+        "artifact:GetReport"
       ],
       "Resource": "*",
       "Condition": {

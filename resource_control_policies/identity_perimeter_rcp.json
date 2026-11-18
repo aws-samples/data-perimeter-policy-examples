@@ -29,7 +29,8 @@
                 "schemas:*",
                 "signer:*",
                 "sns:*",
-                "ssm-incidents:*"
+                "ssm-incidents:*",
+                "cloudtrail-data:*"
             ],
             "Resource": "*",
             "Condition": {
@@ -100,7 +101,8 @@
                 "schemas:*",
                 "signer:*",
                 "sns:*",
-                "ssm-incidents:*"
+                "ssm-incidents:*",
+                "cloudtrail-data:*"
             ],
             "Resource": "*",
             "Condition": {

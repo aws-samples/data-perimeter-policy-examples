@@ -60,7 +60,7 @@ If you want to restrict access to trusted resources, consider implementing these
 
 **Perimeter type applicability**: identity and network perimeter applied on resource.
 
-**Description**: [PutResourcePolicy](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_PutResourcePolicy.html) allows you to apply a resource-based policy to grant access to a CloudTrail event data store, dashboard, or channel. The service currently does not support RCPs.
+**Description**: [PutResourcePolicy](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_PutResourcePolicy.html) allows you to apply a resource-based policy to grant access to a CloudTrail event data store or dashboard. The service currently does not support RCPs.
 
 **Additional controls**:
 
@@ -125,6 +125,8 @@ If you want to restrict access to trusted resources, consider implementing these
 
 ## List of service APIs reviewed against data perimeter control objectives
 
+The service APIs covered in this review are based on botocore version [1.43.29](https://github.com/boto/botocore/tree/1.43.29/botocore).
+
 * AddTags
 * CreateDashboard
 * CreateEventDataStore
@@ -147,6 +149,7 @@ If you want to restrict access to trusted resources, consider implementing these
 * ListDashboards
 * ListEventDataStores
 * ListImports
+* ListInsightsData
 * ListInsightsMetricData
 * ListPublicKeys
 * ListQueries

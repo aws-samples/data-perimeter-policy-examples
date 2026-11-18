@@ -14,7 +14,7 @@ The following table specifies whether additional considerations apply to a speci
 | Resource perimeter | My identities can access only trusted resources                | Identity   | SCP                 | N |
 | Resource perimeter | Only trusted resources can be accessed from my network         | Network    | VPC endpoint policy | Y |
 | Network perimeter  | My identities can access resources only from expected networks | Identity   | SCP                 | N |
-| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | N |
+| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | Y |
 
 *Y - Additional considerations apply. N - No additional considerations apply.
 
@@ -34,12 +34,28 @@ If you want to restrict access to your networks to trusted resources, consider i
 * Preventative control example: Consider implementing `aws:ResourceOrgID` in an SCP to restrict service API calls so that your identities can only access trusted resources. See [resource_perimeter_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/resource_perimeter_scp.json) for an example policy.
 * Preventative control example: Consider using your existing security appliances such as outbound proxies to inspect service API calls in your environment for the resources being accessed, and restrict the calls accordingly. This type of solution might have implications for security, scalability, latency, and reliability that you should evaluate carefully.
 
+## GetReport
+### S3 presigned URLs created by service principals
+
+**Perimeter type applicability**: network perimeter applied on resource.
+
+**Description**: [GetReport](https://docs.aws.amazon.com/artifact/latest/APIReference/API_GetReport.html) returns an Amazon S3 presigned URL that users can use to download AWS Artifact reports from service-owned buckets. The presigned URL is created with the AWS Artifact service principal.
+
+**Additional controls**:
+
+If you want to restrict access to expected networks, consider implementing these additional controls:
+* Preventative control example: Consider restricting [GetReport](https://docs.aws.amazon.com/artifact/latest/APIReference/API_GetReport.html) permissions to select principals using an SCP. See [restrict_presignedURL_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_presignedURL_scp.json) for an example policy.
+* Detective control example: Consider using CloudTrail management events to monitor the [GetReport](https://docs.aws.amazon.com/artifact/latest/APIReference/API_GetReport.html) API calls in your environment. If necessary, remediate with the responsive controls of your choice.
+
 ## List of service APIs reviewed against data perimeter control objectives
+
+The service APIs covered in this review are based on botocore version [1.43.29](https://github.com/boto/botocore/tree/1.43.29/botocore).
 
 * GetAccountSettings
 * GetReport
 * GetReportMetadata
 * GetTermForReport
 * ListCustomerAgreements
+* ListReportVersions
 * ListReports
 * PutAccountSettings
