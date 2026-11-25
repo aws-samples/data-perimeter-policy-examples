@@ -5,7 +5,6 @@
       "Sid": "PreventResourcePolicyConfigurations",
       "Effect": "Deny",
       "Action": [
-        "acm-pca:PutPolicy",
         "apigateway:UpdateDomainNamePolicy",
         "apigateway:UpdateRestApiPolicy",
         "aps:PutResourcePolicy",

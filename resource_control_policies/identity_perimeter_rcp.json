@@ -30,7 +30,8 @@
                 "signer:*",
                 "sns:*",
                 "ssm-incidents:*",
-                "cloudtrail-data:*"
+                "cloudtrail-data:*",
+                "acm-pca:*"
             ],
             "Resource": "*",
             "Condition": {
@@ -102,7 +103,8 @@
                 "signer:*",
                 "sns:*",
                 "ssm-incidents:*",
-                "cloudtrail-data:*"
+                "cloudtrail-data:*",
+                "acm-pca:*"
             ],
             "Resource": "*",
             "Condition": {

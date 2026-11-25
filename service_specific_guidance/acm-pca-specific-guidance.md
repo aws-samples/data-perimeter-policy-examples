@@ -9,14 +9,27 @@ The following table specifies whether additional considerations apply to a speci
 
 | Perimeter type     | Security objective                                             | Applied on | Policy type         | Additional considerations |
 |--------------------|----------------------------------------------------------------|------------|---------------------|---------------------------|
-| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | Y |
+| Identity perimeter | Only trusted identities can access my resources                | Resource   | RCP                 | N |
 | Identity perimeter | Only trusted identities are allowed from my network            | Network    | VPC endpoint policy | N |
 | Resource perimeter | My identities can access only trusted resources                | Identity   | SCP                 | Y |
 | Resource perimeter | Only trusted resources can be accessed from my network         | Network    | VPC endpoint policy | N |
 | Network perimeter  | My identities can access resources only from expected networks | Identity   | SCP                 | N |
-| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | Y |
+| Network perimeter  | My resources can be accessed only from expected networks       | Resource   | RCP                 | N |
 
 *Y - Additional considerations apply. N - No additional considerations apply.
+
+## CreateCertificateAuthority
+### Configuration of an external resource
+
+**Perimeter type applicability**: resource perimeter applied on identity.
+
+**Description**: [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) allows you to specify an Amazon S3 bucket that does not belong to your organization as the value for the `RevocationConfiguration.CrlConfiguration.S3BucketName` request parameter. Because the subsequent call against the Amazon S3 bucket is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
+
+**Additional controls**:
+
+If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [RevocationConfiguration.CrlConfiguration.S3BucketName](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-acmpca-certificateauthority-crlconfiguration.html#cfn-acmpca-certificateauthority-crlconfiguration-s3bucketname) property that does not belong to your organization for the [AWS::ACMPCA::CertificateAuthority](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-acmpca-certificateauthority.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) API calls in your environment (specifically, the [RevocationConfiguration.CrlConfiguration.S3BucketName](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html#privateca-Type-CrlConfiguration-S3BucketName) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 ## CreateCertificateAuthorityAuditReport
 ### Configuration of an external resource
@@ -30,24 +43,22 @@ The following table specifies whether additional considerations apply to a speci
 If you want to restrict access to trusted resources, consider implementing this additional control:
 * Detective control example: Consider using CloudTrail management events to monitor the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html) API calls in your environment (specifically, the [S3BucketName](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html#privateca-CreateCertificateAuthorityAuditReport-request-S3BucketName) request parameter). If necessary, remediate with the responsive controls of your choice.
 
-## PutPolicy
-### No RCP support
+## UpdateCertificateAuthority
+### Configuration of an external resource
 
-**Perimeter type applicability**: identity and network perimeter applied on resource.
+**Perimeter type applicability**: resource perimeter applied on identity.
 
-**Description**: [PutPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html) allows you to apply a resource-based policy to grant access to a private CA. The service currently does not support RCPs.
+**Description**: [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) allows you to specify an Amazon S3 bucket that does not belong to your organization as the value for the `RevocationConfiguration.CrlConfiguration.S3BucketName` request parameter. Because the subsequent call against the Amazon S3 bucket is performed by the service principal, it is not restricted with `aws:ResourceOrgID` implemented in an SCP.
 
 **Additional controls**:
 
-If you want to restrict access to trusted identities, consider implementing these additional controls:
-* Preventative control example: Consider restricting [PutPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html) permissions to select principals using an SCP. See [restrict_resource_policy_configurations_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
-* Detective control example: Consider using CloudTrail management events to monitor the [PutPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html) API calls in your environment (specifically, the [Policy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html#privateca-PutPolicy-request-Policy) request parameter). If necessary, remediate with the responsive controls of your choice.
-
-If you want to restrict access to expected networks, consider implementing these additional controls:
-* Preventative control example: Consider restricting [PutPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html) permissions to select principals using an SCP. See [restrict_resource_policy_configurations_scp.json](https://github.com/aws-samples/data-perimeter-policy-examples/blob/main/service_control_policies/service_specific_controls/restrict_resource_policy_configurations_scp.json) for an example policy.
-* Detective control example: Consider using CloudTrail management events to monitor the [PutPolicy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html) API calls in your environment (specifically, the [Policy](https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html#privateca-PutPolicy-request-Policy) request parameter). If necessary, remediate with the responsive controls of your choice.
+If you want to restrict access to trusted resources, consider implementing these additional controls:
+* Proactive control example: Consider implementing CloudFormation Hooks to help prevent developers from specifying the [RevocationConfiguration.CrlConfiguration.S3BucketName](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-acmpca-certificateauthority-crlconfiguration.html#cfn-acmpca-certificateauthority-crlconfiguration-s3bucketname) property that does not belong to your organization for the [AWS::ACMPCA::CertificateAuthority](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-acmpca-certificateauthority.html) resource.
+* Detective control example: Consider using CloudTrail management events to monitor the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) API calls in your environment (specifically, the [RevocationConfiguration.CrlConfiguration.S3BucketName](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html#privateca-Type-CrlConfiguration-S3BucketName) request parameter). If necessary, remediate with the responsive controls of your choice.
 
 ## List of service APIs reviewed against data perimeter control objectives
+
+The service APIs covered in this review are based on botocore version [1.43.29](https://github.com/boto/botocore/tree/1.43.29/botocore).
 
 * CreateCertificateAuthority
 * CreateCertificateAuthorityAuditReport

@@ -10,7 +10,8 @@
                 "ecr:*",
                 "kms:*",
                 "s3:*",
-                "sqs:*"
+                "sqs:*",
+                "acm-pca:*"
             ],
             "Resource": "*",
             "Condition": {
