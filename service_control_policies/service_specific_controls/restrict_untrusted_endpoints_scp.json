@@ -137,6 +137,20 @@
                "aws:PrincipalTag/dp:exclude:resource": "true"
             }
          }
+      },
+      {
+         "Sid": "PreventUntrustedBedrockAgentDataSource",
+         "Effect": "Deny",
+         "Action": [
+            "bedrock:CreateDataSource",
+            "bedrock:UpdateDataSource"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
       }
    ]
 }

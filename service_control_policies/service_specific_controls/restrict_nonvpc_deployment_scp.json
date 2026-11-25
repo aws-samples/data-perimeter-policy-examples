@@ -210,6 +210,19 @@
                "bedrock-agentcore:subnets": "true"
             }
          }
+      },
+      {
+         "Sid": "PreventNonVPCDeploymentManagedServiceForApacheFlinkApplication",
+         "Effect": "Deny",
+         "Action": [
+            "kinesisanalytics:DeleteApplicationVpcConfiguration"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude": "true"
+            }
+         }
       }
    ]
 }

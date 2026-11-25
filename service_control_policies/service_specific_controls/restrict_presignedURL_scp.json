@@ -15,7 +15,13 @@
         "serverlessrepo:GetCloudFormationTemplate",
         "gamelift:GetGameSessionLogUrl",
         "gamelift:DescribeFleetEvents",
-        "artifact:GetReport"
+        "artifact:GetReport",
+        "inspector2:GetCisScanReport",
+        "cloudformation:CreateChangeSet",
+        "cloudformation:CreateStack",
+        "cloudformation:CreateStackSet",
+        "cloudformation:UpdateStack",
+        "cloudformation:UpdateStackSet"
       ],
       "Resource": "*",
       "Condition": {

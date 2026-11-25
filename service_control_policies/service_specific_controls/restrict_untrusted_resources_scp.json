@@ -85,6 +85,23 @@
                "aws:PrincipalTag/dp:exclude:resource": "true"
             }
          }
+      },
+      {
+         "Sid": "PreventUntrustedInspectorS3Destination",
+         "Effect": "Deny",
+         "Action": [
+            "inspector2:CreateFindingsReport",
+            "inspector2:CreateSbomExport"
+         ],
+         "Resource": "*",
+         "Condition": {
+            "StringNotLike": {
+               "inspector2:ExpectedBucketOwner": "<trusted-account-id>"
+            },
+            "StringNotEqualsIfExists": {
+               "aws:PrincipalTag/dp:exclude:resource": "true"
+            }
+         }
       }
    ]
 }

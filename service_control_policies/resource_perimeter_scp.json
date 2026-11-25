@@ -50,6 +50,7 @@
             "arn:aws:ecr-public::<service-account-id>:repository/*",
             "arn:aws:ssm:*:<service-account-id>:patchbaseline/*",
             "arn:aws:iot:*::jobtemplate/*",
+            "arn:aws:bedrock:*::foundation-model/*",
             "<third-party-resource>" 
          ],
          "Condition":{
